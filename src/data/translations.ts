@@ -47,18 +47,18 @@ export const translations = {
     },
     about: {
       title: 'Quem Somos',
-      subtitle: 'Uma equipe de especialistas dedicados ao seu sucesso',
-      description: 'A Depirai nasceu da união de profissionais seniores em infraestrutura e dados, com mais de 15 anos de experiência combinada em projetos enterprise.',
+      subtitle: '31+ anos de experiência combinada em TI enterprise',
+      description: 'A Depirai nasceu da união de dois profissionais seniores de Piraí do Sul, PR, com mais de 31 anos de experiência combinada em infraestrutura e inteligência de dados para projetos enterprise.',
       team: {
         diego: {
           name: 'Diego C. Moreira',
-          role: 'Head de Infraestrutura',
-          bio: 'Especialista em Linux HA, DevOps e segurança com certificações Red Hat e AWS.',
+          role: 'Especialista Infraestrutura',
+          bio: '16 anos em TI, suporte estratégico multinacional. Especialista em Linux HA, Hardening, redução de TCO. Experiência em Indústria, Engenharia, Logística e CDs. Gestão de crises e liderança técnica.',
         },
         emerson: {
           name: 'Emerson Vieira',
-          role: 'Head de Dados',
-          bio: 'Engenheiro de dados sênior, especialista em Power BI e arquitetura de data warehouse.',
+          role: 'Especialista BI & Dados',
+          bio: '15+ anos em TI, suporte remoto e telefônico. Power BI Avançado, Excel, Analista BI. Certificado em LGPD e Segurança da Informação. Futuro Economista. Foco em ETL, Governança e Dashboards ROI.',
         },
       },
     },
@@ -161,18 +161,18 @@ export const translations = {
     },
     about: {
       title: 'About Us',
-      subtitle: 'A team of specialists dedicated to your success',
-      description: 'Depirai was born from the union of senior professionals in infrastructure and data, with over 15 years of combined experience in enterprise projects.',
+      subtitle: '31+ years of combined enterprise IT experience',
+      description: 'Depirai was born from the union of two senior professionals from Piraí do Sul, PR, with over 31 years of combined experience in infrastructure and data intelligence for enterprise projects.',
       team: {
         diego: {
           name: 'Diego C. Moreira',
-          role: 'Head of Infrastructure',
-          bio: 'Linux HA, DevOps and security specialist with Red Hat and AWS certifications.',
+          role: 'Infrastructure Specialist',
+          bio: '16 years in IT, multinational strategic support. Linux HA, Hardening, TCO reduction specialist. Experience in Industry, Engineering, Logistics and DCs. Crisis management and technical leadership.',
         },
         emerson: {
           name: 'Emerson Vieira',
-          role: 'Head of Data',
-          bio: 'Senior data engineer, Power BI and data warehouse architecture specialist.',
+          role: 'BI & Data Specialist',
+          bio: '15+ years in IT, remote and phone support. Advanced Power BI, Excel, BI Analyst. LGPD and Information Security certified. Future Economist. Focus on ETL, Governance and ROI Dashboards.',
         },
       },
     },
@@ -275,18 +275,18 @@ export const translations = {
     },
     about: {
       title: 'Quiénes Somos',
-      subtitle: 'Un equipo de especialistas dedicados a tu éxito',
-      description: 'Depirai nació de la unión de profesionales senior en infraestructura y datos, con más de 15 años de experiencia combinada en proyectos enterprise.',
+      subtitle: '31+ años de experiencia combinada en TI enterprise',
+      description: 'Depirai nació de la unión de dos profesionales senior de Piraí do Sul, PR, con más de 31 años de experiencia combinada en infraestructura e inteligencia de datos para proyectos enterprise.',
       team: {
         diego: {
           name: 'Diego C. Moreira',
-          role: 'Head de Infraestructura',
-          bio: 'Especialista en Linux HA, DevOps y seguridad con certificaciones Red Hat y AWS.',
+          role: 'Especialista Infraestructura',
+          bio: '16 años en TI, soporte estratégico multinacional. Especialista en Linux HA, Hardening, reducción de TCO. Experiencia en Industria, Ingeniería, Logística y CDs. Gestión de crisis y liderazgo técnico.',
         },
         emerson: {
           name: 'Emerson Vieira',
-          role: 'Head de Datos',
-          bio: 'Ingeniero de datos senior, especialista en Power BI y arquitectura de data warehouse.',
+          role: 'Especialista BI & Datos',
+          bio: '15+ años en TI, soporte remoto y telefónico. Power BI Avanzado, Excel, Analista BI. Certificado en LGPD y Seguridad de la Información. Futuro Economista. Enfoque en ETL, Gobernanza y Dashboards ROI.',
         },
       },
     },
