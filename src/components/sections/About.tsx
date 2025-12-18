@@ -2,6 +2,7 @@ import React from 'react';
 import { Linkedin, Award, Server, BarChart3, Shield, Database } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import diegoPhoto from '@/assets/diego.jpeg';
+import emersonPhoto from '@/assets/emerson.jpeg';
 
 export function About() {
   const { t } = useLanguage();
@@ -18,7 +19,7 @@ export function About() {
     },
     {
       id: 'emerson',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80',
+      image: emersonPhoto,
       linkedin: 'https://www.linkedin.com/in/emerson-rs-vieira/',
       certifications: ['Power BI', 'LGPD', 'Excel Avançado'],
       experience: '15+ anos',
