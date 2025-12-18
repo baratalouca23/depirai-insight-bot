@@ -1,6 +1,7 @@
 import React from 'react';
 import { Linkedin, Award, Server, BarChart3, Shield, Database } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import diegoPhoto from '@/assets/diego.jpeg';
 
 export function About() {
   const { t } = useLanguage();
@@ -8,7 +9,7 @@ export function About() {
   const team = [
     {
       id: 'diego',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
+      image: diegoPhoto,
       linkedin: 'https://www.linkedin.com/in/diegocmoreira/',
       certifications: ['Linux HA', 'Hardening', 'DevOps'],
       experience: '16 anos',
