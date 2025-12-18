@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, MapPin, Mail, Phone } from 'lucide-react';
+import { Send, MapPin, Mail, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -64,9 +64,13 @@ export function Contact() {
   };
 
   const contactInfo = [
-    { icon: MapPin, label: 'São Paulo, Brasil' },
-    { icon: Mail, label: 'contato@depirai.com' },
-    { icon: Phone, label: '+55 (11) 99999-9999' },
+    { icon: MapPin, label: 'Piraí do Sul - PR' },
+    { icon: Mail, label: 'contato@depirai.com', href: 'mailto:contato@depirai.com' },
+  ];
+
+  const whatsappContacts = [
+    { name: 'Emerson', phone: '5542988911463', display: '(42) 98891-1463' },
+    { name: 'Diego', phone: '5542999814284', display: '(42) 99981-4284' },
   ];
 
   const kpiOptions = [
@@ -94,9 +98,34 @@ export function Contact() {
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                     <item.icon className="h-5 w-5 text-primary" />
                   </div>
-                  <span className="text-foreground">{item.label}</span>
+                  {item.href ? (
+                    <a href={item.href} className="text-foreground hover:text-primary transition-colors">
+                      {item.label}
+                    </a>
+                  ) : (
+                    <span className="text-foreground">{item.label}</span>
+                  )}
                 </div>
               ))}
+            </div>
+
+            {/* WhatsApp Buttons */}
+            <div className="mt-6 space-y-3">
+              <p className="text-sm text-muted-foreground font-medium">Fale direto pelo WhatsApp:</p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                {whatsappContacts.map((contact) => (
+                  <a
+                    key={contact.name}
+                    href={`https://wa.me/${contact.phone}?text=Olá ${contact.name}, vim pelo site Depirai!`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-medium transition-colors"
+                  >
+                    <MessageCircle className="h-5 w-5" />
+                    {contact.name} {contact.display}
+                  </a>
+                ))}
+              </div>
             </div>
 
             {/* Trust Badges */}
