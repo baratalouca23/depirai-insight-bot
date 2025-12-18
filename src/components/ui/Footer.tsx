@@ -1,5 +1,6 @@
 import React from 'react';
-import { Linkedin, Mail, Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Linkedin, Mail, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export function Footer() {
@@ -36,11 +37,13 @@ export function Footer() {
                 <Mail className="h-5 w-5" />
               </a>
               <a
-                href="tel:+5511999999999"
+                href="https://wa.me/5542988911463"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
-                aria-label="Phone"
+                aria-label="WhatsApp"
               >
-                <Phone className="h-5 w-5" />
+                <MessageCircle className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -49,26 +52,10 @@ export function Footer() {
           <div>
             <h4 className="font-display font-semibold text-foreground mb-4">Links</h4>
             <ul className="space-y-2">
-              <li>
-                <a href="#services" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t.nav.services}
-                </a>
-              </li>
-              <li>
-                <a href="#portfolio" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t.nav.portfolio}
-                </a>
-              </li>
-              <li>
-                <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t.nav.about}
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t.nav.contact}
-                </a>
-              </li>
+              <li><Link to="/servicos" className="text-muted-foreground hover:text-foreground transition-colors">{t.nav.services}</Link></li>
+              <li><Link to="/portfolio" className="text-muted-foreground hover:text-foreground transition-colors">{t.nav.portfolio}</Link></li>
+              <li><Link to="/sobre" className="text-muted-foreground hover:text-foreground transition-colors">{t.nav.about}</Link></li>
+              <li><Link to="/contato" className="text-muted-foreground hover:text-foreground transition-colors">{t.nav.contact}</Link></li>
             </ul>
           </div>
 
@@ -76,16 +63,8 @@ export function Footer() {
           <div>
             <h4 className="font-display font-semibold text-foreground mb-4">Legal</h4>
             <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t.footer.links.privacy}
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t.footer.links.terms}
-                </a>
-              </li>
+              <li><Link to="/privacidade" className="text-muted-foreground hover:text-foreground transition-colors">{t.footer.links.privacy}</Link></li>
+              <li><Link to="/termos" className="text-muted-foreground hover:text-foreground transition-colors">{t.footer.links.terms}</Link></li>
             </ul>
           </div>
         </div>
