@@ -56,7 +56,7 @@ export function Hero() {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center p-6 rounded-xl bg-card shadow-card border border-border"
+                className="card-minimal flex flex-col items-center hover-lift"
               >
                 <stat.icon className="h-8 w-8 text-primary mb-3" />
                 <span className="font-display text-3xl md:text-4xl font-bold text-foreground">

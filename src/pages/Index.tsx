@@ -9,6 +9,7 @@ import { Contact } from '@/components/sections/Contact';
 import { AIChatWidget } from '@/components/features/AIChatWidget';
 import { AccessibilityMenu } from '@/components/features/AccessibilityMenu';
 import { CookieBanner } from '@/components/features/CookieBanner';
+import { WhatsAppFloat } from '@/components/features/WhatsAppFloat';
 
 const Index = () => {
   return (
@@ -22,6 +23,7 @@ const Index = () => {
         <Contact />
       </main>
       <Footer />
+      <WhatsAppFloat />
       <AIChatWidget />
       <AccessibilityMenu />
       <CookieBanner />
