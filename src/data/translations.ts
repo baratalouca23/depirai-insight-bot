@@ -23,16 +23,86 @@ export const translations = {
     },
     services: {
       title: 'Nossos Serviços',
-      subtitle: 'Soluções enterprise que entregam resultados mensuráveis',
-      infrastructure: {
-        title: 'Infraestrutura Linux HA',
-        description: 'Alta disponibilidade, hardening de segurança e otimização de custos com Diego C. Moreira.',
-        features: ['Clusters HA/DR', 'Hardening CIS', 'Automação DevOps', 'Monitoramento 24/7'],
-      },
-      data: {
-        title: 'Engenharia de Dados',
-        description: 'Power BI, ETL e governança de dados com Emerson Vieira para decisões baseadas em dados.',
-        features: ['Dashboards Power BI', 'Pipelines ETL', 'Data Governance', 'KPI Tracking'],
+      subtitle: 'Soluções completas para transformar seu negócio digital',
+      categories: {
+        development: {
+          title: 'Desenvolvimento',
+          subtitle: 'Soluções digitais sob medida',
+          items: [
+            {
+              title: 'Sites Institucionais',
+              problem: 'Sua empresa não é encontrada online ou seu site atual não gera credibilidade?',
+              solution: 'Sites profissionais otimizados para SEO que posicionam sua marca e captam clientes.',
+              features: ['Design responsivo', 'SEO otimizado', 'Performance máxima', 'Integração WhatsApp'],
+            },
+            {
+              title: 'Landing Pages',
+              problem: 'Suas campanhas de marketing não convertem em vendas?',
+              solution: 'Páginas de conversão focadas em transformar visitantes em leads qualificados.',
+              features: ['Alta conversão', 'A/B Testing', 'Formulários inteligentes', 'Analytics integrado'],
+            },
+            {
+              title: 'Sistemas Web',
+              problem: 'Processos manuais consomem tempo e geram erros na sua operação?',
+              solution: 'Sistemas customizados que automatizam processos e aumentam produtividade.',
+              features: ['Painéis admin', 'Automação', 'Relatórios', 'Integrações API'],
+            },
+            {
+              title: 'Aplicativos',
+              problem: 'Seus clientes precisam de acesso mobile mas você não tem presença no celular?',
+              solution: 'Apps mobile e web apps que levam seu negócio para o bolso do cliente.',
+              features: ['iOS e Android', 'PWA', 'Push notifications', 'Offline first'],
+            },
+          ],
+        },
+        infrastructure: {
+          title: 'Infraestrutura & TI',
+          subtitle: 'Segurança e performance para sua operação',
+          items: [
+            {
+              title: 'Servidores Cloud/On-Premise',
+              problem: 'Servidores instáveis causam downtime e perda de vendas?',
+              solution: 'Infraestrutura Linux HA com 99.9% uptime e redução de até 40% no TCO.',
+              features: ['Clusters HA/DR', 'Backup automatizado', 'Monitoramento 24/7', 'Escalabilidade'],
+            },
+            {
+              title: 'Redes e Conectividade',
+              problem: 'Rede lenta, quedas frequentes e falta de segurança?',
+              solution: 'Configuração profissional de redes com firewall e VPN para operação segura.',
+              features: ['Firewall avançado', 'VPN corporativa', 'Wi-Fi empresarial', 'QoS otimizado'],
+            },
+            {
+              title: 'Suporte Técnico',
+              problem: 'Problemas de TI travam sua equipe e você não tem suporte confiável?',
+              solution: 'Suporte remoto e presencial com SLA garantido para manter sua operação rodando.',
+              features: ['SLA definido', 'Suporte remoto', 'Atendimento presencial', 'Gestão de ativos'],
+            },
+          ],
+        },
+        security: {
+          title: 'CSTV & Segurança',
+          subtitle: 'Proteção completa para seu patrimônio',
+          items: [
+            {
+              title: 'Câmeras e Monitoramento',
+              problem: 'Preocupado com segurança física do seu negócio ou residência?',
+              solution: 'Sistemas de CFTV com acesso remoto e integração com alarmes.',
+              features: ['Câmeras HD/4K', 'Acesso remoto', 'Gravação cloud', 'Detecção movimento'],
+            },
+            {
+              title: 'Segurança Digital',
+              problem: 'Ataques hackers, vazamento de dados e multas LGPD?',
+              solution: 'Hardening, firewall e políticas de segurança para proteger seus dados.',
+              features: ['Hardening CIS', 'Fail2ban/UFW', 'Backup criptografado', 'Auditoria LGPD'],
+            },
+            {
+              title: 'Consultoria Técnica',
+              problem: 'Não sabe por onde começar para proteger sua empresa?',
+              solution: 'Diagnóstico completo e plano de ação para elevar sua maturidade em segurança.',
+              features: ['Assessment', 'Plano de ação', 'Treinamento', 'Documentação'],
+            },
+          ],
+        },
       },
     },
     portfolio: {
@@ -137,16 +207,86 @@ export const translations = {
     },
     services: {
       title: 'Our Services',
-      subtitle: 'Enterprise solutions that deliver measurable results',
-      infrastructure: {
-        title: 'Linux HA Infrastructure',
-        description: 'High availability, security hardening and cost optimization with Diego C. Moreira.',
-        features: ['HA/DR Clusters', 'CIS Hardening', 'DevOps Automation', '24/7 Monitoring'],
-      },
-      data: {
-        title: 'Data Engineering',
-        description: 'Power BI, ETL and data governance with Emerson Vieira for data-driven decisions.',
-        features: ['Power BI Dashboards', 'ETL Pipelines', 'Data Governance', 'KPI Tracking'],
+      subtitle: 'Complete solutions to transform your digital business',
+      categories: {
+        development: {
+          title: 'Development',
+          subtitle: 'Custom digital solutions',
+          items: [
+            {
+              title: 'Institutional Websites',
+              problem: 'Your company is not found online or your current website lacks credibility?',
+              solution: 'Professional SEO-optimized websites that position your brand and capture clients.',
+              features: ['Responsive design', 'SEO optimized', 'Maximum performance', 'WhatsApp integration'],
+            },
+            {
+              title: 'Landing Pages',
+              problem: 'Your marketing campaigns are not converting into sales?',
+              solution: 'Conversion-focused pages that transform visitors into qualified leads.',
+              features: ['High conversion', 'A/B Testing', 'Smart forms', 'Integrated analytics'],
+            },
+            {
+              title: 'Web Systems',
+              problem: 'Manual processes consume time and generate errors in your operation?',
+              solution: 'Custom systems that automate processes and increase productivity.',
+              features: ['Admin panels', 'Automation', 'Reports', 'API integrations'],
+            },
+            {
+              title: 'Applications',
+              problem: 'Your clients need mobile access but you have no mobile presence?',
+              solution: 'Mobile and web apps that bring your business to your clients pocket.',
+              features: ['iOS and Android', 'PWA', 'Push notifications', 'Offline first'],
+            },
+          ],
+        },
+        infrastructure: {
+          title: 'Infrastructure & IT',
+          subtitle: 'Security and performance for your operation',
+          items: [
+            {
+              title: 'Cloud/On-Premise Servers',
+              problem: 'Unstable servers cause downtime and lost sales?',
+              solution: 'Linux HA infrastructure with 99.9% uptime and up to 40% TCO reduction.',
+              features: ['HA/DR Clusters', 'Automated backup', '24/7 Monitoring', 'Scalability'],
+            },
+            {
+              title: 'Networks and Connectivity',
+              problem: 'Slow network, frequent drops and lack of security?',
+              solution: 'Professional network configuration with firewall and VPN for secure operation.',
+              features: ['Advanced firewall', 'Corporate VPN', 'Enterprise Wi-Fi', 'Optimized QoS'],
+            },
+            {
+              title: 'Technical Support',
+              problem: 'IT problems freeze your team and you have no reliable support?',
+              solution: 'Remote and on-site support with guaranteed SLA to keep your operation running.',
+              features: ['Defined SLA', 'Remote support', 'On-site service', 'Asset management'],
+            },
+          ],
+        },
+        security: {
+          title: 'CCTV & Security',
+          subtitle: 'Complete protection for your assets',
+          items: [
+            {
+              title: 'Cameras and Monitoring',
+              problem: 'Worried about physical security of your business or residence?',
+              solution: 'CCTV systems with remote access and alarm integration.',
+              features: ['HD/4K Cameras', 'Remote access', 'Cloud recording', 'Motion detection'],
+            },
+            {
+              title: 'Digital Security',
+              problem: 'Hacker attacks, data leaks and LGPD fines?',
+              solution: 'Hardening, firewall and security policies to protect your data.',
+              features: ['CIS Hardening', 'Fail2ban/UFW', 'Encrypted backup', 'LGPD Audit'],
+            },
+            {
+              title: 'Technical Consulting',
+              problem: 'Dont know where to start to protect your company?',
+              solution: 'Complete diagnosis and action plan to elevate your security maturity.',
+              features: ['Assessment', 'Action plan', 'Training', 'Documentation'],
+            },
+          ],
+        },
       },
     },
     portfolio: {
@@ -251,16 +391,86 @@ export const translations = {
     },
     services: {
       title: 'Nuestros Servicios',
-      subtitle: 'Soluciones enterprise que entregan resultados medibles',
-      infrastructure: {
-        title: 'Infraestructura Linux HA',
-        description: 'Alta disponibilidad, hardening de seguridad y optimización de costos con Diego C. Moreira.',
-        features: ['Clusters HA/DR', 'Hardening CIS', 'Automatización DevOps', 'Monitoreo 24/7'],
-      },
-      data: {
-        title: 'Ingeniería de Datos',
-        description: 'Power BI, ETL y gobernanza de datos con Emerson Vieira para decisiones basadas en datos.',
-        features: ['Dashboards Power BI', 'Pipelines ETL', 'Gobernanza de Datos', 'Seguimiento KPI'],
+      subtitle: 'Soluciones completas para transformar tu negocio digital',
+      categories: {
+        development: {
+          title: 'Desarrollo',
+          subtitle: 'Soluciones digitales a medida',
+          items: [
+            {
+              title: 'Sitios Institucionales',
+              problem: '¿Tu empresa no se encuentra online o tu sitio actual no genera credibilidad?',
+              solution: 'Sitios profesionales optimizados para SEO que posicionan tu marca y captan clientes.',
+              features: ['Diseño responsivo', 'SEO optimizado', 'Rendimiento máximo', 'Integración WhatsApp'],
+            },
+            {
+              title: 'Landing Pages',
+              problem: '¿Tus campañas de marketing no convierten en ventas?',
+              solution: 'Páginas de conversión enfocadas en transformar visitantes en leads calificados.',
+              features: ['Alta conversión', 'A/B Testing', 'Formularios inteligentes', 'Analytics integrado'],
+            },
+            {
+              title: 'Sistemas Web',
+              problem: '¿Los procesos manuales consumen tiempo y generan errores en tu operación?',
+              solution: 'Sistemas personalizados que automatizan procesos y aumentan la productividad.',
+              features: ['Paneles admin', 'Automatización', 'Reportes', 'Integraciones API'],
+            },
+            {
+              title: 'Aplicaciones',
+              problem: '¿Tus clientes necesitan acceso móvil pero no tienes presencia en celular?',
+              solution: 'Apps móviles y web apps que llevan tu negocio al bolsillo del cliente.',
+              features: ['iOS y Android', 'PWA', 'Push notifications', 'Offline first'],
+            },
+          ],
+        },
+        infrastructure: {
+          title: 'Infraestructura & TI',
+          subtitle: 'Seguridad y rendimiento para tu operación',
+          items: [
+            {
+              title: 'Servidores Cloud/On-Premise',
+              problem: '¿Servidores inestables causan downtime y pérdida de ventas?',
+              solution: 'Infraestructura Linux HA con 99.9% uptime y reducción de hasta 40% en TCO.',
+              features: ['Clusters HA/DR', 'Backup automatizado', 'Monitoreo 24/7', 'Escalabilidad'],
+            },
+            {
+              title: 'Redes y Conectividad',
+              problem: '¿Red lenta, caídas frecuentes y falta de seguridad?',
+              solution: 'Configuración profesional de redes con firewall y VPN para operación segura.',
+              features: ['Firewall avanzado', 'VPN corporativa', 'Wi-Fi empresarial', 'QoS optimizado'],
+            },
+            {
+              title: 'Soporte Técnico',
+              problem: '¿Problemas de TI paralizan tu equipo y no tienes soporte confiable?',
+              solution: 'Soporte remoto y presencial con SLA garantizado para mantener tu operación funcionando.',
+              features: ['SLA definido', 'Soporte remoto', 'Atención presencial', 'Gestión de activos'],
+            },
+          ],
+        },
+        security: {
+          title: 'CCTV & Seguridad',
+          subtitle: 'Protección completa para tu patrimonio',
+          items: [
+            {
+              title: 'Cámaras y Monitoreo',
+              problem: '¿Preocupado con la seguridad física de tu negocio o residencia?',
+              solution: 'Sistemas de CCTV con acceso remoto e integración con alarmas.',
+              features: ['Cámaras HD/4K', 'Acceso remoto', 'Grabación cloud', 'Detección movimiento'],
+            },
+            {
+              title: 'Seguridad Digital',
+              problem: '¿Ataques hackers, filtración de datos y multas LGPD?',
+              solution: 'Hardening, firewall y políticas de seguridad para proteger tus datos.',
+              features: ['Hardening CIS', 'Fail2ban/UFW', 'Backup encriptado', 'Auditoría LGPD'],
+            },
+            {
+              title: 'Consultoría Técnica',
+              problem: '¿No sabes por dónde empezar para proteger tu empresa?',
+              solution: 'Diagnóstico completo y plan de acción para elevar tu madurez en seguridad.',
+              features: ['Assessment', 'Plan de acción', 'Capacitación', 'Documentación'],
+            },
+          ],
+        },
       },
     },
     portfolio: {
