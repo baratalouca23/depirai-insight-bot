@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, MapPin, Mail, MessageCircle } from 'lucide-react';
+import { Send, MapPin, Mail, Loader2, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -13,6 +13,16 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { z } from 'zod';
+
+// Validation schema
+const contactSchema = z.object({
+  name: z.string().trim().min(2, 'Nome deve ter pelo menos 2 caracteres').max(100),
+  email: z.string().trim().email('Email inválido').max(255),
+  company: z.string().trim().min(1, 'Empresa é obrigatória').max(100),
+  kpi: z.string().min(1, 'Selecione um objetivo'),
+  message: z.string().trim().min(10, 'Mensagem deve ter pelo menos 10 caracteres').max(1000),
+});
 
 interface FormData {
   name: string;
@@ -20,6 +30,14 @@ interface FormData {
   company: string;
   kpi: string;
   message: string;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  company?: string;
+  kpi?: string;
+  message?: string;
 }
 
 const initialFormData: FormData = {
@@ -34,43 +52,99 @@ export function Contact() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error on change
+    if (errors[name as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
   };
 
   const handleKpiChange = (value: string) => {
     setFormData((prev) => ({ ...prev, kpi: value }));
+    if (errors.kpi) {
+      setErrors((prev) => ({ ...prev, kpi: undefined }));
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const result = contactSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: FormErrors = {};
+      result.error.errors.forEach((err) => {
+        const field = err.path[0] as keyof FormErrors;
+        fieldErrors[field] = err.message;
+      });
+      setErrors(fieldErrors);
+      return false;
+    }
+    setErrors({});
+    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      toast({
+        title: 'Erro de validação',
+        description: 'Por favor, corrija os campos destacados.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Simulate API call (demo mode)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // Submit to Formspree (free form backend)
+      const response = await fetch('https://formspree.io/f/xpwpvgqz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          kpi: formData.kpi,
+          message: formData.message,
+          _subject: `Nova mensagem de ${formData.name} - ${formData.company}`,
+        }),
+      });
 
-    toast({
-      title: '✅ ' + t.contact.form.success.split('!')[0] + '!',
-      description: t.contact.form.success.split('!')[1]?.trim() || '',
-    });
-
-    setFormData(initialFormData);
-    setIsSubmitting(false);
+      if (response.ok) {
+        setIsSuccess(true);
+        toast({
+          title: '✅ Mensagem enviada!',
+          description: 'Entraremos em contato em breve.',
+        });
+        setFormData(initialFormData);
+        setTimeout(() => setIsSuccess(false), 3000);
+      } else {
+        throw new Error('Erro ao enviar');
+      }
+    } catch {
+      toast({
+        title: 'Erro ao enviar',
+        description: 'Tente novamente ou entre em contato pelo WhatsApp.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
     { icon: MapPin, label: 'Piraí do Sul - PR' },
     { icon: Mail, label: 'contato@depirai.com', href: 'mailto:contato@depirai.com' },
-  ];
-
-  const whatsappContacts = [
-    { name: 'Emerson', phone: '5542988911463', display: '(42) 98891-1463' },
-    { name: 'Diego', phone: '5542999814284', display: '(42) 99981-4284' },
   ];
 
   const kpiOptions = [
@@ -82,60 +156,43 @@ export function Contact() {
   ];
 
   return (
-    <section id="contact" className="section-padding">
+    <section id="contact" className="section-padding bg-muted/20">
       <div className="section-container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Info */}
-          <div>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-              {t.contact.title}
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8">{t.contact.subtitle}</p>
+          <div className="space-y-8">
+            <div>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+                {t.contact.title}
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">{t.contact.subtitle}</p>
+            </div>
 
             <div className="space-y-4">
               {contactInfo.map((item, index) => (
-                <div key={index} className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <div key={index} className="flex items-center gap-4 group">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                     <item.icon className="h-5 w-5 text-primary" />
                   </div>
                   {item.href ? (
-                    <a href={item.href} className="text-foreground hover:text-primary transition-colors">
+                    <a href={item.href} className="text-foreground hover:text-primary transition-colors font-medium">
                       {item.label}
                     </a>
                   ) : (
-                    <span className="text-foreground">{item.label}</span>
+                    <span className="text-foreground font-medium">{item.label}</span>
                   )}
                 </div>
               ))}
             </div>
 
-            {/* WhatsApp Buttons */}
-            <div className="mt-6 space-y-3">
-              <p className="text-sm text-muted-foreground font-medium">Fale direto pelo WhatsApp:</p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                {whatsappContacts.map((contact) => (
-                  <a
-                    key={contact.name}
-                    href={`https://wa.me/${contact.phone}?text=Olá ${contact.name}, vim pelo site Depirai!`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-medium transition-colors"
-                  >
-                    <MessageCircle className="h-5 w-5" />
-                    {contact.name} {contact.display}
-                  </a>
-                ))}
-              </div>
-            </div>
-
             {/* Trust Badges */}
-            <div className="mt-10 p-6 rounded-2xl bg-muted/50 border border-border">
-              <p className="text-sm text-muted-foreground mb-4">Tecnologias que utilizamos:</p>
-              <div className="flex flex-wrap gap-3">
+            <div className="card-minimal">
+              <p className="text-sm text-muted-foreground mb-4 font-medium">Tecnologias que utilizamos:</p>
+              <div className="flex flex-wrap gap-2">
                 {['Linux', 'AWS', 'Azure', 'Power BI', 'Kubernetes', 'Terraform'].map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 rounded-full bg-background text-sm font-medium text-foreground border border-border"
+                    className="px-3 py-1.5 rounded-full bg-background text-sm font-medium text-foreground border border-border/50 hover:border-primary/50 transition-colors"
                   >
                     {tech}
                   </span>
@@ -145,50 +202,56 @@ export function Contact() {
           </div>
 
           {/* Form */}
-          <div className="bg-card rounded-2xl p-8 shadow-card border border-border">
+          <div className="card-minimal bg-card">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <Label htmlFor="name">{t.contact.form.name}</Label>
+                  <Label htmlFor="name" className="text-sm font-medium">{t.contact.form.name} *</Label>
                   <Input
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    required
                     placeholder="João Silva"
+                    className={errors.name ? 'border-destructive focus-visible:ring-destructive' : ''}
+                    aria-invalid={!!errors.name}
                   />
+                  {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">{t.contact.form.email}</Label>
+                  <Label htmlFor="email" className="text-sm font-medium">{t.contact.form.email} *</Label>
                   <Input
                     id="email"
                     name="email"
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
                     placeholder="joao@empresa.com"
+                    className={errors.email ? 'border-destructive focus-visible:ring-destructive' : ''}
+                    aria-invalid={!!errors.email}
                   />
+                  {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <Label htmlFor="company">{t.contact.form.company}</Label>
+                  <Label htmlFor="company" className="text-sm font-medium">{t.contact.form.company} *</Label>
                   <Input
                     id="company"
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    required
                     placeholder="Sua Empresa S.A."
+                    className={errors.company ? 'border-destructive focus-visible:ring-destructive' : ''}
+                    aria-invalid={!!errors.company}
                   />
+                  {errors.company && <p className="text-xs text-destructive">{errors.company}</p>}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="kpi">{t.contact.form.kpi}</Label>
+                  <Label htmlFor="kpi" className="text-sm font-medium">{t.contact.form.kpi} *</Label>
                   <Select value={formData.kpi} onValueChange={handleKpiChange}>
-                    <SelectTrigger>
+                    <SelectTrigger className={errors.kpi ? 'border-destructive focus:ring-destructive' : ''}>
                       <SelectValue placeholder="Selecione..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -199,32 +262,51 @@ export function Contact() {
                       ))}
                     </SelectContent>
                   </Select>
+                  {errors.kpi && <p className="text-xs text-destructive">{errors.kpi}</p>}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="message">{t.contact.form.message}</Label>
+                <Label htmlFor="message" className="text-sm font-medium">{t.contact.form.message} *</Label>
                 <Textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  required
                   rows={4}
                   placeholder="Descreva seu projeto ou desafio..."
+                  className={errors.message ? 'border-destructive focus-visible:ring-destructive' : ''}
+                  aria-invalid={!!errors.message}
                 />
+                {errors.message && <p className="text-xs text-destructive">{errors.message}</p>}
               </div>
 
-              <Button type="submit" className="w-full btn-glow" disabled={isSubmitting}>
+              <Button 
+                type="submit" 
+                className="w-full btn-glow h-12 text-base font-medium" 
+                disabled={isSubmitting}
+              >
                 {isSubmitting ? (
-                  t.contact.form.sending
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    {t.contact.form.sending}
+                  </>
+                ) : isSuccess ? (
+                  <>
+                    <CheckCircle2 className="mr-2 h-5 w-5" />
+                    Enviado!
+                  </>
                 ) : (
                   <>
                     {t.contact.form.submit}
-                    <Send className="ml-2 h-4 w-4" />
+                    <Send className="ml-2 h-5 w-5" />
                   </>
                 )}
               </Button>
+
+              <p className="text-xs text-muted-foreground text-center">
+                Seus dados estão protegidos e não serão compartilhados.
+              </p>
             </form>
           </div>
         </div>

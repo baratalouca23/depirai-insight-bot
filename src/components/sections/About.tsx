@@ -48,7 +48,7 @@ export function About() {
             return (
               <div
                 key={member.id}
-                className="bg-card rounded-2xl p-8 shadow-card border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+                className="card-minimal hover-lift group"
               >
                 {/* Avatar with Icon Badge */}
                 <div className="relative w-28 h-28 mx-auto mb-6">

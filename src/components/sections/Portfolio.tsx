@@ -51,11 +51,11 @@ export function Portfolio() {
         </div>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sortedCases.map((item: PortfolioCase) => (
             <article
               key={item.id}
-              className={`group relative bg-card rounded-2xl overflow-hidden shadow-card border border-border card-hover ${
+              className={`group relative bg-card rounded-2xl overflow-hidden shadow-[0_2px_8px_-2px_hsl(var(--foreground)/0.08)] border border-border/50 transition-all duration-300 hover:shadow-[0_8px_24px_-8px_hsl(var(--foreground)/0.12)] hover:-translate-y-1 ${
                 item.premium ? 'ring-2 ring-primary/50' : ''
               }`}
             >
