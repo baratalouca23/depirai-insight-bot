@@ -10,6 +10,7 @@ type FilterType = 'all' | 'infra' | 'data';
 export function Portfolio() {
   const { language, t } = useLanguage();
   const [filter, setFilter] = useState<FilterType>('all');
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   const filters: { key: FilterType; label: string }[] = [
     { key: 'all', label: t.portfolio.filters.all },
@@ -21,37 +22,41 @@ export function Portfolio() {
     ? portfolioCases
     : portfolioCases.filter((c) => c.category === filter);
 
-  // Sort premium cases first
   const sortedCases = [...filteredCases].sort((a, b) => (b.premium ? 1 : 0) - (a.premium ? 1 : 0));
 
+  const handleImageLoad = (id: string) => {
+    setLoadedImages(prev => ({ ...prev, [id]: true }));
+  };
+
   return (
-    <section id="portfolio" className="section-padding">
+    <section id="portfolio" className="section-padding" aria-labelledby="portfolio-title">
       <div className="section-container">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+        <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+          <h2 id="portfolio-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
             {t.portfolio.title}
           </h2>
-          <p className="text-lg text-muted-foreground">{t.portfolio.subtitle}</p>
-        </div>
+          <p className="text-sm md:text-lg text-muted-foreground">{t.portfolio.subtitle}</p>
+        </header>
 
         {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
+        <nav className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-12" aria-label="Filtrar projetos">
           {filters.map((f) => (
             <Button
               key={f.key}
               variant={filter === f.key ? 'default' : 'outline'}
               size="sm"
               onClick={() => setFilter(f.key)}
-              className="rounded-full"
+              className="rounded-full text-xs md:text-sm focus-ring"
+              aria-pressed={filter === f.key}
             >
               {f.label}
             </Button>
           ))}
-        </div>
+        </nav>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
           {sortedCases.map((item: PortfolioCase) => (
             <article
               key={item.id}
@@ -61,76 +66,77 @@ export function Portfolio() {
             >
               {/* Premium Badge */}
               {item.premium && (
-                <div className="absolute top-4 right-4 z-20">
-                  <Badge className="bg-primary text-primary-foreground gap-1">
-                    <Star className="h-3 w-3 fill-current" />
+                <div className="absolute top-3 md:top-4 right-3 md:right-4 z-20">
+                  <Badge className="bg-primary text-primary-foreground gap-1 text-xs">
+                    <Star className="h-3 w-3 fill-current" aria-hidden="true" />
                     Premium
                   </Badge>
                 </div>
               )}
 
               {/* Image */}
-              <div className="relative h-48 overflow-hidden">
+              <div className={`relative h-40 md:h-48 overflow-hidden ${!loadedImages[item.id] ? 'img-loading' : ''}`}>
                 <img
                   src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  alt={`Projeto ${item.title} - ${item.company}`}
+                  className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${loadedImages[item.id] ? 'opacity-100' : 'opacity-0'}`}
                   loading="lazy"
+                  onLoad={() => handleImageLoad(item.id)}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" aria-hidden="true" />
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <div className="p-4 md:p-6">
                 <div className="flex items-center gap-2 mb-2">
                   <Badge variant="secondary" className="text-xs">
                     {item.category === 'infra' ? t.portfolio.filters.infra : t.portfolio.filters.data}
                   </Badge>
                 </div>
 
-                <h3 className="font-display text-xl font-semibold text-foreground mb-1">
+                <h3 className="font-display text-lg md:text-xl font-semibold text-foreground mb-1">
                   {item.title}
                 </h3>
-                <p className="text-sm text-primary font-medium mb-3">{item.company}</p>
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                <p className="text-xs md:text-sm text-primary font-medium mb-2 md:mb-3">{item.company}</p>
+                <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4 line-clamp-2">
                   {item.description[language]}
                 </p>
 
                 {/* KPIs */}
-                <div className="flex flex-wrap gap-2 mb-4">
+                <ul className="flex flex-wrap gap-1.5 md:gap-2 mb-3 md:mb-4" aria-label="Indicadores de resultado">
                   {item.kpis.map((kpi, i) => (
-                    <div
+                    <li
                       key={i}
                       className="px-2 py-1 rounded bg-muted text-xs font-medium"
                     >
                       <span className="text-muted-foreground">{kpi.label}:</span>{' '}
                       <span className="text-primary">{kpi.value}</span>
-                    </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
 
                 {/* Technologies */}
-                <div className="flex flex-wrap gap-1 mb-4">
+                <ul className="flex flex-wrap gap-1 mb-3 md:mb-4" aria-label="Tecnologias utilizadas">
                   {item.technologies.slice(0, 3).map((tech, i) => (
-                    <span
+                    <li
                       key={i}
                       className="text-xs text-muted-foreground px-2 py-0.5 rounded-full border border-border"
                     >
                       {tech}
-                    </span>
+                    </li>
                   ))}
                   {item.technologies.length > 3 && (
-                    <span className="text-xs text-muted-foreground px-2 py-0.5">
+                    <li className="text-xs text-muted-foreground px-2 py-0.5">
                       +{item.technologies.length - 3}
-                    </span>
+                    </li>
                   )}
-                </div>
+                </ul>
 
                 {/* CTA */}
-                <Button variant="ghost" size="sm" className="w-full group/btn" asChild>
+                <Button variant="ghost" size="sm" className="w-full group/btn focus-ring text-xs md:text-sm" asChild>
                   <a href="#contact">
                     {t.portfolio.viewCase}
-                    <ExternalLink className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                    <ExternalLink className="ml-2 h-3 w-3 md:h-4 md:w-4 group-hover/btn:translate-x-1 transition-transform" aria-hidden="true" />
                   </a>
                 </Button>
               </div>
