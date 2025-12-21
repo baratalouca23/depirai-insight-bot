@@ -4,7 +4,9 @@ import { Footer } from '@/components/ui/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { Services } from '@/components/sections/Services';
 import { Portfolio } from '@/components/sections/Portfolio';
+import { Testimonials } from '@/components/sections/Testimonials';
 import { About } from '@/components/sections/About';
+import { FAQ } from '@/components/sections/FAQ';
 import { Contact } from '@/components/sections/Contact';
 import { AIChatWidget } from '@/components/features/AIChatWidget';
 import { AccessibilityMenu } from '@/components/features/AccessibilityMenu';
@@ -19,7 +21,9 @@ const Index = () => {
         <Hero />
         <Services />
         <Portfolio />
+        <Testimonials />
         <About />
+        <FAQ />
         <Contact />
       </main>
       <Footer />
