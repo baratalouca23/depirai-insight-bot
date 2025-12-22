@@ -25,7 +25,7 @@ export function Hero() {
       <div className="section-container relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 md:mb-8 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 md:mb-8 animate-fade-in hover:bg-primary/20 transition-colors cursor-default">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" aria-hidden="true" />
             {t.hero.badge}
           </div>
@@ -33,19 +33,28 @@ export function Hero() {
           {/* Title */}
           <h1 
             id="hero-title"
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-6 animate-fade-in-up leading-tight"
+            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-6 leading-tight"
+            style={{ animation: 'fadeInUp 0.8s ease-out forwards' }}
           >
             {t.hero.title}{' '}
-            <span className="gradient-text">{t.hero.titleHighlight}</span>
+            <span className="gradient-text inline-block" style={{ animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0 }}>
+              {t.hero.titleHighlight}
+            </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-10 animate-fade-in-up delay-100">
+          <p 
+            className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-10"
+            style={{ animation: 'fadeInUp 0.8s ease-out 0.4s forwards', opacity: 0 }}
+          >
             {t.hero.subtitle}
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-12 md:mb-16 animate-fade-in-up delay-200">
+          <div 
+            className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mb-12 md:mb-16"
+            style={{ animation: 'fadeInUp 0.8s ease-out 0.6s forwards', opacity: 0 }}
+          >
             <Button size="lg" className="btn-glow text-base md:text-lg px-6 md:px-8 w-full sm:w-auto" asChild>
               <a href="#contact">
                 {t.hero.cta}
@@ -59,17 +68,19 @@ export function Hero() {
 
           {/* Stats */}
           <div 
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 lg:gap-8 animate-fade-in-up delay-300"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 lg:gap-8"
             role="list"
             aria-label="Estatísticas principais"
+            style={{ animation: 'fadeInUp 0.8s ease-out 0.8s forwards', opacity: 0 }}
           >
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="card-minimal flex flex-col items-center hover-lift"
+                className="card-minimal flex flex-col items-center hover-lift group"
                 role="listitem"
+                style={{ animationDelay: `${0.9 + index * 0.1}s` }}
               >
-                <stat.icon className="h-6 w-6 md:h-8 md:w-8 text-primary mb-2 md:mb-3" aria-hidden="true" />
+                <stat.icon className="h-6 w-6 md:h-8 md:w-8 text-primary mb-2 md:mb-3 group-hover:scale-110 transition-transform" aria-hidden="true" />
                 <span className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
                   {stat.value}
                 </span>

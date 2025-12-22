@@ -2,6 +2,9 @@ export type Language = 'pt' | 'en' | 'es';
 
 export const translations = {
   pt: {
+    clients: {
+      title: 'Empresas que confiam em nós',
+    },
     nav: {
       services: 'Serviços',
       portfolio: 'Portfólio',
@@ -186,6 +189,9 @@ export const translations = {
     },
   },
   en: {
+    clients: {
+      title: 'Companies that trust us',
+    },
     nav: {
       services: 'Services',
       portfolio: 'Portfolio',
@@ -370,6 +376,9 @@ export const translations = {
     },
   },
   es: {
+    clients: {
+      title: 'Empresas que confían en nosotros',
+    },
     nav: {
       services: 'Servicios',
       portfolio: 'Portafolio',
