@@ -8,7 +8,7 @@ import { Testimonials } from '@/components/sections/Testimonials';
 import { About } from '@/components/sections/About';
 import { FAQ } from '@/components/sections/FAQ';
 import { Contact } from '@/components/sections/Contact';
-import { AIChatWidget } from '@/components/features/AIChatWidget';
+
 import { AccessibilityMenu } from '@/components/features/AccessibilityMenu';
 import { CookieBanner } from '@/components/features/CookieBanner';
 import { WhatsAppFloat } from '@/components/features/WhatsAppFloat';
@@ -28,7 +28,7 @@ const Index = () => {
       </main>
       <Footer />
       <WhatsAppFloat />
-      <AIChatWidget />
+      
       <AccessibilityMenu />
       <CookieBanner />
     </div>
