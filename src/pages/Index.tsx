@@ -1,6 +1,7 @@
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
 import { Hero } from '@/components/sections/Hero';
+import { ClientLogos } from '@/components/sections/ClientLogos';
 import { Services } from '@/components/sections/Services';
 import { Portfolio } from '@/components/sections/Portfolio';
 import { Testimonials } from '@/components/sections/Testimonials';
@@ -10,6 +11,7 @@ import { Contact } from '@/components/sections/Contact';
 import { AccessibilityMenu } from '@/components/features/AccessibilityMenu';
 import { CookieBanner } from '@/components/features/CookieBanner';
 import { WhatsAppFloat } from '@/components/features/WhatsAppFloat';
+import { MobileCTA } from '@/components/features/MobileCTA';
 import { ScrollProgress } from '@/components/features/ScrollProgress';
 
 const Index = () => {
@@ -19,6 +21,7 @@ const Index = () => {
       <Header />
       <main id="main-content">
         <Hero />
+        <ClientLogos />
         <Services />
         <Portfolio />
         <Testimonials />
@@ -28,6 +31,7 @@ const Index = () => {
       </main>
       <Footer />
       <WhatsAppFloat />
+      <MobileCTA />
       <AccessibilityMenu />
       <CookieBanner />
     </div>
