@@ -35,17 +35,17 @@ export function AccessibilityMenu() {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-card border border-border shadow-card flex items-center justify-center hover:bg-muted transition-colors"
+        className="fixed bottom-20 left-4 md:bottom-6 md:left-6 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full bg-card/90 backdrop-blur-sm border border-border shadow-lg flex items-center justify-center hover:bg-muted hover:scale-110 transition-all duration-300 group"
         aria-label={t.accessibility.title}
         aria-expanded={isOpen}
       >
-        <Accessibility className="h-5 w-5 text-foreground" />
+        <Accessibility className="h-4 w-4 md:h-5 md:w-5 text-foreground group-hover:text-primary transition-colors" />
       </button>
 
       {/* Menu Panel */}
       {isOpen && (
         <div
-          className="fixed bottom-20 left-6 z-50 w-72 bg-card rounded-xl shadow-card-hover border border-border p-4"
+          className="fixed bottom-32 left-4 md:bottom-20 md:left-6 z-50 w-[calc(100vw-2rem)] max-w-72 bg-card/95 backdrop-blur-md rounded-2xl shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.15)] border border-border p-5 animate-scale-in origin-bottom-left"
           role="dialog"
           aria-label={t.accessibility.title}
         >

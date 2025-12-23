@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
+import { AnimatedSection } from '@/components/features/AnimatedSection';
 
 const testimonials = [
   {
@@ -78,12 +79,14 @@ export function Testimonials() {
     <section id="testimonials" className="section-padding" aria-labelledby="testimonials-title">
       <div className="section-container">
         {/* Header */}
-        <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-          <h2 id="testimonials-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
-            {titles[language].title}
-          </h2>
-          <p className="text-sm md:text-lg text-muted-foreground">{titles[language].subtitle}</p>
-        </header>
+        <AnimatedSection animation="fade-up">
+          <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <h2 id="testimonials-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
+              {titles[language].title}
+            </h2>
+            <p className="text-sm md:text-lg text-muted-foreground">{titles[language].subtitle}</p>
+          </header>
+        </AnimatedSection>
 
         {/* Testimonial Carousel */}
         <div className="relative max-w-4xl mx-auto">

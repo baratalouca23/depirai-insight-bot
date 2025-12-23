@@ -3,6 +3,7 @@ import { Linkedin, Award, Server, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import diegoPhoto from '@/assets/diego.jpeg';
 import emersonPhoto from '@/assets/emerson.jpeg';
+import { AnimatedSection } from '@/components/features/AnimatedSection';
 
 export function About() {
   const { t } = useLanguage();
@@ -37,24 +38,28 @@ export function About() {
     <section id="about" className="section-padding bg-muted/30" aria-labelledby="about-title">
       <div className="section-container">
         {/* Header */}
-        <header className="text-center mb-10 md:mb-12">
-          <h2 id="about-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
-            {t.about.title}
-          </h2>
-          <p className="text-base md:text-lg text-primary font-semibold mb-2">{t.about.subtitle}</p>
-          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">{t.about.description}</p>
-        </header>
+        <AnimatedSection animation="fade-up">
+          <header className="text-center mb-10 md:mb-12">
+            <h2 id="about-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
+              {t.about.title}
+            </h2>
+            <p className="text-base md:text-lg text-primary font-semibold mb-2">{t.about.subtitle}</p>
+            <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">{t.about.description}</p>
+          </header>
+        </AnimatedSection>
 
         {/* Team Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
-          {team.map((member) => {
+          {team.map((member, index) => {
             const memberInfo = t.about.team[member.id as 'diego' | 'emerson'];
             const IconComponent = member.icon;
             return (
-              <article
+              <AnimatedSection
                 key={member.id}
-                className="card-minimal hover-lift group"
+                animation={index === 0 ? 'fade-left' : 'fade-right'}
+                delay={index * 150}
               >
+                <article className="card-minimal hover-lift group">
                 {/* Avatar with Icon Badge */}
                 <div className="relative w-24 h-24 md:w-28 md:h-28 mx-auto mb-5 md:mb-6">
                   <div className={`w-full h-full rounded-full ${!loadedImages[member.id] ? 'img-loading' : ''}`}>
@@ -96,18 +101,19 @@ export function About() {
                   ))}
                 </ul>
 
-                {/* LinkedIn Button */}
-                <a
-                  href={member.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Conectar com ${memberInfo.name} no LinkedIn`}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 rounded-xl bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all font-medium text-sm md:text-base focus-ring"
-                >
-                  <Linkedin className="h-4 w-4 md:h-5 md:w-5" aria-hidden="true" />
-                  Conectar no LinkedIn
-                </a>
-              </article>
+                  {/* LinkedIn Button */}
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Conectar com ${memberInfo.name} no LinkedIn`}
+                    className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 rounded-xl bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all font-medium text-sm md:text-base focus-ring"
+                  >
+                    <Linkedin className="h-4 w-4 md:h-5 md:w-5" aria-hidden="true" />
+                    Conectar no LinkedIn
+                  </a>
+                </article>
+              </AnimatedSection>
             );
           })}
         </div>

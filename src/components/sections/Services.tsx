@@ -3,6 +3,7 @@ import { Code, Server, Shield, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
+import { AnimatedSection } from '@/components/features/AnimatedSection';
 
 type CategoryKey = 'development' | 'infrastructure' | 'security';
 
@@ -28,12 +29,14 @@ export function Services() {
     <section id="services" className="section-padding bg-muted/30" aria-labelledby="services-title">
       <div className="section-container">
         {/* Header */}
-        <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-          <h2 id="services-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
-            {t.services.title}
-          </h2>
-          <p className="text-sm md:text-lg text-muted-foreground">{t.services.subtitle}</p>
-        </header>
+        <AnimatedSection animation="fade-up">
+          <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <h2 id="services-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
+              {t.services.title}
+            </h2>
+            <p className="text-sm md:text-lg text-muted-foreground">{t.services.subtitle}</p>
+          </header>
+        </AnimatedSection>
 
         {/* Category Tabs */}
         <nav className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-12" role="tablist" aria-label="Categorias de serviços">

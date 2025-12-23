@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { portfolioCases, PortfolioCase } from '@/data/portfolio';
+import { AnimatedSection } from '@/components/features/AnimatedSection';
 
 type FilterType = 'all' | 'infra' | 'data';
 
@@ -32,12 +33,14 @@ export function Portfolio() {
     <section id="portfolio" className="section-padding" aria-labelledby="portfolio-title">
       <div className="section-container">
         {/* Header */}
-        <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-          <h2 id="portfolio-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
-            {t.portfolio.title}
-          </h2>
-          <p className="text-sm md:text-lg text-muted-foreground">{t.portfolio.subtitle}</p>
-        </header>
+        <AnimatedSection animation="fade-up">
+          <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <h2 id="portfolio-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
+              {t.portfolio.title}
+            </h2>
+            <p className="text-sm md:text-lg text-muted-foreground">{t.portfolio.subtitle}</p>
+          </header>
+        </AnimatedSection>
 
         {/* Filters */}
         <nav className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-12" aria-label="Filtrar projetos">
