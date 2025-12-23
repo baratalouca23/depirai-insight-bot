@@ -2,14 +2,15 @@ import React from 'react';
 import { ArrowRight, Server, BarChart3, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 
 export function Hero() {
   const { t } = useLanguage();
 
   const stats = [
-    { value: '50+', label: t.hero.stats.clients, icon: Server },
-    { value: '40%', label: t.hero.stats.reduction, icon: BarChart3 },
-    { value: '99.9%', label: t.hero.stats.uptime, icon: Shield },
+    { value: 50, suffix: '+', label: t.hero.stats.clients, icon: Server },
+    { value: 40, suffix: '%', label: t.hero.stats.reduction, icon: BarChart3 },
+    { value: 99.9, suffix: '%', decimals: 1, label: t.hero.stats.uptime, icon: Shield },
   ];
 
   return (
@@ -82,7 +83,12 @@ export function Hero() {
               >
                 <stat.icon className="h-6 w-6 md:h-8 md:w-8 text-primary mb-2 md:mb-3 group-hover:scale-110 transition-transform" aria-hidden="true" />
                 <span className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
-                  {stat.value}
+                  <AnimatedCounter 
+                    end={stat.value} 
+                    suffix={stat.suffix} 
+                    decimals={stat.decimals || 0}
+                    duration={2500}
+                  />
                 </span>
                 <span className="text-xs md:text-sm text-muted-foreground mt-1">{stat.label}</span>
               </div>
