@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ArrowRight, Server, BarChart3, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
+import { useScrollY } from '@/hooks/useParallax';
 
 export function Hero() {
   const { t } = useLanguage();
+  const scrollY = useScrollY();
+  const parallaxOffset = scrollY * 0.3;
 
   const stats = [
     { value: 50, suffix: '+', label: t.hero.stats.clients, icon: Server },
@@ -18,10 +21,24 @@ export function Hero() {
       className="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden"
       aria-labelledby="hero-title"
     >
-      {/* Background Elements */}
+      {/* Background Elements with Parallax */}
       <div className="absolute inset-0 bg-hero-gradient" aria-hidden="true" />
-      <div className="absolute top-1/4 right-0 w-64 md:w-96 h-64 md:h-96 bg-primary/5 rounded-full blur-3xl" aria-hidden="true" />
-      <div className="absolute bottom-0 left-0 w-48 md:w-72 h-48 md:h-72 bg-primary/10 rounded-full blur-3xl" aria-hidden="true" />
+      <div 
+        className="absolute top-1/4 right-0 w-64 md:w-96 h-64 md:h-96 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl transition-transform duration-100" 
+        style={{ transform: `translateY(${parallaxOffset * 0.5}px)` }}
+        aria-hidden="true" 
+      />
+      <div 
+        className="absolute bottom-0 left-0 w-48 md:w-72 h-48 md:h-72 bg-primary/10 dark:bg-primary/15 rounded-full blur-3xl transition-transform duration-100" 
+        style={{ transform: `translateY(${-parallaxOffset * 0.3}px)` }}
+        aria-hidden="true" 
+      />
+      {/* Additional dark mode ambient glow */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] hidden dark:block bg-gradient-radial from-primary/5 to-transparent rounded-full blur-3xl"
+        style={{ transform: `translate(-50%, calc(-50% + ${parallaxOffset * 0.2}px))` }}
+        aria-hidden="true" 
+      />
 
       <div className="section-container relative z-10">
         <div className="max-w-4xl mx-auto text-center">
