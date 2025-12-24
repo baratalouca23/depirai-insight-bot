@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Linkedin, Award, Server, BarChart3, Calendar, MapPin, MessageCircle } from 'lucide-react';
+import { Linkedin, Award, Server, BarChart3, Calendar, MapPin, MessageCircle } from 'lucide-react';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
 import { Button } from '@/components/ui/button';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { AnimatedSection } from '@/components/features/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
 import diegoPhoto from '@/assets/diego.jpeg';
 import emersonPhoto from '@/assets/emerson.jpeg';
@@ -56,27 +58,25 @@ export default function SobrePage() {
       
       <main className="pt-24 pb-16">
         <div className="section-container">
-          {/* Back Button */}
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            Voltar ao início
-          </Link>
+          <Breadcrumbs />
 
           {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-              {t.about.title}
-            </h1>
-            <p className="text-lg text-primary font-semibold mb-2">{t.about.subtitle}</p>
-            <p className="text-muted-foreground max-w-2xl mx-auto mb-8">{t.about.description}</p>
-            
-            {/* Combined Experience Counter */}
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary/10 rounded-full">
-              <Calendar className="h-5 w-5 text-primary" />
-              <span className="text-2xl font-bold text-primary">31+</span>
-              <span className="text-muted-foreground">anos de experiência combinada</span>
+          <AnimatedSection animation="fade-up">
+            <div className="text-center mb-16">
+              <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
+                {t.about.title}
+              </h1>
+              <p className="text-lg text-primary font-semibold mb-2">{t.about.subtitle}</p>
+              <p className="text-muted-foreground max-w-2xl mx-auto mb-8">{t.about.description}</p>
+              
+              {/* Combined Experience Counter */}
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary/10 rounded-full">
+                <Calendar className="h-5 w-5 text-primary" />
+                <span className="text-2xl font-bold text-primary">31+</span>
+                <span className="text-muted-foreground">anos de experiência combinada</span>
+              </div>
             </div>
-          </div>
+          </AnimatedSection>
 
           {/* Team Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Server, BarChart3, Shield, Code, Mail, Database, Cloud, Settings, Cpu } from 'lucide-react';
+import { Server, BarChart3, Shield, Code, Mail, Database, Cloud, Settings, Cpu } from 'lucide-react';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
 import { Button } from '@/components/ui/button';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { AnimatedSection } from '@/components/features/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const servicesData = [
@@ -90,21 +92,19 @@ export default function ServicosPage() {
       
       <main className="pt-24 pb-16">
         <div className="section-container">
-          {/* Back Button */}
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            Voltar ao início
-          </Link>
+          <Breadcrumbs />
 
           {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Nossos Serviços
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Soluções completas em infraestrutura TI e Business Intelligence para transformar seu negócio
-            </p>
-          </div>
+          <AnimatedSection animation="fade-up">
+            <div className="text-center mb-12">
+              <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
+                Nossos Serviços
+              </h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Soluções completas em infraestrutura TI e Business Intelligence para transformar seu negócio
+              </p>
+            </div>
+          </AnimatedSection>
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -112,34 +112,37 @@ export default function ServicosPage() {
               const IconComponent = service.icon;
               
               return (
-                <div
-                  key={index}
-                  className="bg-card rounded-2xl p-8 shadow-card border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+                <AnimatedSection 
+                  key={index} 
+                  animation="fade-up" 
+                  delay={index * 100}
                 >
-                  <div className={`w-14 h-14 rounded-xl ${service.color} flex items-center justify-center mb-6`}>
-                    <IconComponent className="h-7 w-7" />
+                  <div className="bg-card rounded-2xl p-8 shadow-card border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group h-full">
+                    <div className={`w-14 h-14 rounded-xl ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                      <IconComponent className="h-7 w-7" />
+                    </div>
+                    
+                    <h3 className="font-display text-xl font-bold text-foreground mb-2">
+                      {service.title}
+                    </h3>
+                    <p className="text-muted-foreground mb-4 text-sm">{service.description}</p>
+                    
+                    <ul className="space-y-2 mb-6">
+                      {service.features.map((feature, i) => (
+                        <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <div className="pt-4 border-t border-border">
+                      <p className="text-xs text-muted-foreground">
+                        Responsável: <span className="text-primary font-medium">{service.responsible}</span>
+                      </p>
+                    </div>
                   </div>
-                  
-                  <h3 className="font-display text-xl font-bold text-foreground mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-4 text-sm">{service.description}</p>
-                  
-                  <ul className="space-y-2 mb-6">
-                    {service.features.map((feature, i) => (
-                      <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <div className="pt-4 border-t border-border">
-                    <p className="text-xs text-muted-foreground">
-                      Responsável: <span className="text-primary font-medium">{service.responsible}</span>
-                    </p>
-                  </div>
-                </div>
+                </AnimatedSection>
               );
             })}
           </div>
