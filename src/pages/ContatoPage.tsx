@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Send, MapPin, Mail, MessageCircle, Clock } from 'lucide-react';
+import { Send, MapPin, Mail, MessageCircle, Clock } from 'lucide-react';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { AnimatedSection } from '@/components/features/AnimatedSection';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -83,21 +85,19 @@ export default function ContatoPage() {
       
       <main className="pt-24 pb-16">
         <div className="section-container">
-          {/* Back Button */}
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            Voltar ao início
-          </Link>
+          <Breadcrumbs />
 
           {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-              {t.contact.title}
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.contact.subtitle}
-            </p>
-          </div>
+          <AnimatedSection animation="fade-up">
+            <div className="text-center mb-12">
+              <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
+                {t.contact.title}
+              </h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                {t.contact.subtitle}
+              </p>
+            </div>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Contact Info */}

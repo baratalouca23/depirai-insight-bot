@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, Server, BarChart3 } from 'lucide-react';
+import { ExternalLink, Server, BarChart3 } from 'lucide-react';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
 import { Button } from '@/components/ui/button';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { AnimatedSection } from '@/components/features/AnimatedSection';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { portfolioCases } from '@/data/portfolio';
 
@@ -39,19 +41,18 @@ export default function PortfolioPage() {
       
       <main className="pt-24 pb-16">
         <div className="section-container">
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            Voltar ao início
-          </Link>
+          <Breadcrumbs />
 
-          <div className="text-center mb-12">
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-              {t.portfolio.title}
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.portfolio.subtitle}
-            </p>
-          </div>
+          <AnimatedSection animation="fade-up">
+            <div className="text-center mb-12">
+              <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
+                {t.portfolio.title}
+              </h1>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                {t.portfolio.subtitle}
+              </p>
+            </div>
+          </AnimatedSection>
 
           <div className="flex flex-wrap justify-center gap-3 mb-12">
             {filters.map((filter) => (
