@@ -13,6 +13,7 @@ import { CookieBanner } from '@/components/features/CookieBanner';
 import { WhatsAppFloat } from '@/components/features/WhatsAppFloat';
 import { MobileCTA } from '@/components/features/MobileCTA';
 import { ScrollProgress } from '@/components/features/ScrollProgress';
+import { BackToTop } from '@/components/features/BackToTop';
 
 const Index = () => {
   return (
@@ -30,6 +31,7 @@ const Index = () => {
         <Contact />
       </main>
       <Footer />
+      <BackToTop />
       <WhatsAppFloat />
       <MobileCTA />
       <AccessibilityMenu />
