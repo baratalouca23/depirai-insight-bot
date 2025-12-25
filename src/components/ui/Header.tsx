@@ -110,7 +110,7 @@ export function Header() {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 md:gap-2">
           {/* Language Switcher */}
           <div className="relative">
             <Button
@@ -118,12 +118,12 @@ export function Header() {
               size="icon"
               onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
               aria-label="Select language"
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground h-9 w-9"
             >
-              <Globe className="h-5 w-5" />
+              <Globe className="h-4 w-4 md:h-5 md:w-5" />
             </Button>
             {isLangMenuOpen && (
-              <div className="absolute right-0 mt-2 py-2 w-24 bg-card rounded-lg shadow-card-hover border border-border">
+              <div className="absolute right-0 mt-2 py-2 w-24 bg-card rounded-lg shadow-card-hover border border-border animate-scale-in origin-top-right">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
@@ -148,9 +148,9 @@ export function Header() {
             size="icon"
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground h-9 w-9 transition-transform hover:rotate-12"
           >
-            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {theme === 'dark' ? <Sun className="h-4 w-4 md:h-5 md:w-5" /> : <Moon className="h-4 w-4 md:h-5 md:w-5" />}
           </Button>
 
           {/* CTA Desktop */}
