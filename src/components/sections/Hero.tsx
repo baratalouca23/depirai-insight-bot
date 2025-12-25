@@ -94,20 +94,28 @@ export function Hero() {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="card-minimal flex flex-col items-center hover-lift group"
+                className="card-minimal flex flex-col items-center hover-lift group relative overflow-hidden"
                 role="listitem"
                 style={{ animationDelay: `${0.9 + index * 0.1}s` }}
               >
-                <stat.icon className="h-6 w-6 md:h-8 md:w-8 text-primary mb-2 md:mb-3 group-hover:scale-110 transition-transform" aria-hidden="true" />
-                <span className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
-                  <AnimatedCounter 
-                    end={stat.value} 
-                    suffix={stat.suffix} 
-                    decimals={stat.decimals || 0}
-                    duration={2500}
-                  />
-                </span>
-                <span className="text-xs md:text-sm text-muted-foreground mt-1">{stat.label}</span>
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true" />
+                
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="relative mb-2 md:mb-3">
+                    <stat.icon className="h-6 w-6 md:h-8 md:w-8 text-primary group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
+                    <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500" aria-hidden="true" />
+                  </div>
+                  <span className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
+                    <AnimatedCounter 
+                      end={stat.value} 
+                      suffix={stat.suffix} 
+                      decimals={stat.decimals || 0}
+                      duration={2500}
+                    />
+                  </span>
+                  <span className="text-xs md:text-sm text-muted-foreground mt-1 group-hover:text-foreground transition-colors duration-300">{stat.label}</span>
+                </div>
               </div>
             ))}
           </div>

@@ -155,14 +155,9 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-xs text-muted-foreground text-center sm:text-left">
-              © {currentYear} Depirai. {t.footer.rights}
-            </p>
-            <p className="text-xs text-muted-foreground flex items-center gap-2">
-              Powered by <span className="text-primary font-medium">Gemini AI</span>
-            </p>
-          </div>
+          <p className="text-xs text-muted-foreground text-center">
+            © {currentYear} Depirai. {t.footer.rights}
+          </p>
         </div>
       </div>
     </footer>
