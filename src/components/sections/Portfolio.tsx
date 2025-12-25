@@ -5,13 +5,13 @@ import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { portfolioCases, PortfolioCase } from '@/data/portfolio';
 import { AnimatedSection } from '@/components/features/AnimatedSection';
+import { LazyImage } from '@/components/ui/LazyImage';
 
 type FilterType = 'all' | 'infra' | 'data';
 
 export function Portfolio() {
   const { language, t } = useLanguage();
   const [filter, setFilter] = useState<FilterType>('all');
-  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   const filters: { key: FilterType; label: string }[] = [
     { key: 'all', label: t.portfolio.filters.all },
@@ -24,10 +24,6 @@ export function Portfolio() {
     : portfolioCases.filter((c) => c.category === filter);
 
   const sortedCases = [...filteredCases].sort((a, b) => (b.premium ? 1 : 0) - (a.premium ? 1 : 0));
-
-  const handleImageLoad = (id: string) => {
-    setLoadedImages(prev => ({ ...prev, [id]: true }));
-  };
 
   return (
     <section id="portfolio" className="section-padding" aria-labelledby="portfolio-title">
@@ -78,15 +74,14 @@ export function Portfolio() {
               )}
 
               {/* Image */}
-              <div className={`relative h-40 md:h-48 overflow-hidden ${!loadedImages[item.id] ? 'img-loading' : ''}`}>
-                <img
+              <div className="relative h-40 md:h-48 overflow-hidden">
+                <LazyImage
                   src={item.image}
                   alt={`Projeto ${item.title} - ${item.company}`}
-                  className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${loadedImages[item.id] ? 'opacity-100' : 'opacity-0'}`}
-                  loading="lazy"
-                  onLoad={() => handleImageLoad(item.id)}
+                  containerClassName="w-full h-full"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" aria-hidden="true" />
+                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent pointer-events-none" aria-hidden="true" />
               </div>
 
               {/* Content */}

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Linkedin, Award, Server, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import diegoPhoto from '@/assets/diego.jpeg';
 import emersonPhoto from '@/assets/emerson.jpeg';
 import { AnimatedSection } from '@/components/features/AnimatedSection';
+import { LazyImage } from '@/components/ui/LazyImage';
 
 export function About() {
   const { t } = useLanguage();
-  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   const team = [
     {
@@ -29,10 +29,6 @@ export function About() {
       focus: 'BI & Governança',
     },
   ];
-
-  const handleImageLoad = (id: string) => {
-    setLoadedImages(prev => ({ ...prev, [id]: true }));
-  };
 
   return (
     <section id="about" className="section-padding bg-muted/30" aria-labelledby="about-title">
@@ -62,15 +58,12 @@ export function About() {
                 <article className="card-minimal hover-lift group">
                 {/* Avatar with Icon Badge */}
                 <div className="relative w-24 h-24 md:w-28 md:h-28 mx-auto mb-5 md:mb-6">
-                  <div className={`w-full h-full rounded-full ${!loadedImages[member.id] ? 'img-loading' : ''}`}>
-                    <img
-                      src={member.image}
-                      alt={`Foto de ${memberInfo.name}`}
-                      className={`w-full h-full rounded-full object-cover ring-4 ring-primary/20 group-hover:ring-primary/40 transition-all ${loadedImages[member.id] ? 'opacity-100' : 'opacity-0'}`}
-                      loading="lazy"
-                      onLoad={() => handleImageLoad(member.id)}
-                    />
-                  </div>
+                  <LazyImage
+                    src={member.image}
+                    alt={`Foto de ${memberInfo.name}`}
+                    containerClassName="w-full h-full rounded-full"
+                    className="w-full h-full rounded-full object-cover ring-4 ring-primary/20 group-hover:ring-primary/40 transition-all"
+                  />
                   <div className="absolute -bottom-2 -right-2 w-8 h-8 md:w-10 md:h-10 bg-primary rounded-full flex items-center justify-center shadow-lg" aria-hidden="true">
                     <IconComponent className="h-4 w-4 md:h-5 md:w-5 text-primary-foreground" />
                   </div>

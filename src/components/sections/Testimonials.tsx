@@ -3,6 +3,7 @@ import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { AnimatedSection } from '@/components/features/AnimatedSection';
+import { LazyImage } from '@/components/ui/LazyImage';
 
 const testimonials = [
   {
@@ -118,11 +119,11 @@ export function Testimonials() {
                     
                     {/* Author */}
                     <div className="flex items-center justify-center gap-3 md:gap-4">
-                      <img
+                      <LazyImage
                         src={testimonial.avatar}
                         alt={`Foto de ${testimonial.name}`}
-                        className="w-12 h-12 md:w-14 md:h-14 rounded-full object-cover ring-2 ring-primary/20"
-                        loading="lazy"
+                        containerClassName="w-12 h-12 md:w-14 md:h-14 rounded-full flex-shrink-0"
+                        className="w-full h-full rounded-full object-cover ring-2 ring-primary/20"
                       />
                       <div className="text-left">
                         <cite className="font-display font-semibold text-foreground not-italic text-sm md:text-base">
