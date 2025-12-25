@@ -81,7 +81,11 @@ export function Services() {
               {category.items.map((service, index) => (
                 <article
                   key={index}
-                  className="group relative bg-card rounded-2xl p-5 md:p-6 shadow-card border border-border card-hover overflow-hidden"
+                  className="group relative bg-card rounded-2xl p-5 md:p-6 shadow-card border border-border card-hover overflow-hidden animate-fade-in"
+                  style={{ 
+                    animationDelay: `${index * 100}ms`,
+                    animationFillMode: 'both'
+                  }}
                 >
                   {/* Background Gradient */}
                   <div
@@ -89,9 +93,19 @@ export function Services() {
                     aria-hidden="true"
                   />
 
+                  {/* Animated border on hover */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 rounded-2xl border-2 border-primary/30 animate-pulse" />
+                  </div>
+
                   <div className="relative z-10">
+                    {/* Service number badge */}
+                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+
                     {/* Title */}
-                    <h3 className="font-display text-lg md:text-xl font-semibold text-foreground mb-2 md:mb-3">
+                    <h3 className="font-display text-lg md:text-xl font-semibold text-foreground mb-2 md:mb-3 group-hover:text-primary transition-colors duration-300">
                       {service.title}
                     </h3>
 
@@ -110,15 +124,15 @@ export function Services() {
                     {/* Features */}
                     <ul className="space-y-1.5 md:space-y-2 mb-5 md:mb-6" aria-label="Recursos inclusos">
                       {service.features.map((feature, i) => (
-                        <li key={i} className="flex items-center gap-2 text-xs md:text-sm text-foreground">
-                          <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-primary flex-shrink-0" aria-hidden="true" />
+                        <li key={i} className="flex items-center gap-2 text-xs md:text-sm text-foreground group-hover:translate-x-1 transition-transform duration-300" style={{ transitionDelay: `${i * 50}ms` }}>
+                          <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-primary flex-shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
                           <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
 
                     {/* CTA */}
-                    <Button variant="outline" size="sm" className="group/btn w-full text-xs md:text-sm focus-ring" asChild>
+                    <Button variant="outline" size="sm" className="group/btn w-full text-xs md:text-sm focus-ring hover:bg-primary hover:text-primary-foreground hover:border-primary" asChild>
                       <a href="#contact">
                         Solicitar Orçamento
                         <ArrowRight className="ml-2 h-3 w-3 md:h-4 md:w-4 group-hover/btn:translate-x-1 transition-transform" aria-hidden="true" />
