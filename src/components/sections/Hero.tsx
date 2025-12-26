@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { ArrowRight, Server, BarChart3, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { useScrollY } from '@/hooks/useParallax';
+import { ParticleBackground, GradientOrbs } from '@/components/features/ParticleBackground';
 
 export function Hero() {
   const { t } = useLanguage();
@@ -21,8 +22,23 @@ export function Hero() {
       className="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden"
       aria-labelledby="hero-title"
     >
-      {/* Background Elements with Parallax */}
+      {/* Background Gradient */}
       <div className="absolute inset-0 bg-hero-gradient" aria-hidden="true" />
+      
+      {/* Interactive Particle Background */}
+      <div className="absolute inset-0" aria-hidden="true">
+        <ParticleBackground 
+          particleCount={40}
+          speed={0.4}
+          connectionDistance={100}
+          interactive={true}
+        />
+      </div>
+
+      {/* Gradient Orbs */}
+      <GradientOrbs className="opacity-60" />
+      
+      {/* Parallax Blur Elements */}
       <div 
         className="absolute top-1/4 right-0 w-64 md:w-96 h-64 md:h-96 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl transition-transform duration-100" 
         style={{ transform: `translateY(${parallaxOffset * 0.5}px)` }}
