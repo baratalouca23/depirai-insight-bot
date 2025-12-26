@@ -73,7 +73,7 @@ export default function PrivacidadePage() {
               <section className="card-minimal animate-fade-in-up" style={{ animationDelay: '100ms' }}>
                 <h2 className="font-display text-xl md:text-2xl font-bold text-foreground mb-4">1. Introdução</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  A Depirai, sediada em Guarapuava - PR, está comprometida em proteger sua privacidade. 
+                  A Depirai, sediada em Pirai do Sul - PR, está comprometida em proteger sua privacidade. 
                   Esta Política de Privacidade explica como coletamos, usamos, divulgamos e protegemos suas informações 
                   pessoais em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).
                 </p>
