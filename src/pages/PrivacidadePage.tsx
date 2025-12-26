@@ -1,42 +1,79 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Shield, Mail } from 'lucide-react';
+import { ArrowLeft, Shield, Mail, ChevronRight, Lock, Eye, Database, Users } from 'lucide-react';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { cn } from '@/lib/utils';
 
 export default function PrivacidadePage() {
+  const { ref: heroRef, isVisible: heroVisible } = useIntersectionObserver({ threshold: 0.2 });
+
+  const highlights = [
+    { icon: Lock, label: 'Dados Criptografados', desc: 'SSL/TLS em todas as comunicações' },
+    { icon: Eye, label: 'Transparência Total', desc: 'Você sabe como usamos seus dados' },
+    { icon: Database, label: 'Armazenamento Seguro', desc: 'Backups criptografados' },
+    { icon: Users, label: 'LGPD Compliant', desc: 'Conformidade total com a lei' },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
       <main className="pt-24 pb-16">
         <div className="section-container max-w-4xl">
-          {/* Back Button */}
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            Voltar ao início
-          </Link>
+          {/* Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="mb-6">
+            <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+              <li>
+                <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+              </li>
+              <ChevronRight className="h-4 w-4" />
+              <li className="text-foreground font-medium">Política de Privacidade</li>
+            </ol>
+          </nav>
 
           {/* Header */}
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-4">
-              <Shield className="h-8 w-8 text-primary" />
-              <h1 className="font-display text-4xl font-bold text-foreground">
-                Política de Privacidade
-              </h1>
-            </div>
-            <p className="text-muted-foreground">
+          <div 
+            ref={heroRef}
+            className={cn(
+              "mb-8 transition-all duration-700",
+              heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            )}
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <Shield className="h-4 w-4" />
+              Privacidade
+            </span>
+            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              Política de Privacidade
+            </h1>
+            <p className="text-muted-foreground text-lg mb-8">
               Última atualização: Dezembro 2024
             </p>
+
+            {/* Highlights Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              {highlights.map((item, index) => (
+                <div 
+                  key={index}
+                  className="bg-card border border-border rounded-xl p-4 text-center hover:border-primary/50 transition-colors"
+                >
+                  <item.icon className="h-6 w-6 text-primary mx-auto mb-2" />
+                  <p className="font-medium text-foreground text-sm">{item.label}</p>
+                  <p className="text-xs text-muted-foreground">{item.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Content */}
           <div className="prose prose-slate dark:prose-invert max-w-none">
-            <div className="space-y-8">
-              <section>
-                <h2 className="font-display text-2xl font-bold text-foreground mb-4">1. Introdução</h2>
+            <div className="space-y-6">
+              <section className="card-minimal animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+                <h2 className="font-display text-xl md:text-2xl font-bold text-foreground mb-4">1. Introdução</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  A Depirai, sediada em Piraí do Sul - PR, está comprometida em proteger sua privacidade. 
+                  A Depirai, sediada em Guarapuava - PR, está comprometida em proteger sua privacidade. 
                   Esta Política de Privacidade explica como coletamos, usamos, divulgamos e protegemos suas informações 
                   pessoais em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).
                 </p>

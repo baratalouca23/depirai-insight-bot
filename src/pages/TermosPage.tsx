@@ -1,31 +1,47 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, FileText, Mail } from 'lucide-react';
+import { ArrowLeft, FileText, Mail, ChevronRight } from 'lucide-react';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { cn } from '@/lib/utils';
 
 export default function TermosPage() {
+  const { ref: heroRef, isVisible: heroVisible } = useIntersectionObserver({ threshold: 0.2 });
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
       <main className="pt-24 pb-16">
         <div className="section-container max-w-4xl">
-          {/* Back Button */}
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors">
-            <ArrowLeft className="h-4 w-4" />
-            Voltar ao início
-          </Link>
+          {/* Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="mb-6">
+            <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+              <li>
+                <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+              </li>
+              <ChevronRight className="h-4 w-4" />
+              <li className="text-foreground font-medium">Termos de Serviço</li>
+            </ol>
+          </nav>
 
           {/* Header */}
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-4">
-              <FileText className="h-8 w-8 text-primary" />
-              <h1 className="font-display text-4xl font-bold text-foreground">
-                Termos de Serviço
-              </h1>
-            </div>
-            <p className="text-muted-foreground">
+          <div 
+            ref={heroRef}
+            className={cn(
+              "mb-12 transition-all duration-700",
+              heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            )}
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <FileText className="h-4 w-4" />
+              Legal
+            </span>
+            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              Termos de Serviço
+            </h1>
+            <p className="text-muted-foreground text-lg">
               Última atualização: Dezembro 2024
             </p>
           </div>
@@ -33,26 +49,44 @@ export default function TermosPage() {
           {/* Content */}
           <div className="prose prose-slate dark:prose-invert max-w-none">
             <div className="space-y-8">
-              <section>
-                <h2 className="font-display text-2xl font-bold text-foreground mb-4">1. Aceitação dos Termos</h2>
+              <section className="card-minimal animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+                <h2 className="font-display text-xl md:text-2xl font-bold text-foreground mb-4">1. Aceitação dos Termos</h2>
                 <p className="text-muted-foreground leading-relaxed">
                   Ao acessar e utilizar os serviços da Depirai, você concorda com estes Termos de Serviço. 
                   Se você não concordar com qualquer parte destes termos, não utilize nossos serviços.
                 </p>
               </section>
 
-              <section>
-                <h2 className="font-display text-2xl font-bold text-foreground mb-4">2. Descrição dos Serviços</h2>
+              <section className="card-minimal animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+                <h2 className="font-display text-xl md:text-2xl font-bold text-foreground mb-4">2. Descrição dos Serviços</h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
                   A Depirai oferece serviços de consultoria e desenvolvimento em Tecnologia da Informação, incluindo:
                 </p>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                  <li>Infraestrutura de servidores Linux (HA, hardening, monitoramento)</li>
-                  <li>Business Intelligence e dashboards (Power BI, ETL)</li>
-                  <li>Desenvolvimento web fullstack (React, PHP, Node.js)</li>
-                  <li>Consultoria em redução de TCO e governança de TI</li>
-                  <li>Segurança da informação e conformidade LGPD</li>
-                  <li>Cloud computing e DevOps (AWS, Azure, Kubernetes)</li>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-muted-foreground">
+                  <li className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Infraestrutura Linux HA
+                  </li>
+                  <li className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Business Intelligence
+                  </li>
+                  <li className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Desenvolvimento Web
+                  </li>
+                  <li className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Consultoria TCO
+                  </li>
+                  <li className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Segurança LGPD
+                  </li>
+                  <li className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2 text-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    Cloud & DevOps
+                  </li>
                 </ul>
               </section>
 
