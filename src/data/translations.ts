@@ -181,6 +181,10 @@ export const translations = {
       protanopia: 'Protanopia',
       deuteranopia: 'Deuteranopia',
       tritanopia: 'Tritanopia',
+      fontSize: 'Tamanho da Fonte',
+      readingMode: 'Modo Leitura',
+      reducedMotion: 'Reduzir Animações',
+      reset: 'Restaurar Padrão',
     },
     cookie: {
       message: 'Utilizamos cookies para melhorar sua experiência. Ao continuar, você concorda com nossa política de privacidade.',
@@ -368,6 +372,10 @@ export const translations = {
       protanopia: 'Protanopia',
       deuteranopia: 'Deuteranopia',
       tritanopia: 'Tritanopia',
+      fontSize: 'Font Size',
+      readingMode: 'Reading Mode',
+      reducedMotion: 'Reduce Motion',
+      reset: 'Reset to Default',
     },
     cookie: {
       message: 'We use cookies to improve your experience. By continuing, you agree to our privacy policy.',
@@ -555,6 +563,10 @@ export const translations = {
       protanopia: 'Protanopia',
       deuteranopia: 'Deuteranopia',
       tritanopia: 'Tritanopia',
+      fontSize: 'Tamaño de Fuente',
+      readingMode: 'Modo Lectura',
+      reducedMotion: 'Reducir Animaciones',
+      reset: 'Restaurar por Defecto',
     },
     cookie: {
       message: 'Usamos cookies para mejorar tu experiencia. Al continuar, aceptas nuestra política de privacidad.',

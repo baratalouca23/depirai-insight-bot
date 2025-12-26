@@ -522,3 +522,66 @@
 .tritanopia {
   filter: url('#tritanopia-filter');
 }
+
+/* Font size accessibility */
+.font-size-normal {
+  font-size: 100%;
+}
+
+.font-size-large {
+  font-size: 112.5%;
+}
+
+.font-size-larger {
+  font-size: 125%;
+}
+
+/* Reading mode - improved readability */
+.reading-mode {
+  --background: 45 30% 96%;
+  --foreground: 30 10% 20%;
+  --card: 45 25% 98%;
+  --muted-foreground: 30 8% 40%;
+  letter-spacing: 0.02em;
+  line-height: 1.8;
+}
+
+.reading-mode h1,
+.reading-mode h2,
+.reading-mode h3,
+.reading-mode h4,
+.reading-mode h5,
+.reading-mode h6 {
+  letter-spacing: 0.01em;
+}
+
+.reading-mode p,
+.reading-mode li,
+.reading-mode span {
+  max-width: 70ch;
+}
+
+.dark.reading-mode,
+.dark .reading-mode {
+  --background: 30 15% 10%;
+  --foreground: 45 20% 90%;
+  --card: 30 12% 12%;
+  --muted-foreground: 45 10% 65%;
+}
+
+/* Reduced motion preference */
+.reduced-motion,
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.1ms !important;
+  scroll-behavior: auto !important;
+}
+
+.reduced-motion .animate-pulse,
+.reduced-motion .animate-bounce,
+.reduced-motion .animate-spin {
+  animation: none !important;
+}
