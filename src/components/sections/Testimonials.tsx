@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { Quote, ChevronLeft, ChevronRight, Star, MessageSquare } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
-import { AnimatedSection } from '@/components/features/AnimatedSection';
 import { LazyImage } from '@/components/ui/LazyImage';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { cn } from '@/lib/utils';
 
 const testimonials = [
   {
@@ -51,6 +52,8 @@ export function Testimonials() {
   const { language, t } = useLanguage();
   const [current, setCurrent] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const { ref: headerRef, isVisible: headerVisible } = useIntersectionObserver({ threshold: 0.2 });
+  const { ref: carouselRef, isVisible: carouselVisible } = useIntersectionObserver({ threshold: 0.1 });
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -77,20 +80,34 @@ export function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="section-padding" aria-labelledby="testimonials-title">
+    <section id="testimonials" className="section-padding bg-muted/20" aria-labelledby="testimonials-title">
       <div className="section-container">
         {/* Header */}
-        <AnimatedSection animation="fade-up">
-          <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-            <h2 id="testimonials-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
-              {titles[language].title}
-            </h2>
-            <p className="text-sm md:text-lg text-muted-foreground">{titles[language].subtitle}</p>
-          </header>
-        </AnimatedSection>
+        <header 
+          ref={headerRef}
+          className={cn(
+            "text-center max-w-2xl mx-auto mb-10 md:mb-12 transition-all duration-700",
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <MessageSquare className="h-4 w-4" />
+            Depoimentos
+          </span>
+          <h2 id="testimonials-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
+            {titles[language].title}
+          </h2>
+          <p className="text-sm md:text-lg text-muted-foreground">{titles[language].subtitle}</p>
+        </header>
 
         {/* Testimonial Carousel */}
-        <div className="relative max-w-4xl mx-auto">
+        <div 
+          ref={carouselRef}
+          className={cn(
+            "relative max-w-4xl mx-auto transition-all duration-700",
+            carouselVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+        >
           <div className="overflow-hidden">
             <div
               className="flex transition-transform duration-500 ease-out"
