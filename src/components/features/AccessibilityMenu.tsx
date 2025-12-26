@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Accessibility, X, Check } from 'lucide-react';
+import { Accessibility, X, Check, Type, BookOpen, Zap, Contrast, Eye, Minus, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { Separator } from '@/components/ui/separator';
 
 export function AccessibilityMenu() {
   const { t } = useLanguage();
@@ -15,6 +16,12 @@ export function AccessibilityMenu() {
     toggleHighContrast,
     colorBlindMode,
     setColorBlindMode,
+    fontSize,
+    setFontSize,
+    isReadingMode,
+    toggleReadingMode,
+    isReducedMotion,
+    toggleReducedMotion,
   } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,6 +30,12 @@ export function AccessibilityMenu() {
     { value: 'protanopia', label: t.accessibility.protanopia },
     { value: 'deuteranopia', label: t.accessibility.deuteranopia },
     { value: 'tritanopia', label: t.accessibility.tritanopia },
+  ] as const;
+
+  const fontSizeOptions = [
+    { value: 'normal', label: 'A', size: 'text-sm' },
+    { value: 'large', label: 'A', size: 'text-base' },
+    { value: 'larger', label: 'A', size: 'text-lg' },
   ] as const;
 
   return (
@@ -45,12 +58,13 @@ export function AccessibilityMenu() {
       {/* Menu Panel */}
       {isOpen && (
         <div
-          className="fixed bottom-32 left-4 md:bottom-20 md:left-6 z-50 w-[calc(100vw-2rem)] max-w-72 bg-card/95 backdrop-blur-md rounded-2xl shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.15)] border border-border p-5 animate-scale-in origin-bottom-left"
+          className="fixed bottom-32 left-4 md:bottom-20 md:left-6 z-50 w-[calc(100vw-2rem)] max-w-80 bg-card/95 backdrop-blur-md rounded-2xl shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.15)] border border-border p-5 animate-scale-in origin-bottom-left max-h-[70vh] overflow-y-auto"
           role="dialog"
           aria-label={t.accessibility.title}
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-display font-semibold text-foreground">
+            <h3 className="font-display font-semibold text-foreground flex items-center gap-2">
+              <Accessibility className="h-4 w-4 text-primary" />
               {t.accessibility.title}
             </h3>
             <Button
@@ -65,21 +79,62 @@ export function AccessibilityMenu() {
           </div>
 
           <div className="space-y-4">
-            {/* Dyslexic Font */}
+            {/* Font Size */}
+            <div className="space-y-2">
+              <Label className="text-sm flex items-center gap-2">
+                <Type className="h-4 w-4 text-muted-foreground" />
+                {t.accessibility.fontSize || 'Tamanho da Fonte'}
+              </Label>
+              <div className="flex items-center gap-2 bg-muted/50 rounded-lg p-1">
+                {fontSizeOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => setFontSize(option.value)}
+                    className={`flex-1 flex items-center justify-center py-2 rounded-md font-medium transition-all ${option.size} ${
+                      fontSize === option.value
+                        ? 'bg-primary text-primary-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    }`}
+                    aria-label={`Tamanho ${option.value}`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <Separator className="my-3" />
+
+            {/* Reading Mode */}
             <div className="flex items-center justify-between">
-              <Label htmlFor="dyslexic-font" className="text-sm">
-                {t.accessibility.dyslexicFont}
+              <Label htmlFor="reading-mode" className="text-sm flex items-center gap-2">
+                <BookOpen className="h-4 w-4 text-muted-foreground" />
+                {t.accessibility.readingMode || 'Modo Leitura'}
               </Label>
               <Switch
-                id="dyslexic-font"
-                checked={isDyslexicFont}
-                onCheckedChange={toggleDyslexicFont}
+                id="reading-mode"
+                checked={isReadingMode}
+                onCheckedChange={toggleReadingMode}
+              />
+            </div>
+
+            {/* Reduced Motion */}
+            <div className="flex items-center justify-between">
+              <Label htmlFor="reduced-motion" className="text-sm flex items-center gap-2">
+                <Zap className="h-4 w-4 text-muted-foreground" />
+                {t.accessibility.reducedMotion || 'Reduzir Animações'}
+              </Label>
+              <Switch
+                id="reduced-motion"
+                checked={isReducedMotion}
+                onCheckedChange={toggleReducedMotion}
               />
             </div>
 
             {/* High Contrast */}
             <div className="flex items-center justify-between">
-              <Label htmlFor="high-contrast" className="text-sm">
+              <Label htmlFor="high-contrast" className="text-sm flex items-center gap-2">
+                <Contrast className="h-4 w-4 text-muted-foreground" />
                 {t.accessibility.highContrast}
               </Label>
               <Switch
@@ -89,15 +144,33 @@ export function AccessibilityMenu() {
               />
             </div>
 
+            {/* Dyslexic Font */}
+            <div className="flex items-center justify-between">
+              <Label htmlFor="dyslexic-font" className="text-sm flex items-center gap-2">
+                <Type className="h-4 w-4 text-muted-foreground" />
+                {t.accessibility.dyslexicFont}
+              </Label>
+              <Switch
+                id="dyslexic-font"
+                checked={isDyslexicFont}
+                onCheckedChange={toggleDyslexicFont}
+              />
+            </div>
+
+            <Separator className="my-3" />
+
             {/* Color Blind Mode */}
             <div className="space-y-2">
-              <Label className="text-sm">{t.accessibility.colorBlind}</Label>
+              <Label className="text-sm flex items-center gap-2">
+                <Eye className="h-4 w-4 text-muted-foreground" />
+                {t.accessibility.colorBlind}
+              </Label>
               <div className="grid grid-cols-2 gap-2">
                 {colorBlindOptions.map((option) => (
                   <button
                     key={option.value}
                     onClick={() => setColorBlindMode(option.value)}
-                    className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                    className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
                       colorBlindMode === option.value
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted text-foreground hover:bg-muted/80'
@@ -109,6 +182,23 @@ export function AccessibilityMenu() {
                 ))}
               </div>
             </div>
+
+            {/* Reset Button */}
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full mt-4"
+              onClick={() => {
+                setFontSize('normal');
+                setColorBlindMode('normal');
+                if (isHighContrast) toggleHighContrast();
+                if (isDyslexicFont) toggleDyslexicFont();
+                if (isReadingMode) toggleReadingMode();
+                if (isReducedMotion) toggleReducedMotion();
+              }}
+            >
+              {t.accessibility.reset || 'Restaurar Padrão'}
+            </Button>
           </div>
         </div>
       )}

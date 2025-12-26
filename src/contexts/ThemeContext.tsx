@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 type Theme = 'light' | 'dark';
 type ColorBlindMode = 'normal' | 'protanopia' | 'deuteranopia' | 'tritanopia';
+type FontSize = 'normal' | 'large' | 'larger';
 
 interface ThemeContextType {
   theme: Theme;
@@ -12,6 +13,12 @@ interface ThemeContextType {
   toggleHighContrast: () => void;
   colorBlindMode: ColorBlindMode;
   setColorBlindMode: (mode: ColorBlindMode) => void;
+  fontSize: FontSize;
+  setFontSize: (size: FontSize) => void;
+  isReadingMode: boolean;
+  toggleReadingMode: () => void;
+  isReducedMotion: boolean;
+  toggleReducedMotion: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -21,14 +28,24 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [isDyslexicFont, setIsDyslexicFont] = useState(false);
   const [isHighContrast, setIsHighContrast] = useState(false);
   const [colorBlindMode, setColorBlindMode] = useState<ColorBlindMode>('normal');
+  const [fontSize, setFontSize] = useState<FontSize>('normal');
+  const [isReadingMode, setIsReadingMode] = useState(false);
+  const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as Theme | null;
+    const savedFontSize = localStorage.getItem('fontSize') as FontSize | null;
+    const savedReadingMode = localStorage.getItem('readingMode') === 'true';
+    const savedReducedMotion = localStorage.getItem('reducedMotion') === 'true';
+    
     if (savedTheme) {
       setTheme(savedTheme);
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setTheme('dark');
     }
+    if (savedFontSize) setFontSize(savedFontSize);
+    if (savedReadingMode) setIsReadingMode(true);
+    if (savedReducedMotion) setIsReducedMotion(true);
   }, []);
 
   useEffect(() => {
@@ -51,19 +68,33 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, [colorBlindMode]);
 
+  useEffect(() => {
+    document.body.classList.remove('font-size-normal', 'font-size-large', 'font-size-larger');
+    document.body.classList.add(`font-size-${fontSize}`);
+    localStorage.setItem('fontSize', fontSize);
+  }, [fontSize]);
+
+  useEffect(() => {
+    document.body.classList.toggle('reading-mode', isReadingMode);
+    localStorage.setItem('readingMode', String(isReadingMode));
+  }, [isReadingMode]);
+
+  useEffect(() => {
+    document.body.classList.toggle('reduced-motion', isReducedMotion);
+    localStorage.setItem('reducedMotion', String(isReducedMotion));
+  }, [isReducedMotion]);
+
   const toggleTheme = () => {
-    // Add transition class for smooth theme change
     document.documentElement.classList.add('theme-transition');
-    
     setTheme(t => t === 'light' ? 'dark' : 'light');
-    
-    // Remove transition class after animation completes
     setTimeout(() => {
       document.documentElement.classList.remove('theme-transition');
     }, 500);
   };
   const toggleDyslexicFont = () => setIsDyslexicFont(v => !v);
   const toggleHighContrast = () => setIsHighContrast(v => !v);
+  const toggleReadingMode = () => setIsReadingMode(v => !v);
+  const toggleReducedMotion = () => setIsReducedMotion(v => !v);
 
   return (
     <ThemeContext.Provider value={{
@@ -75,6 +106,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       toggleHighContrast,
       colorBlindMode,
       setColorBlindMode,
+      fontSize,
+      setFontSize,
+      isReadingMode,
+      toggleReadingMode,
+      isReducedMotion,
+      toggleReducedMotion,
     }}>
       {children}
     </ThemeContext.Provider>
