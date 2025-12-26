@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { ImageIcon } from 'lucide-react';
 
 interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   containerClassName?: string;
   placeholderClassName?: string;
-  blurPlaceholder?: boolean;
+  showIcon?: boolean;
 }
 
 export function LazyImage({
@@ -15,7 +16,7 @@ export function LazyImage({
   className,
   containerClassName,
   placeholderClassName,
-  blurPlaceholder = true,
+  showIcon = true,
   ...props
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -34,7 +35,7 @@ export function LazyImage({
           observer.unobserve(element);
         }
       },
-      { rootMargin: '100px', threshold: 0.01 }
+      { rootMargin: '200px', threshold: 0.01 }
     );
 
     observer.observe(element);
@@ -46,23 +47,35 @@ export function LazyImage({
       ref={imgRef}
       className={cn('relative overflow-hidden', containerClassName)}
     >
-      {/* Skeleton placeholder */}
+      {/* Skeleton placeholder with shimmer */}
       {!isLoaded && !hasError && (
         <div 
           className={cn(
-            'absolute inset-0 bg-muted animate-pulse',
-            blurPlaceholder && 'backdrop-blur-sm',
+            'absolute inset-0 bg-muted',
             placeholderClassName
           )}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/5 to-transparent animate-shimmer" />
+          {/* Shimmer animation */}
+          <div 
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/[0.08] to-transparent animate-shimmer"
+            style={{ backgroundSize: '200% 100%' }}
+          />
+          {/* Center icon */}
+          {showIcon && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <ImageIcon className="h-8 w-8 text-muted-foreground/30" />
+            </div>
+          )}
         </div>
       )}
       
       {/* Error state */}
       {hasError && (
         <div className="absolute inset-0 bg-muted flex items-center justify-center">
-          <span className="text-muted-foreground text-xs">Erro</span>
+          <div className="text-center">
+            <ImageIcon className="h-6 w-6 text-muted-foreground/50 mx-auto mb-1" />
+            <span className="text-muted-foreground text-xs">Erro</span>
+          </div>
         </div>
       )}
       
@@ -74,7 +87,7 @@ export function LazyImage({
           loading="lazy"
           decoding="async"
           className={cn(
-            'transition-opacity duration-500',
+            'transition-opacity duration-500 ease-out',
             isLoaded ? 'opacity-100' : 'opacity-0',
             className
           )}
