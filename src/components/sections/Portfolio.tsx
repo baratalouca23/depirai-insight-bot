@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { ExternalLink, Star } from 'lucide-react';
+import { ExternalLink, Star, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { portfolioCases, PortfolioCase } from '@/data/portfolio';
-import { AnimatedSection } from '@/components/features/AnimatedSection';
 import { LazyImage } from '@/components/ui/LazyImage';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { cn } from '@/lib/utils';
 
 type FilterType = 'all' | 'infra' | 'data';
 
 export function Portfolio() {
   const { language, t } = useLanguage();
   const [filter, setFilter] = useState<FilterType>('all');
+  const { ref: headerRef, isVisible: headerVisible } = useIntersectionObserver({ threshold: 0.2 });
+  const { ref: gridRef, isVisible: gridVisible } = useIntersectionObserver({ threshold: 0.1 });
 
   const filters: { key: FilterType; label: string }[] = [
     { key: 'all', label: t.portfolio.filters.all },
@@ -29,14 +32,22 @@ export function Portfolio() {
     <section id="portfolio" className="section-padding" aria-labelledby="portfolio-title">
       <div className="section-container">
         {/* Header */}
-        <AnimatedSection animation="fade-up">
-          <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-            <h2 id="portfolio-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
-              {t.portfolio.title}
-            </h2>
-            <p className="text-sm md:text-lg text-muted-foreground">{t.portfolio.subtitle}</p>
-          </header>
-        </AnimatedSection>
+        <header 
+          ref={headerRef}
+          className={cn(
+            "text-center max-w-2xl mx-auto mb-10 md:mb-12 transition-all duration-700",
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+        >
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <Briefcase className="h-4 w-4" />
+            Portfólio
+          </span>
+          <h2 id="portfolio-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
+            {t.portfolio.title}
+          </h2>
+          <p className="text-sm md:text-lg text-muted-foreground">{t.portfolio.subtitle}</p>
+        </header>
 
         {/* Filters */}
         <nav className="flex flex-wrap justify-center gap-2 md:gap-3 mb-10 md:mb-12" aria-label="Filtrar projetos">
@@ -55,13 +66,16 @@ export function Portfolio() {
         </nav>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
-          {sortedCases.map((item: PortfolioCase) => (
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
+          {sortedCases.map((item: PortfolioCase, index) => (
             <article
               key={item.id}
-              className={`group relative bg-card rounded-2xl overflow-hidden shadow-[0_2px_8px_-2px_hsl(var(--foreground)/0.08)] border border-border/50 transition-all duration-300 hover:shadow-[0_8px_24px_-8px_hsl(var(--foreground)/0.12)] hover:-translate-y-1 ${
-                item.premium ? 'ring-2 ring-primary/50' : ''
-              }`}
+              className={cn(
+                `group relative bg-card rounded-2xl overflow-hidden shadow-[0_2px_8px_-2px_hsl(var(--foreground)/0.08)] border border-border/50 transition-all duration-500 hover:shadow-[0_8px_24px_-8px_hsl(var(--foreground)/0.12)] hover:-translate-y-1`,
+                item.premium ? 'ring-2 ring-primary/50' : '',
+                gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}
+              style={{ transitionDelay: gridVisible ? `${index * 100}ms` : '0ms' }}
             >
               {/* Premium Badge */}
               {item.premium && (
