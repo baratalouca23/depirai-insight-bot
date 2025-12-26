@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Linkedin, Mail, MessageCircle, MapPin, Phone, ArrowUp } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from './button';
+import logo from '@/assets/logo.png';
 
 export function Footer() {
   const { t } = useLanguage();
@@ -28,9 +29,9 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <a href="#" className="font-display font-bold text-2xl text-primary inline-block">
-              Depirai
-            </a>
+            <Link to="/" className="inline-block">
+              <img src={logo} alt="Depirai" className="h-10 w-auto" />
+            </Link>
             <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
               {t.footer.description}
             </p>
