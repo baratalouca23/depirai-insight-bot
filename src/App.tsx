@@ -8,6 +8,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { PageLoading } from "@/components/ui/PageLoading";
 import { SmoothScrollProvider } from "@/components/features/SmoothScroll";
+import { CustomCursor } from "@/components/features/CustomCursor";
 
 // Lazy load pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -26,6 +27,7 @@ const App = () => (
     <ThemeProvider>
       <LanguageProvider>
         <TooltipProvider>
+          <CustomCursor />
           <Toaster />
           <Sonner />
           <BrowserRouter>
