@@ -110,10 +110,11 @@ export function FAQ() {
     <section id="faq" className="section-padding bg-muted/30" aria-labelledby="faq-title">
       <div className="section-container">
         {/* Header */}
-        <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-          <div className="inline-flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-full bg-primary/10 mb-4" aria-hidden="true">
-            <HelpCircle className="h-6 w-6 md:h-7 md:w-7 text-primary" />
-          </div>
+        <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12 animate-fade-in-up">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <HelpCircle className="h-4 w-4" />
+            FAQ
+          </span>
           <h2 id="faq-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
             {content.title}
           </h2>

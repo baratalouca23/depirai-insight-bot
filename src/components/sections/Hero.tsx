@@ -55,7 +55,7 @@ export function Hero() {
             style={{ animation: 'fadeInUp 0.8s ease-out forwards' }}
           >
             {t.hero.title}{' '}
-            <span className="gradient-text inline-block" style={{ animation: 'fadeInUp 0.8s ease-out 0.2s forwards', opacity: 0 }}>
+            <span className="gradient-text text-glow inline-block" style={{ animation: 'fadeInUp 0.8s ease-out 0.2s forwards, gradientShift 3s ease-in-out infinite', opacity: 0 }}>
               {t.hero.titleHighlight}
             </span>
           </h1>
