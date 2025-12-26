@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { cn } from '@/lib/utils';
 import { z } from 'zod';
 
 // Validation schema
@@ -55,6 +57,8 @@ export function Contact() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { ref: infoRef, isVisible: infoVisible } = useIntersectionObserver({ threshold: 0.2 });
+  const { ref: formRef, isVisible: formVisible } = useIntersectionObserver({ threshold: 0.2 });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -160,7 +164,13 @@ export function Contact() {
       <div className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Info */}
-          <div className="space-y-8 animate-fade-in-up">
+          <div 
+            ref={infoRef}
+            className={cn(
+              "space-y-8 transition-all duration-700",
+              infoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            )}
+          >
             <div>
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
@@ -206,7 +216,13 @@ export function Contact() {
           </div>
 
           {/* Form */}
-          <div className="card-minimal bg-card">
+          <div 
+            ref={formRef}
+            className={cn(
+              "card-minimal bg-card transition-all duration-700 delay-200",
+              formVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            )}
+          >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-2">
