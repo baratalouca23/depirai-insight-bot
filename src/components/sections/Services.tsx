@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { ParallaxBackground } from '@/components/features/ParallaxElements';
 
 type CategoryKey = 'development' | 'infrastructure' | 'security';
 
@@ -28,8 +29,10 @@ export function Services() {
   const categories = Object.entries(t.services.categories) as [CategoryKey, typeof t.services.categories.development][];
 
   return (
-    <section id="services" className="section-padding bg-muted/30" aria-labelledby="services-title">
-      <div className="section-container">
+    <section id="services" className="section-padding bg-muted/30 relative overflow-hidden" aria-labelledby="services-title">
+      <ParallaxBackground variant="orbs" />
+      
+      <div className="section-container relative z-10">
         {/* Header */}
         <header 
           ref={headerRef}
