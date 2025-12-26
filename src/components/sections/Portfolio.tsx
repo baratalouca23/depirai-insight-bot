@@ -7,6 +7,7 @@ import { portfolioCases, PortfolioCase } from '@/data/portfolio';
 import { LazyImage } from '@/components/ui/LazyImage';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { cn } from '@/lib/utils';
+import { ParallaxBackground } from '@/components/features/ParallaxElements';
 
 type FilterType = 'all' | 'infra' | 'data';
 
@@ -29,8 +30,10 @@ export function Portfolio() {
   const sortedCases = [...filteredCases].sort((a, b) => (b.premium ? 1 : 0) - (a.premium ? 1 : 0));
 
   return (
-    <section id="portfolio" className="section-padding" aria-labelledby="portfolio-title">
-      <div className="section-container">
+    <section id="portfolio" className="section-padding relative overflow-hidden" aria-labelledby="portfolio-title">
+      <ParallaxBackground variant="gradient" />
+      
+      <div className="section-container relative z-10">
         {/* Header */}
         <header 
           ref={headerRef}

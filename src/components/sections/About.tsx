@@ -1,10 +1,11 @@
 import React from 'react';
-import { Linkedin, Award, Server, BarChart3 } from 'lucide-react';
+import { Linkedin, Award, Server, BarChart3, Users } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import diegoPhoto from '@/assets/diego.jpeg';
 import emersonPhoto from '@/assets/emerson.jpeg';
 import { AnimatedSection } from '@/components/features/AnimatedSection';
 import { LazyImage } from '@/components/ui/LazyImage';
+import { ParallaxBackground } from '@/components/features/ParallaxElements';
 
 export function About() {
   const { t } = useLanguage();
@@ -31,11 +32,17 @@ export function About() {
   ];
 
   return (
-    <section id="about" className="section-padding bg-muted/30" aria-labelledby="about-title">
-      <div className="section-container">
+    <section id="about" className="section-padding bg-muted/30 relative overflow-hidden" aria-labelledby="about-title">
+      <ParallaxBackground variant="mesh" />
+      
+      <div className="section-container relative z-10">
         {/* Header */}
         <AnimatedSection animation="fade-up">
           <header className="text-center mb-10 md:mb-12">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <Users className="h-4 w-4" />
+              Quem Somos
+            </span>
             <h2 id="about-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
               {t.about.title}
             </h2>
