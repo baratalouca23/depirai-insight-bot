@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { cn } from '@/lib/utils';
 
 const faqData = {
@@ -99,6 +100,8 @@ const faqData = {
 export function FAQ() {
   const { language } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const { ref: headerRef, isVisible: headerVisible } = useIntersectionObserver({ threshold: 0.2 });
+  const { ref: contentRef, isVisible: contentVisible } = useIntersectionObserver({ threshold: 0.1 });
 
   const content = faqData[language];
 
@@ -110,7 +113,13 @@ export function FAQ() {
     <section id="faq" className="section-padding bg-muted/30" aria-labelledby="faq-title">
       <div className="section-container">
         {/* Header */}
-        <header className="text-center max-w-2xl mx-auto mb-10 md:mb-12 animate-fade-in-up">
+        <header 
+          ref={headerRef}
+          className={cn(
+            "text-center max-w-2xl mx-auto mb-10 md:mb-12 transition-all duration-700",
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+        >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
             <HelpCircle className="h-4 w-4" />
             FAQ
@@ -122,11 +131,18 @@ export function FAQ() {
         </header>
 
         {/* FAQ Items */}
-        <div className="max-w-3xl mx-auto space-y-3 md:space-y-4">
+        <div 
+          ref={contentRef}
+          className="max-w-3xl mx-auto space-y-3 md:space-y-4"
+        >
           {content.items.map((item, index) => (
             <div
               key={index}
-              className="bg-card rounded-xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30"
+              className={cn(
+                "bg-card rounded-xl border border-border overflow-hidden transition-all duration-500 hover:border-primary/30",
+                contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              )}
+              style={{ transitionDelay: contentVisible ? `${index * 100}ms` : '0ms' }}
             >
               <button
                 onClick={() => toggle(index)}
