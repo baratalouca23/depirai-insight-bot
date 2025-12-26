@@ -92,71 +92,112 @@ export function Services() {
               <p className="text-center text-sm md:text-base text-muted-foreground mb-6 md:mb-8">{category.subtitle}</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                {category.items.map((service, index) => (
-                  <article
-                    key={index}
-                    className={cn(
-                      "group relative bg-card rounded-2xl p-5 md:p-6 shadow-card border border-border card-hover overflow-hidden transition-all duration-500",
-                      contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                    )}
-                    style={{ 
-                      transitionDelay: contentVisible ? `${index * 100}ms` : '0ms'
-                    }}
-                  >
-                  {/* Background Gradient */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${categoryColors[key]} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                    aria-hidden="true"
-                  />
+                {category.items.map((service, index) => {
+                  const Icon = categoryIcons[key];
+                  return (
+                    <article
+                      key={index}
+                      className={cn(
+                        "group relative bg-card rounded-2xl p-5 md:p-6 shadow-card border border-border overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 hover:border-primary/50",
+                        contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                      )}
+                      style={{ 
+                        transitionDelay: contentVisible ? `${index * 100}ms` : '0ms'
+                      }}
+                    >
+                      {/* Shine effect on hover */}
+                      <div 
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                        aria-hidden="true"
+                      >
+                        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12" />
+                      </div>
 
-                  {/* Animated border on hover */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                    <div className="absolute inset-0 rounded-2xl border-2 border-primary/30 animate-pulse" />
-                  </div>
+                      {/* Background Gradient */}
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${categoryColors[key]} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                        aria-hidden="true"
+                      />
 
-                  <div className="relative z-10">
-                    {/* Service number badge */}
-                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
-                      {String(index + 1).padStart(2, '0')}
-                    </div>
+                      {/* Floating icon background */}
+                      <div className="absolute -top-6 -right-6 w-24 h-24 opacity-0 group-hover:opacity-10 transition-all duration-500 group-hover:rotate-12" aria-hidden="true">
+                        <Icon className="w-full h-full text-primary" />
+                      </div>
 
-                    {/* Title */}
-                    <h3 className="font-display text-lg md:text-xl font-semibold text-foreground mb-2 md:mb-3 group-hover:text-primary transition-colors duration-300">
-                      {service.title}
-                    </h3>
+                      {/* Animated corner glow */}
+                      <div className="absolute top-0 right-0 w-32 h-32 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" aria-hidden="true">
+                        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-primary/20 to-transparent rounded-bl-full" />
+                      </div>
 
-                    {/* Problem */}
-                    <div className="mb-3 md:mb-4">
-                      <p className="text-xs md:text-sm text-muted-foreground italic">
-                        {service.problem}
-                      </p>
-                    </div>
+                      {/* Bottom glow line */}
+                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 scale-x-0 group-hover:scale-x-100" aria-hidden="true" />
 
-                    {/* Solution */}
-                    <p className="text-foreground mb-3 md:mb-4 text-xs md:text-sm">
-                      {service.solution}
-                    </p>
+                      <div className="relative z-10">
+                        {/* Service number badge with pulse effect */}
+                        <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                          <span className="relative z-10">{String(index + 1).padStart(2, '0')}</span>
+                          <div className="absolute inset-0 rounded-full bg-primary opacity-0 group-hover:opacity-20 group-hover:animate-ping" />
+                        </div>
 
-                    {/* Features */}
-                    <ul className="space-y-1.5 md:space-y-2 mb-5 md:mb-6" aria-label="Recursos inclusos">
-                      {service.features.map((feature, i) => (
-                        <li key={i} className="flex items-center gap-2 text-xs md:text-sm text-foreground group-hover:translate-x-1 transition-transform duration-300" style={{ transitionDelay: `${i * 50}ms` }}>
-                          <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-primary flex-shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                        {/* Category icon */}
+                        <div className="mb-4 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                          <Icon className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
+                        </div>
 
-                    {/* CTA */}
-                    <Button variant="outline" size="sm" className="group/btn w-full text-xs md:text-sm focus-ring hover:bg-primary hover:text-primary-foreground hover:border-primary" asChild>
-                      <a href="#contact">
-                        Solicitar Orçamento
-                        <ArrowRight className="ml-2 h-3 w-3 md:h-4 md:w-4 group-hover/btn:translate-x-1 transition-transform" aria-hidden="true" />
-                      </a>
-                    </Button>
-                  </div>
-                  </article>
-                ))}
+                        {/* Title with underline animation */}
+                        <h3 className="font-display text-lg md:text-xl font-semibold text-foreground mb-2 md:mb-3 group-hover:text-primary transition-colors duration-300 relative inline-block">
+                          {service.title}
+                          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+                        </h3>
+
+                        {/* Problem */}
+                        <div className="mb-3 md:mb-4">
+                          <p className="text-xs md:text-sm text-muted-foreground italic group-hover:text-muted-foreground/80 transition-colors duration-300">
+                            {service.problem}
+                          </p>
+                        </div>
+
+                        {/* Solution */}
+                        <p className="text-foreground mb-3 md:mb-4 text-xs md:text-sm">
+                          {service.solution}
+                        </p>
+
+                        {/* Features with staggered animation */}
+                        <ul className="space-y-1.5 md:space-y-2 mb-5 md:mb-6" aria-label="Recursos inclusos">
+                          {service.features.map((feature, i) => (
+                            <li 
+                              key={i} 
+                              className="flex items-center gap-2 text-xs md:text-sm text-foreground opacity-80 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" 
+                              style={{ transitionDelay: `${i * 75}ms` }}
+                            >
+                              <div className="relative">
+                                <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-primary flex-shrink-0 group-hover:scale-125 transition-transform duration-300" aria-hidden="true" />
+                                <div className="absolute inset-0 bg-primary/30 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                              </div>
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        {/* CTA with enhanced hover */}
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="group/btn w-full text-xs md:text-sm focus-ring hover:bg-primary hover:text-primary-foreground hover:border-primary relative overflow-hidden" 
+                          asChild
+                        >
+                          <a href="#contact">
+                            <span className="relative z-10 flex items-center justify-center w-full">
+                              Solicitar Orçamento
+                              <ArrowRight className="ml-2 h-3 w-3 md:h-4 md:w-4 group-hover/btn:translate-x-1 group-hover/btn:scale-110 transition-all duration-300" aria-hidden="true" />
+                            </span>
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+                          </a>
+                        </Button>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </div>
           ))}
