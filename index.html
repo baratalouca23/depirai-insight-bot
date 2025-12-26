@@ -36,23 +36,65 @@
     <!-- Theme Color -->
     <meta name="theme-color" content="#C1272D" />
     
-    <!-- Structured Data -->
+    <!-- Structured Data - Organization -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Depirai",
-      "description": "Engenharia de Receita & Infraestrutura TI",
+      "description": "Engenharia de Receita & Infraestrutura TI - Consultoria especializada em Linux HA e Power BI",
       "url": "https://depirai.com",
+      "logo": "https://depirai.com/logo.png",
       "sameAs": [
         "https://linkedin.com/company/depirai"
       ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Guarapuava",
+        "addressRegion": "PR",
+        "addressCountry": "BR"
+      },
       "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "+55-11-99999-9999",
+        "telephone": "+55-42-98891-1463",
         "contactType": "sales",
         "availableLanguage": ["Portuguese", "English", "Spanish"]
       }
+    }
+    </script>
+    
+    <!-- Structured Data - LocalBusiness -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Depirai",
+      "image": "https://depirai.com/logo.png",
+      "priceRange": "$$",
+      "telephone": "+55-42-98891-1463",
+      "email": "contato@depirai.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Guarapuava",
+        "addressRegion": "PR",
+        "addressCountry": "BR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -25.3900,
+        "longitude": -51.4600
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Brasil"
+      },
+      "serviceType": ["Consultoria TI", "Linux HA", "Power BI", "DevOps", "Infraestrutura"]
     }
     </script>
   </head>
