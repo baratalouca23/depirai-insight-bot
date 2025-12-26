@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, Server, BarChart3, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { useScrollY } from '@/hooks/useParallax';
 import { ParticleBackground, GradientOrbs } from '@/components/features/ParticleBackground';
+import { TypeWriter } from '@/components/ui/TypeWriter';
 
 export function Hero() {
   const { t } = useLanguage();
   const scrollY = useScrollY();
   const parallaxOffset = scrollY * 0.3;
+  const [titleComplete, setTitleComplete] = useState(false);
 
   const stats = [
     { value: 50, suffix: '+', label: t.hero.stats.clients, icon: Server },
@@ -70,8 +72,18 @@ export function Hero() {
             className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 md:mb-6 leading-tight"
             style={{ animation: 'fadeInUp 0.8s ease-out forwards' }}
           >
-            {t.hero.title}{' '}
-            <span className="gradient-text text-glow inline-block" style={{ animation: 'fadeInUp 0.8s ease-out 0.2s forwards, gradientShift 3s ease-in-out infinite', opacity: 0 }}>
+            <TypeWriter 
+              text={t.hero.title}
+              speed={60}
+              delay={300}
+              cursor={!titleComplete}
+              onComplete={() => setTitleComplete(true)}
+            />{' '}
+            <span 
+              className={`gradient-text text-glow inline-block transition-all duration-500 ${
+                titleComplete ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+              }`}
+            >
               {t.hero.titleHighlight}
             </span>
           </h1>
