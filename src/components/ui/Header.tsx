@@ -5,6 +5,7 @@ import { Button } from './button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Language } from '@/data/translations';
+import logo from '@/assets/logo.png';
 
 const languages: { code: Language; label: string }[] = [
   { code: 'pt', label: 'PT' },
@@ -100,8 +101,8 @@ export function Header() {
     >
       <nav className="section-container flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 font-display font-bold text-xl md:text-2xl">
-          <span className="text-primary">Depirai</span>
+        <Link to="/" className="flex items-center">
+          <img src={logo} alt="Depirai" className="h-8 md:h-10 w-auto" />
         </Link>
 
         {/* Desktop Nav */}
