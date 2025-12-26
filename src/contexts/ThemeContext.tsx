@@ -51,7 +51,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, [colorBlindMode]);
 
-  const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light');
+  const toggleTheme = () => {
+    // Add transition class for smooth theme change
+    document.documentElement.classList.add('theme-transition');
+    
+    setTheme(t => t === 'light' ? 'dark' : 'light');
+    
+    // Remove transition class after animation completes
+    setTimeout(() => {
+      document.documentElement.classList.remove('theme-transition');
+    }, 500);
+  };
   const toggleDyslexicFont = () => setIsDyslexicFont(v => !v);
   const toggleHighContrast = () => setIsHighContrast(v => !v);
 

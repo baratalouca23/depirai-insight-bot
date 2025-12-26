@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Moon, Sun, Globe } from 'lucide-react';
+import { Menu, X, Globe } from 'lucide-react';
 import { Button } from './button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useTheme } from '@/contexts/ThemeContext';
 import { Language } from '@/data/translations';
+import { ThemeToggle, ThemeToggleIcon } from './ThemeToggle';
 import logo from '@/assets/logo.png';
 
 const languages: { code: Language; label: string }[] = [
@@ -18,7 +18,6 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -143,16 +142,15 @@ export function Header() {
             )}
           </div>
 
-          {/* Theme Toggle */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="text-muted-foreground hover:text-foreground h-9 w-9 transition-transform hover:rotate-12"
-          >
-            {theme === 'dark' ? <Sun className="h-4 w-4 md:h-5 md:w-5" /> : <Moon className="h-4 w-4 md:h-5 md:w-5" />}
-          </Button>
+          {/* Theme Toggle - Desktop */}
+          <div className="hidden sm:block">
+            <ThemeToggle size="sm" />
+          </div>
+          
+          {/* Theme Toggle - Mobile (icon only) */}
+          <div className="sm:hidden">
+            <ThemeToggleIcon />
+          </div>
 
           {/* CTA Desktop */}
           <Button className="hidden md:inline-flex" asChild>
