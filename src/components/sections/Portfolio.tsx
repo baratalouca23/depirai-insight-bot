@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ExternalLink, Star, Briefcase } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+import { ExternalLink, Star, Briefcase, ZoomIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -8,6 +8,7 @@ import { LazyImage } from '@/components/ui/LazyImage';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { cn } from '@/lib/utils';
 import { ParallaxBackground } from '@/components/features/ParallaxElements';
+import { Lightbox } from '@/components/ui/Lightbox';
 
 type FilterType = 'all' | 'infra' | 'data';
 
@@ -16,6 +17,10 @@ export function Portfolio() {
   const [filter, setFilter] = useState<FilterType>('all');
   const { ref: headerRef, isVisible: headerVisible } = useIntersectionObserver({ threshold: 0.2 });
   const { ref: gridRef, isVisible: gridVisible } = useIntersectionObserver({ threshold: 0.1 });
+  
+  // Lightbox state
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const filters: { key: FilterType; label: string }[] = [
     { key: 'all', label: t.portfolio.filters.all },
@@ -28,6 +33,30 @@ export function Portfolio() {
     : portfolioCases.filter((c) => c.category === filter);
 
   const sortedCases = [...filteredCases].sort((a, b) => (b.premium ? 1 : 0) - (a.premium ? 1 : 0));
+
+  // Prepare images for lightbox
+  const lightboxImages = sortedCases.map(item => ({
+    src: item.image,
+    alt: `Projeto ${item.title} - ${item.company}`,
+    title: `${item.title} - ${item.company}`
+  }));
+
+  const openLightbox = useCallback((index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+  }, []);
+
+  const closeLightbox = useCallback(() => {
+    setLightboxOpen(false);
+  }, []);
+
+  const nextImage = useCallback(() => {
+    setCurrentImageIndex((prev) => (prev + 1) % lightboxImages.length);
+  }, [lightboxImages.length]);
+
+  const prevImage = useCallback(() => {
+    setCurrentImageIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length);
+  }, [lightboxImages.length]);
 
   return (
     <section id="portfolio" className="section-padding relative overflow-hidden" aria-labelledby="portfolio-title">
@@ -90,8 +119,12 @@ export function Portfolio() {
                 </div>
               )}
 
-              {/* Image */}
-              <div className="relative h-40 md:h-48 overflow-hidden">
+              {/* Image with Lightbox trigger */}
+              <button 
+                className="relative h-40 md:h-48 overflow-hidden w-full cursor-zoom-in focus-ring"
+                onClick={() => openLightbox(index)}
+                aria-label={`Ver imagem do projeto ${item.title} em tela cheia`}
+              >
                 <LazyImage
                   src={item.image}
                   alt={`Projeto ${item.title} - ${item.company}`}
@@ -99,7 +132,10 @@ export function Portfolio() {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent pointer-events-none" aria-hidden="true" />
-              </div>
+                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-300 flex items-center justify-center">
+                  <ZoomIn className="h-8 w-8 text-background opacity-0 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg" />
+                </div>
+              </button>
 
               {/* Content */}
               <div className="p-4 md:p-6">
@@ -158,6 +194,16 @@ export function Portfolio() {
             </article>
           ))}
         </div>
+
+        {/* Lightbox */}
+        <Lightbox
+          images={lightboxImages}
+          currentIndex={currentImageIndex}
+          isOpen={lightboxOpen}
+          onClose={closeLightbox}
+          onNext={nextImage}
+          onPrev={prevImage}
+        />
       </div>
     </section>
   );
