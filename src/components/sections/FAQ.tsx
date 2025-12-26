@@ -1,8 +1,26 @@
-import React, { useState } from 'react';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import React from 'react';
+import { 
+  HelpCircle, 
+  TrendingDown, 
+  Building2, 
+  Clock, 
+  Headphones, 
+  Shield, 
+  Calendar,
+  Sparkles,
+  MessageCircleQuestion
+} from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { cn } from '@/lib/utils';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+
+const faqIcons = [TrendingDown, Building2, Clock, Headphones, Shield, Calendar];
 
 const faqData = {
   pt: {
@@ -99,29 +117,30 @@ const faqData = {
 
 export function FAQ() {
   const { language } = useLanguage();
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
   const { ref: headerRef, isVisible: headerVisible } = useIntersectionObserver({ threshold: 0.2 });
   const { ref: contentRef, isVisible: contentVisible } = useIntersectionObserver({ threshold: 0.1 });
 
   const content = faqData[language];
 
-  const toggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
-    <section id="faq" className="section-padding bg-muted/30" aria-labelledby="faq-title">
-      <div className="section-container">
+    <section id="faq" className="section-padding bg-muted/30 relative overflow-hidden" aria-labelledby="faq-title">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="section-container relative z-10">
         {/* Header */}
         <header 
           ref={headerRef}
           className={cn(
-            "text-center max-w-2xl mx-auto mb-10 md:mb-12 transition-all duration-700",
+            "text-center max-w-2xl mx-auto mb-10 md:mb-16 transition-all duration-700",
             headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            <HelpCircle className="h-4 w-4" />
+            <MessageCircleQuestion className="h-4 w-4" />
             FAQ
           </span>
           <h2 id="faq-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
@@ -130,52 +149,74 @@ export function FAQ() {
           <p className="text-sm md:text-lg text-muted-foreground">{content.subtitle}</p>
         </header>
 
-        {/* FAQ Items */}
+        {/* FAQ Items with Accordion */}
         <div 
           ref={contentRef}
-          className="max-w-3xl mx-auto space-y-3 md:space-y-4"
+          className={cn(
+            "max-w-3xl mx-auto transition-all duration-700",
+            contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
         >
-          {content.items.map((item, index) => (
-            <div
-              key={index}
-              className={cn(
-                "bg-card rounded-xl border border-border overflow-hidden transition-all duration-500 hover:border-primary/30",
-                contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              )}
-              style={{ transitionDelay: contentVisible ? `${index * 100}ms` : '0ms' }}
-            >
-              <button
-                onClick={() => toggle(index)}
-                className="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left focus-ring"
-                aria-expanded={openIndex === index}
-                aria-controls={`faq-answer-${index}`}
-              >
-                <span className="font-medium text-sm md:text-base text-foreground pr-4">
-                  {item.question}
-                </span>
-                <ChevronDown
+          <Accordion type="single" collapsible defaultValue="item-0" className="space-y-3 md:space-y-4">
+            {content.items.map((item, index) => {
+              const IconComponent = faqIcons[index] || HelpCircle;
+              return (
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
                   className={cn(
-                    'h-5 w-5 text-muted-foreground flex-shrink-0 transition-transform duration-300',
-                    openIndex === index && 'rotate-180 text-primary'
+                    "group bg-card rounded-xl border border-border overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 data-[state=open]:border-primary/50 data-[state=open]:shadow-xl data-[state=open]:shadow-primary/10"
                   )}
-                  aria-hidden="true"
-                />
-              </button>
-              <div
-                id={`faq-answer-${index}`}
-                role="region"
-                aria-labelledby={`faq-question-${index}`}
-                className={cn(
-                  'overflow-hidden transition-all duration-300',
-                  openIndex === index ? 'max-h-96' : 'max-h-0'
-                )}
-              >
-                <p className="px-4 md:px-5 pb-4 md:pb-5 text-sm md:text-base text-muted-foreground leading-relaxed">
-                  {item.answer}
-                </p>
-              </div>
-            </div>
-          ))}
+                  style={{ 
+                    transitionDelay: contentVisible ? `${index * 80}ms` : '0ms',
+                    animationDelay: `${index * 80}ms`
+                  }}
+                >
+                  <AccordionTrigger 
+                    className="w-full flex items-center gap-4 p-4 md:p-5 text-left hover:no-underline focus-ring [&[data-state=open]>div>.icon-wrapper]:bg-primary [&[data-state=open]>div>.icon-wrapper]:text-primary-foreground [&[data-state=open]>div>.icon-wrapper]:scale-110"
+                  >
+                    <div className="flex items-center gap-4 flex-1">
+                      <div className="icon-wrapper flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
+                        <IconComponent className="h-5 w-5 md:h-6 md:w-6 text-primary transition-colors duration-300" />
+                      </div>
+                      <span className="font-medium text-sm md:text-base text-foreground pr-4 group-hover:text-primary transition-colors duration-300">
+                        {item.question}
+                      </span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="overflow-hidden">
+                    <div className="px-4 md:px-5 pb-4 md:pb-5 pl-[4.5rem] md:pl-[5.25rem]">
+                      <div className="relative">
+                        <Sparkles className="absolute -left-6 top-0 h-4 w-4 text-primary/40" />
+                        <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                          {item.answer}
+                        </p>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              );
+            })}
+          </Accordion>
+        </div>
+
+        {/* CTA */}
+        <div 
+          className={cn(
+            "text-center mt-10 md:mt-12 transition-all duration-700 delay-500",
+            contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          )}
+        >
+          <p className="text-muted-foreground text-sm md:text-base mb-4">
+            {language === 'pt' ? 'Ainda tem dúvidas?' : language === 'es' ? '¿Todavía tienes dudas?' : 'Still have questions?'}
+          </p>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
+          >
+            <HelpCircle className="h-4 w-4" />
+            {language === 'pt' ? 'Fale Conosco' : language === 'es' ? 'Contáctenos' : 'Contact Us'}
+          </a>
         </div>
       </div>
 
