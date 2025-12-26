@@ -14,6 +14,7 @@ import { WhatsAppFloat } from '@/components/features/WhatsAppFloat';
 import { MobileCTA } from '@/components/features/MobileCTA';
 import { ScrollProgress } from '@/components/features/ScrollProgress';
 import { BackToTop } from '@/components/features/BackToTop';
+import { ParallaxSection } from '@/components/features/AnimatedSection';
 
 const Index = () => {
   return (
@@ -22,13 +23,27 @@ const Index = () => {
       <Header />
       <main id="main-content">
         <Hero />
-        <ClientLogos />
-        <Services />
-        <Portfolio />
-        <Testimonials />
-        <About />
-        <FAQ />
-        <Contact />
+        <ParallaxSection speed={0.08} fadeIn>
+          <ClientLogos />
+        </ParallaxSection>
+        <ParallaxSection speed={0.12} fadeIn>
+          <Services />
+        </ParallaxSection>
+        <ParallaxSection speed={0.1} fadeIn>
+          <Portfolio />
+        </ParallaxSection>
+        <ParallaxSection speed={0.08} fadeIn>
+          <Testimonials />
+        </ParallaxSection>
+        <ParallaxSection speed={0.1} fadeIn>
+          <About />
+        </ParallaxSection>
+        <ParallaxSection speed={0.06} fadeIn>
+          <FAQ />
+        </ParallaxSection>
+        <ParallaxSection speed={0.08} fadeIn>
+          <Contact />
+        </ParallaxSection>
       </main>
       <Footer />
       <BackToTop />

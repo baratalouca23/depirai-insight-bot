@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { PageLoading } from "@/components/ui/PageLoading";
+import { SmoothScrollProvider } from "@/components/features/SmoothScroll";
 
 // Lazy load pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -28,18 +29,20 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Suspense fallback={<PageLoading />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/servicos" element={<ServicosPage />} />
-                <Route path="/portfolio" element={<PortfolioPage />} />
-                <Route path="/sobre" element={<SobrePage />} />
-                <Route path="/contato" element={<ContatoPage />} />
-                <Route path="/privacidade" element={<PrivacidadePage />} />
-                <Route path="/termos" element={<TermosPage />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <SmoothScrollProvider>
+              <Suspense fallback={<PageLoading />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/servicos" element={<ServicosPage />} />
+                  <Route path="/portfolio" element={<PortfolioPage />} />
+                  <Route path="/sobre" element={<SobrePage />} />
+                  <Route path="/contato" element={<ContatoPage />} />
+                  <Route path="/privacidade" element={<PrivacidadePage />} />
+                  <Route path="/termos" element={<TermosPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </SmoothScrollProvider>
           </BrowserRouter>
         </TooltipProvider>
       </LanguageProvider>
