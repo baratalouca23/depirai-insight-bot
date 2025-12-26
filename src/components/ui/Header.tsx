@@ -15,6 +15,8 @@ const languages: { code: Language; label: string }[] = [
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('up');
+  const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
@@ -22,10 +24,17 @@ export function Header() {
   const isHomePage = location.pathname === '/';
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      setIsScrolled(currentScrollY > 20);
+      setScrollDirection(currentScrollY > lastScrollY ? 'down' : 'up');
+      setLastScrollY(currentScrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const navLinks = [
     { href: isHomePage ? '#services' : '/servicos', label: t.nav.services, route: '/servicos' },
@@ -94,8 +103,12 @@ export function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
         isScrolled
-          ? 'bg-background/80 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.05),0_4px_12px_rgba(0,0,0,0.05)] border-b border-border/50'
+          ? 'bg-background/85 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.05),0_8px_24px_rgba(0,0,0,0.08)] border-b border-border/50'
           : 'bg-transparent'
+      } ${
+        scrollDirection === 'down' && isScrolled && !isMobileMenuOpen
+          ? '-translate-y-full'
+          : 'translate-y-0'
       }`}
     >
       <nav className="section-container flex items-center justify-between h-16 md:h-20">

@@ -8,6 +8,7 @@ interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   containerClassName?: string;
   placeholderClassName?: string;
   showIcon?: boolean;
+  blurOnLoad?: boolean;
 }
 
 export function LazyImage({
@@ -17,6 +18,7 @@ export function LazyImage({
   containerClassName,
   placeholderClassName,
   showIcon = true,
+  blurOnLoad = true,
   ...props
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -47,39 +49,48 @@ export function LazyImage({
       ref={imgRef}
       className={cn('relative overflow-hidden', containerClassName)}
     >
-      {/* Skeleton placeholder with shimmer */}
+      {/* Skeleton placeholder with enhanced shimmer */}
       {!isLoaded && !hasError && (
         <div 
           className={cn(
-            'absolute inset-0 bg-muted',
+            'absolute inset-0 bg-gradient-to-br from-muted to-muted/80',
             placeholderClassName
           )}
         >
-          {/* Shimmer animation */}
-          <div 
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/[0.08] to-transparent animate-shimmer"
-            style={{ backgroundSize: '200% 100%' }}
-          />
-          {/* Center icon */}
+          {/* Animated gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/[0.06] to-transparent skeleton-shimmer" />
+          
+          {/* Pulsing circles effect */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/5 rounded-full animate-ping" style={{ animationDuration: '2s' }} />
+          </div>
+          
+          {/* Center icon with animation */}
           {showIcon && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <ImageIcon className="h-8 w-8 text-muted-foreground/30" />
+              <div className="relative">
+                <ImageIcon className="h-8 w-8 text-muted-foreground/30 animate-pulse" />
+                <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl animate-pulse" />
+              </div>
             </div>
           )}
         </div>
       )}
       
-      {/* Error state */}
+      {/* Error state with animation */}
       {hasError && (
-        <div className="absolute inset-0 bg-muted flex items-center justify-center">
+        <div className="absolute inset-0 bg-muted flex items-center justify-center animate-fade-in">
           <div className="text-center">
-            <ImageIcon className="h-6 w-6 text-muted-foreground/50 mx-auto mb-1" />
-            <span className="text-muted-foreground text-xs">Erro</span>
+            <div className="relative inline-block">
+              <ImageIcon className="h-6 w-6 text-muted-foreground/50 mx-auto mb-1" />
+              <div className="absolute inset-0 bg-destructive/10 rounded-full blur-lg" />
+            </div>
+            <span className="text-muted-foreground text-xs block mt-2">Erro ao carregar</span>
           </div>
         </div>
       )}
       
-      {/* Image - only render when in view */}
+      {/* Image - only render when in view with blur transition */}
       {isInView && (
         <img
           src={src}
@@ -87,8 +98,12 @@ export function LazyImage({
           loading="lazy"
           decoding="async"
           className={cn(
-            'transition-opacity duration-500 ease-out',
-            isLoaded ? 'opacity-100' : 'opacity-0',
+            'transition-all duration-700 ease-out',
+            isLoaded 
+              ? 'opacity-100 blur-0 scale-100' 
+              : blurOnLoad 
+                ? 'opacity-0 blur-sm scale-105' 
+                : 'opacity-0',
             className
           )}
           onLoad={() => setIsLoaded(true)}
