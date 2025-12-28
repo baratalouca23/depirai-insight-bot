@@ -4,6 +4,7 @@ import { Footer } from '@/components/ui/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { ScrollProgress } from '@/components/features/ScrollProgress';
 import { BackToTop } from '@/components/features/BackToTop';
+import { TechGrid } from '@/components/features/TechGrid';
 
 // Lazy load below-the-fold sections
 const ClientLogos = lazy(() => import('@/components/sections/ClientLogos').then(m => ({ default: m.ClientLogos })));
@@ -37,12 +38,14 @@ const SectionSkeleton = () => (
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Tech background animation */}
+      <TechGrid className="fixed inset-0 z-0" />
+      
       <ScrollProgress />
       <Header />
-      <main id="main-content">
+      <main id="main-content" className="relative z-10">
         <Hero />
-        
         <Suspense fallback={<SectionSkeleton />}>
           <ParallaxSection speed={0.08} fadeIn>
             <ClientLogos />
