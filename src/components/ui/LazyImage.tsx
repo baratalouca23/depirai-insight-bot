@@ -49,48 +49,30 @@ export function LazyImage({
       ref={imgRef}
       className={cn('relative overflow-hidden', containerClassName)}
     >
-      {/* Skeleton placeholder with enhanced shimmer */}
+      {/* Simple skeleton placeholder */}
       {!isLoaded && !hasError && (
         <div 
           className={cn(
-            'absolute inset-0 bg-gradient-to-br from-muted to-muted/80',
+            'absolute inset-0 bg-muted animate-pulse',
             placeholderClassName
           )}
         >
-          {/* Animated gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/[0.06] to-transparent skeleton-shimmer" />
-          
-          {/* Pulsing circles effect */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/5 rounded-full animate-ping" style={{ animationDuration: '2s' }} />
-          </div>
-          
-          {/* Center icon with animation */}
           {showIcon && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                <ImageIcon className="h-8 w-8 text-muted-foreground/30 animate-pulse" />
-                <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl animate-pulse" />
-              </div>
+              <ImageIcon className="h-6 w-6 text-muted-foreground/30" />
             </div>
           )}
         </div>
       )}
       
-      {/* Error state with animation */}
+      {/* Error state */}
       {hasError && (
-        <div className="absolute inset-0 bg-muted flex items-center justify-center animate-fade-in">
-          <div className="text-center">
-            <div className="relative inline-block">
-              <ImageIcon className="h-6 w-6 text-muted-foreground/50 mx-auto mb-1" />
-              <div className="absolute inset-0 bg-destructive/10 rounded-full blur-lg" />
-            </div>
-            <span className="text-muted-foreground text-xs block mt-2">Erro ao carregar</span>
-          </div>
+        <div className="absolute inset-0 bg-muted flex items-center justify-center">
+          <ImageIcon className="h-5 w-5 text-muted-foreground/40" />
         </div>
       )}
       
-      {/* Image - only render when in view with blur transition */}
+      {/* Image */}
       {isInView && (
         <img
           src={src}
@@ -98,12 +80,8 @@ export function LazyImage({
           loading="lazy"
           decoding="async"
           className={cn(
-            'transition-all duration-700 ease-out',
-            isLoaded 
-              ? 'opacity-100 blur-0 scale-100' 
-              : blurOnLoad 
-                ? 'opacity-0 blur-sm scale-105' 
-                : 'opacity-0',
+            'transition-opacity duration-300',
+            isLoaded ? 'opacity-100' : 'opacity-0',
             className
           )}
           onLoad={() => setIsLoaded(true)}
