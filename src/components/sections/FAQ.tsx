@@ -123,75 +123,56 @@ export function FAQ() {
   const content = faqData[language];
 
   return (
-    <section id="faq" className="section-padding bg-muted/30 relative overflow-hidden" aria-labelledby="faq-title">
-      {/* Background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="section-container relative z-10">
+    <section id="faq" className="section-padding bg-muted/30" aria-labelledby="faq-title">
+      <div className="section-container">
         {/* Header */}
         <header 
           ref={headerRef}
           className={cn(
-            "text-center max-w-2xl mx-auto mb-10 md:mb-16 transition-all duration-700",
-            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            "text-center max-w-2xl mx-auto mb-10 md:mb-14 transition-all duration-500",
+            headerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           )}
         >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            <MessageCircleQuestion className="h-4 w-4" />
-            FAQ
-          </span>
-          <h2 id="faq-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 md:mb-4">
+          <h2 id="faq-title" className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3">
             {content.title}
           </h2>
-          <p className="text-sm md:text-lg text-muted-foreground">{content.subtitle}</p>
+          <p className="text-sm md:text-base text-muted-foreground">{content.subtitle}</p>
         </header>
 
         {/* FAQ Items with Accordion */}
         <div 
           ref={contentRef}
           className={cn(
-            "max-w-3xl mx-auto transition-all duration-700",
-            contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            "max-w-3xl mx-auto transition-opacity duration-300",
+            contentVisible ? "opacity-100" : "opacity-0"
           )}
         >
-          <Accordion type="single" collapsible defaultValue="item-0" className="space-y-3 md:space-y-4">
+          <Accordion type="single" collapsible defaultValue="item-0" className="space-y-2">
             {content.items.map((item, index) => {
               const IconComponent = faqIcons[index] || HelpCircle;
               return (
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className={cn(
-                    "group bg-card rounded-xl border border-border overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 data-[state=open]:border-primary/50 data-[state=open]:shadow-xl data-[state=open]:shadow-primary/10"
-                  )}
-                  style={{ 
-                    transitionDelay: contentVisible ? `${index * 80}ms` : '0ms',
-                    animationDelay: `${index * 80}ms`
-                  }}
+                  className="bg-card rounded-lg border border-border overflow-hidden transition-colors duration-200 hover:border-primary/30 data-[state=open]:border-primary/40"
                 >
                   <AccordionTrigger 
-                    className="w-full flex items-center gap-4 p-4 md:p-5 text-left hover:no-underline focus-ring [&[data-state=open]>div>.icon-wrapper]:bg-primary [&[data-state=open]>div>.icon-wrapper]:text-primary-foreground [&[data-state=open]>div>.icon-wrapper]:scale-110"
+                    className="w-full flex items-center gap-3 p-4 text-left hover:no-underline focus-ring"
                   >
-                    <div className="flex items-center gap-4 flex-1">
-                      <div className="icon-wrapper flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-primary/10 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
-                        <IconComponent className="h-5 w-5 md:h-6 md:w-6 text-primary transition-colors duration-300" />
+                    <div className="flex items-center gap-3 flex-1">
+                      <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <IconComponent className="h-4 w-4 text-primary" />
                       </div>
-                      <span className="font-medium text-sm md:text-base text-foreground pr-4 group-hover:text-primary transition-colors duration-300">
+                      <span className="font-medium text-sm text-foreground pr-4">
                         {item.question}
                       </span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="overflow-hidden">
-                    <div className="px-4 md:px-5 pb-4 md:pb-5 pl-[4.5rem] md:pl-[5.25rem]">
-                      <div className="relative">
-                        <Sparkles className="absolute -left-6 top-0 h-4 w-4 text-primary/40" />
-                        <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                          {item.answer}
-                        </p>
-                      </div>
+                    <div className="px-4 pb-4 pl-16">
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {item.answer}
+                      </p>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -201,18 +182,10 @@ export function FAQ() {
         </div>
 
         {/* CTA */}
-        <div 
-          className={cn(
-            "text-center mt-10 md:mt-12 transition-all duration-700 delay-500",
-            contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          )}
-        >
-          <p className="text-muted-foreground text-sm md:text-base mb-4">
-            {language === 'pt' ? 'Ainda tem dúvidas?' : language === 'es' ? '¿Todavía tienes dudas?' : 'Still have questions?'}
-          </p>
+        <div className="text-center mt-10">
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors duration-200"
           >
             <HelpCircle className="h-4 w-4" />
             {language === 'pt' ? 'Fale Conosco' : language === 'es' ? 'Contáctenos' : 'Contact Us'}

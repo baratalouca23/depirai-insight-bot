@@ -13,43 +13,32 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-card border-t border-border relative">
-      {/* Back to top button */}
-      <Button
-        onClick={scrollToTop}
-        size="icon"
-        variant="outline"
-        className="absolute -top-5 left-1/2 -translate-x-1/2 rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 bg-background"
-        aria-label="Voltar ao topo"
-      >
-        <ArrowUp className="h-4 w-4" />
-      </Button>
-
-      <div className="section-container py-12 md:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+    <footer className="bg-card border-t border-border">
+      <div className="section-container py-10 md:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link to="/" className="inline-block">
-              <img src={logo} alt="Depirai" className="h-10 w-auto" />
+              <img src={logo} alt="Depirai" className="h-8 w-auto" />
             </Link>
-            <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
+            <p className="mt-3 text-muted-foreground text-sm leading-relaxed">
               {t.footer.description}
             </p>
             
             {/* Social Links */}
-            <div className="flex gap-3 mt-6">
+            <div className="flex gap-2 mt-4">
               <a
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-4 w-4" />
               </a>
               <a
                 href="mailto:contato@depirai.com"
-                className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
                 aria-label="Email"
               >
                 <Mail className="h-4 w-4" />
@@ -58,7 +47,7 @@ export function Footer() {
                 href="https://wa.me/5542988911463"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground hover:bg-[#25D366] hover:text-white transition-all duration-300"
+                className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:bg-[#25D366] hover:text-white transition-colors duration-200"
                 aria-label="WhatsApp"
               >
                 <MessageCircle className="h-4 w-4" />
@@ -68,31 +57,25 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-display font-semibold text-foreground mb-4 text-sm uppercase tracking-wider">
-              Navegação
-            </h4>
-            <ul className="space-y-3">
+            <h4 className="font-medium text-foreground mb-3 text-sm">Navegação</h4>
+            <ul className="space-y-2">
               <li>
-                <Link to="/servicos" className="text-muted-foreground hover:text-primary transition-colors text-sm inline-flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-primary transition-colors" />
+                <Link to="/servicos" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   {t.nav.services}
                 </Link>
               </li>
               <li>
-                <Link to="/portfolio" className="text-muted-foreground hover:text-primary transition-colors text-sm inline-flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-primary transition-colors" />
+                <Link to="/portfolio" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   {t.nav.portfolio}
                 </Link>
               </li>
               <li>
-                <Link to="/sobre" className="text-muted-foreground hover:text-primary transition-colors text-sm inline-flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-primary transition-colors" />
+                <Link to="/sobre" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   {t.nav.about}
                 </Link>
               </li>
               <li>
-                <Link to="/contato" className="text-muted-foreground hover:text-primary transition-colors text-sm inline-flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-primary transition-colors" />
+                <Link to="/contato" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   {t.nav.contact}
                 </Link>
               </li>
@@ -101,19 +84,15 @@ export function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="font-display font-semibold text-foreground mb-4 text-sm uppercase tracking-wider">
-              Legal
-            </h4>
-            <ul className="space-y-3">
+            <h4 className="font-medium text-foreground mb-3 text-sm">Legal</h4>
+            <ul className="space-y-2">
               <li>
-                <Link to="/privacidade" className="text-muted-foreground hover:text-primary transition-colors text-sm inline-flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-primary transition-colors" />
+                <Link to="/privacidade" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   {t.footer.links.privacy}
                 </Link>
               </li>
               <li>
-                <Link to="/termos" className="text-muted-foreground hover:text-primary transition-colors text-sm inline-flex items-center gap-2 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50 group-hover:bg-primary transition-colors" />
+                <Link to="/termos" className="text-muted-foreground hover:text-primary transition-colors text-sm">
                   {t.footer.links.terms}
                 </Link>
               </li>
@@ -122,20 +101,18 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-display font-semibold text-foreground mb-4 text-sm uppercase tracking-wider">
-              Contato
-            </h4>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
-                <span>Pirai do Sul - PR</span>
+            <h4 className="font-medium text-foreground mb-3 text-sm">Contato</h4>
+            <ul className="space-y-2">
+              <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4 text-primary" />
+                Pirai do Sul - PR
               </li>
               <li>
                 <a 
                   href="mailto:contato@depirai.com" 
-                  className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  <Mail className="h-4 w-4 text-primary flex-shrink-0" />
+                  <Mail className="h-4 w-4 text-primary" />
                   contato@depirai.com
                 </a>
               </li>
@@ -144,9 +121,9 @@ export function Footer() {
                   href="https://wa.me/5542988911463" 
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  <Phone className="h-4 w-4 text-primary flex-shrink-0" />
+                  <Phone className="h-4 w-4 text-primary" />
                   +55 42 98891-1463
                 </a>
               </li>
@@ -155,7 +132,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-border">
+        <div className="mt-8 pt-6 border-t border-border">
           <p className="text-xs text-muted-foreground text-center">
             © {currentYear} Depirai. {t.footer.rights}
           </p>
