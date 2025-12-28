@@ -15,6 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { cn } from '@/lib/utils';
+import { TechLogos } from '@/components/ui/TechLogos';
 import { z } from 'zod';
 
 // Validation schema
@@ -201,17 +202,7 @@ export function Contact() {
 
             {/* Trust Badges */}
             <div className="card-minimal">
-              <p className="text-sm text-muted-foreground mb-4 font-medium">Tecnologias que utilizamos:</p>
-              <div className="flex flex-wrap gap-2">
-                {['Linux', 'AWS', 'Azure', 'Power BI', 'Kubernetes', 'Terraform'].map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1.5 rounded-full bg-background text-sm font-medium text-foreground border border-border/50 hover:border-primary/50 transition-colors"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
+              <TechLogos title="Tecnologias que utilizamos:" />
             </div>
           </div>
 
