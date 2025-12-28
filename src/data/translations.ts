@@ -12,10 +12,10 @@ export const translations = {
       contact: 'Contato',
     },
     hero: {
-      badge: 'Engenharia de Receita & Infraestrutura TI',
-      title: 'Transformamos sua',
-      titleHighlight: 'Infraestrutura em Receita',
-      subtitle: 'Consultoria especializada em Linux HA e Power BI para empresas que buscam redução de TCO e receita previsível.',
+      badge: 'Desenvolvimento Web Fullstack',
+      title: 'Criamos experiências digitais',
+      titleHighlight: 'e sistemas inteligentes',
+      subtitle: 'Desenvolvimento Web Fullstack focado em performance e usabilidade. Transformamos suas ideias em soluções digitais que geram resultados.',
       cta: 'Agende Consultoria Gratuita',
       ctaSecondary: 'Ver Portfólio',
       stats: {
@@ -203,10 +203,10 @@ export const translations = {
       contact: 'Contact',
     },
     hero: {
-      badge: 'Revenue Engineering & IT Infrastructure',
-      title: 'Transform your',
-      titleHighlight: 'Infrastructure into Revenue',
-      subtitle: 'Specialized consulting in Linux HA and Power BI for companies seeking TCO reduction and predictable revenue.',
+      badge: 'Fullstack Web Development',
+      title: 'We create digital experiences',
+      titleHighlight: 'and intelligent systems',
+      subtitle: 'Fullstack Web Development focused on performance and usability. We transform your ideas into digital solutions that deliver results.',
       cta: 'Schedule Free Consultation',
       ctaSecondary: 'View Portfolio',
       stats: {
@@ -394,10 +394,10 @@ export const translations = {
       contact: 'Contacto',
     },
     hero: {
-      badge: 'Ingeniería de Ingresos & Infraestructura TI',
-      title: 'Transformamos tu',
-      titleHighlight: 'Infraestructura en Ingresos',
-      subtitle: 'Consultoría especializada en Linux HA y Power BI para empresas que buscan reducción de TCO e ingresos predecibles.',
+      badge: 'Desarrollo Web Fullstack',
+      title: 'Creamos experiencias digitales',
+      titleHighlight: 'y sistemas inteligentes',
+      subtitle: 'Desarrollo Web Fullstack enfocado en rendimiento y usabilidad. Transformamos tus ideas en soluciones digitales que generan resultados.',
       cta: 'Agendar Consulta Gratis',
       ctaSecondary: 'Ver Portafolio',
       stats: {
