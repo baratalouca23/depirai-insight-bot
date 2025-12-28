@@ -33,19 +33,44 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   useEffect(() => {
+    // Load saved preferences
     const savedTheme = localStorage.getItem('theme') as Theme | null;
     const savedFontSize = localStorage.getItem('fontSize') as FontSize | null;
     const savedReadingMode = localStorage.getItem('readingMode') === 'true';
     const savedReducedMotion = localStorage.getItem('reducedMotion') === 'true';
+    const savedDyslexicFont = localStorage.getItem('dyslexicFont') === 'true';
+    const savedHighContrast = localStorage.getItem('highContrast') === 'true';
+    const savedColorBlindMode = localStorage.getItem('colorBlindMode') as ColorBlindMode | null;
     
+    // Theme: check saved, then system preference
     if (savedTheme) {
       setTheme(savedTheme);
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setTheme('dark');
     }
+    
+    // Reduced motion: check saved, then system preference
+    if (savedReducedMotion) {
+      setIsReducedMotion(true);
+    } else if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIsReducedMotion(true);
+    }
+    
     if (savedFontSize) setFontSize(savedFontSize);
     if (savedReadingMode) setIsReadingMode(true);
-    if (savedReducedMotion) setIsReducedMotion(true);
+    if (savedDyslexicFont) setIsDyslexicFont(true);
+    if (savedHighContrast) setIsHighContrast(true);
+    if (savedColorBlindMode) setColorBlindMode(savedColorBlindMode);
+
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    };
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   useEffect(() => {
@@ -55,10 +80,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.body.classList.toggle('dyslexic-font', isDyslexicFont);
+    localStorage.setItem('dyslexicFont', String(isDyslexicFont));
   }, [isDyslexicFont]);
 
   useEffect(() => {
     document.body.classList.toggle('high-contrast', isHighContrast);
+    localStorage.setItem('highContrast', String(isHighContrast));
   }, [isHighContrast]);
 
   useEffect(() => {
@@ -66,6 +93,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (colorBlindMode !== 'normal') {
       document.body.classList.add(colorBlindMode);
     }
+    localStorage.setItem('colorBlindMode', colorBlindMode);
   }, [colorBlindMode]);
 
   useEffect(() => {

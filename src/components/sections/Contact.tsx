@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Send, MapPin, Mail, Loader2, CheckCircle2 } from 'lucide-react';
+import React, { useState, useId } from 'react';
+import { Send, MapPin, Mail, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -18,13 +18,21 @@ import { cn } from '@/lib/utils';
 import { TechLogos } from '@/components/ui/TechLogos';
 import { z } from 'zod';
 
-// Validation schema
-const contactSchema = z.object({
-  name: z.string().trim().min(2, 'Nome deve ter pelo menos 2 caracteres').max(100),
-  email: z.string().trim().email('Email inválido').max(255),
-  company: z.string().trim().min(1, 'Empresa é obrigatória').max(100),
-  kpi: z.string().min(1, 'Selecione um objetivo'),
-  message: z.string().trim().min(10, 'Mensagem deve ter pelo menos 10 caracteres').max(1000),
+// Validation schema with i18n messages
+const createContactSchema = (lang: string) => z.object({
+  name: z.string().trim()
+    .min(2, lang === 'pt' ? 'Nome deve ter pelo menos 2 caracteres' : 'Name must have at least 2 characters')
+    .max(100, lang === 'pt' ? 'Nome muito longo' : 'Name too long'),
+  email: z.string().trim()
+    .email(lang === 'pt' ? 'Email inválido' : 'Invalid email')
+    .max(255),
+  company: z.string().trim()
+    .min(1, lang === 'pt' ? 'Empresa é obrigatória' : 'Company is required')
+    .max(100),
+  kpi: z.string().min(1, lang === 'pt' ? 'Selecione um objetivo' : 'Select an objective'),
+  message: z.string().trim()
+    .min(10, lang === 'pt' ? 'Mensagem deve ter pelo menos 10 caracteres' : 'Message must have at least 10 characters')
+    .max(1000),
 });
 
 interface FormData {
@@ -33,6 +41,7 @@ interface FormData {
   company: string;
   kpi: string;
   message: string;
+  honeypot: string; // Anti-spam field
 }
 
 interface FormErrors {
@@ -49,34 +58,65 @@ const initialFormData: FormData = {
   company: '',
   kpi: '',
   message: '',
+  honeypot: '',
 };
 
 export function Contact() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const { ref: infoRef, isVisible: infoVisible } = useIntersectionObserver({ threshold: 0.2 });
   const { ref: formRef, isVisible: formVisible } = useIntersectionObserver({ threshold: 0.2 });
+  
+  // Unique IDs for accessibility
+  const formId = useId();
+  const nameErrorId = `${formId}-name-error`;
+  const emailErrorId = `${formId}-email-error`;
+  const companyErrorId = `${formId}-company-error`;
+  const kpiErrorId = `${formId}-kpi-error`;
+  const messageErrorId = `${formId}-message-error`;
+
+  const contactSchema = createContactSchema(language);
+
+  const validateField = (name: keyof FormErrors, value: string): string | undefined => {
+    const partialData = { ...formData, [name]: value };
+    const result = contactSchema.safeParse(partialData);
+    if (!result.success) {
+      const error = result.error.errors.find(e => e.path[0] === name);
+      return error?.message;
+    }
+    return undefined;
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error on change
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    
+    // Real-time validation for touched fields
+    if (touched[name]) {
+      const error = validateField(name as keyof FormErrors, value);
+      setErrors((prev) => ({ ...prev, [name]: error }));
     }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    const error = validateField(name as keyof FormErrors, value);
+    setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   const handleKpiChange = (value: string) => {
     setFormData((prev) => ({ ...prev, kpi: value }));
-    if (errors.kpi) {
-      setErrors((prev) => ({ ...prev, kpi: undefined }));
-    }
+    setTouched((prev) => ({ ...prev, kpi: true }));
+    const error = validateField('kpi', value);
+    setErrors((prev) => ({ ...prev, kpi: error }));
   };
 
   const validateForm = (): boolean => {
@@ -88,6 +128,7 @@ export function Contact() {
         fieldErrors[field] = err.message;
       });
       setErrors(fieldErrors);
+      setTouched({ name: true, email: true, company: true, kpi: true, message: true });
       return false;
     }
     setErrors({});
@@ -97,19 +138,30 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Honeypot check - if filled, it's a bot
+    if (formData.honeypot) {
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 3000);
+      return;
+    }
+    
     if (!validateForm()) {
       toast({
-        title: 'Erro de validação',
-        description: 'Por favor, corrija os campos destacados.',
+        title: language === 'pt' ? 'Erro de validação' : 'Validation error',
+        description: language === 'pt' ? 'Por favor, corrija os campos destacados.' : 'Please fix the highlighted fields.',
         variant: 'destructive',
       });
+      // Focus first error field
+      const firstError = Object.keys(errors)[0];
+      if (firstError) {
+        document.getElementById(firstError)?.focus();
+      }
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      // Submit to Formspree (free form backend)
       const response = await fetch('https://formspree.io/f/xpwpvgqz', {
         method: 'POST',
         headers: {
@@ -128,18 +180,19 @@ export function Contact() {
       if (response.ok) {
         setIsSuccess(true);
         toast({
-          title: '✅ Mensagem enviada!',
-          description: 'Entraremos em contato em breve.',
+          title: language === 'pt' ? '✅ Mensagem enviada!' : '✅ Message sent!',
+          description: language === 'pt' ? 'Entraremos em contato em breve.' : 'We will contact you soon.',
         });
         setFormData(initialFormData);
+        setTouched({});
         setTimeout(() => setIsSuccess(false), 3000);
       } else {
         throw new Error('Erro ao enviar');
       }
     } catch {
       toast({
-        title: 'Erro ao enviar',
-        description: 'Tente novamente ou entre em contato pelo WhatsApp.',
+        title: language === 'pt' ? 'Erro ao enviar' : 'Error sending',
+        description: language === 'pt' ? 'Tente novamente ou entre em contato pelo WhatsApp.' : 'Try again or contact us via WhatsApp.',
         variant: 'destructive',
       });
     } finally {
@@ -148,8 +201,8 @@ export function Contact() {
   };
 
   const contactInfo = [
-    { icon: MapPin, label: 'Piraí do Sul - PR' },
-    { icon: Mail, label: 'contato@depirai.com', href: 'mailto:contato@depirai.com' },
+    { icon: MapPin, label: 'Piraí do Sul - PR', ariaLabel: 'Localização: Piraí do Sul, Paraná' },
+    { icon: Mail, label: 'contato@depirai.com', href: 'mailto:contato@depirai.com', ariaLabel: 'Email: contato@depirai.com' },
   ];
 
   const kpiOptions = [
@@ -160,8 +213,22 @@ export function Contact() {
     { value: 'other', label: t.contact.form.kpiOptions.other },
   ];
 
+  const ErrorMessage = ({ id, message }: { id: string; message?: string }) => {
+    if (!message) return null;
+    return (
+      <p id={id} className="flex items-center gap-1 text-xs text-destructive mt-1" role="alert">
+        <AlertCircle className="h-3 w-3" aria-hidden="true" />
+        {message}
+      </p>
+    );
+  };
+
   return (
-    <section id="contact" className="section-padding bg-muted/20">
+    <section 
+      id="contact" 
+      className="section-padding bg-muted/20"
+      aria-labelledby="contact-title"
+    >
       <div className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Info */}
@@ -172,33 +239,42 @@ export function Contact() {
               infoVisible ? "opacity-100" : "opacity-0"
             )}
           >
-            <div>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
+            <header>
+              <h2 
+                id="contact-title"
+                className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3"
+              >
                 {t.contact.title}
               </h2>
               <p className="text-muted-foreground">{t.contact.subtitle}</p>
-            </div>
+            </header>
 
-            <div className="space-y-3">
+            <address className="not-italic space-y-3">
               {contactInfo.map((item, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <item.icon className="h-4 w-4 text-primary" />
+                    <item.icon className="h-4 w-4 text-primary" aria-hidden="true" />
                   </div>
                   {item.href ? (
-                    <a href={item.href} className="text-foreground hover:text-primary transition-colors text-sm">
+                    <a 
+                      href={item.href} 
+                      className="text-foreground hover:text-primary transition-colors text-sm focus-ring rounded"
+                      aria-label={item.ariaLabel}
+                    >
                       {item.label}
                     </a>
                   ) : (
-                    <span className="text-foreground text-sm">{item.label}</span>
+                    <span className="text-foreground text-sm" aria-label={item.ariaLabel}>
+                      {item.label}
+                    </span>
                   )}
                 </div>
               ))}
-            </div>
+            </address>
 
             {/* Trust Badges */}
             <div className="p-4 rounded-lg border border-border bg-card">
-              <TechLogos title="Tecnologias que utilizamos:" />
+              <TechLogos title={language === 'pt' ? 'Tecnologias que utilizamos:' : 'Technologies we use:'} />
             </div>
           </div>
 
@@ -210,58 +286,109 @@ export function Contact() {
               formVisible ? "opacity-100" : "opacity-0"
             )}
           >
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form 
+              onSubmit={handleSubmit} 
+              className="space-y-4"
+              aria-label={language === 'pt' ? 'Formulário de contato' : 'Contact form'}
+              noValidate
+            >
+              {/* Honeypot - hidden from users, visible to bots */}
+              <div className="absolute -left-[9999px]" aria-hidden="true">
+                <label htmlFor="honeypot">
+                  Deixe este campo vazio
+                  <input
+                    type="text"
+                    id="honeypot"
+                    name="honeypot"
+                    value={formData.honeypot}
+                    onChange={(e) => setFormData(prev => ({ ...prev, honeypot: e.target.value }))}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </label>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label htmlFor="name" className="text-sm">{t.contact.form.name} *</Label>
+                  <Label htmlFor="name" className="text-sm">
+                    {t.contact.form.name} <span aria-hidden="true">*</span>
+                    <span className="sr-only">(obrigatório)</span>
+                  </Label>
                   <Input
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="João Silva"
-                    className={cn("h-9", errors.name && 'border-destructive')}
+                    className={cn("h-9", errors.name && 'border-destructive focus-visible:ring-destructive')}
                     aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? nameErrorId : undefined}
+                    aria-required="true"
+                    autoComplete="name"
                   />
-                  {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
+                  <ErrorMessage id={nameErrorId} message={errors.name} />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="email" className="text-sm">{t.contact.form.email} *</Label>
+                  <Label htmlFor="email" className="text-sm">
+                    {t.contact.form.email} <span aria-hidden="true">*</span>
+                    <span className="sr-only">(obrigatório)</span>
+                  </Label>
                   <Input
                     id="email"
                     name="email"
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="joao@empresa.com"
-                    className={cn("h-9", errors.email && 'border-destructive')}
+                    className={cn("h-9", errors.email && 'border-destructive focus-visible:ring-destructive')}
                     aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? emailErrorId : undefined}
+                    aria-required="true"
+                    autoComplete="email"
                   />
-                  {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
+                  <ErrorMessage id={emailErrorId} message={errors.email} />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <Label htmlFor="company" className="text-sm">{t.contact.form.company} *</Label>
+                  <Label htmlFor="company" className="text-sm">
+                    {t.contact.form.company} <span aria-hidden="true">*</span>
+                    <span className="sr-only">(obrigatório)</span>
+                  </Label>
                   <Input
                     id="company"
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     placeholder="Sua Empresa S.A."
-                    className={cn("h-9", errors.company && 'border-destructive')}
+                    className={cn("h-9", errors.company && 'border-destructive focus-visible:ring-destructive')}
                     aria-invalid={!!errors.company}
+                    aria-describedby={errors.company ? companyErrorId : undefined}
+                    aria-required="true"
+                    autoComplete="organization"
                   />
-                  {errors.company && <p className="text-xs text-destructive">{errors.company}</p>}
+                  <ErrorMessage id={companyErrorId} message={errors.company} />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="kpi" className="text-sm">{t.contact.form.kpi} *</Label>
+                  <Label htmlFor="kpi" className="text-sm">
+                    {t.contact.form.kpi} <span aria-hidden="true">*</span>
+                    <span className="sr-only">(obrigatório)</span>
+                  </Label>
                   <Select value={formData.kpi} onValueChange={handleKpiChange}>
-                    <SelectTrigger className={cn("h-9", errors.kpi && 'border-destructive')}>
-                      <SelectValue placeholder="Selecione..." />
+                    <SelectTrigger 
+                      id="kpi"
+                      className={cn("h-9", errors.kpi && 'border-destructive focus-visible:ring-destructive')}
+                      aria-invalid={!!errors.kpi}
+                      aria-describedby={errors.kpi ? kpiErrorId : undefined}
+                      aria-required="true"
+                    >
+                      <SelectValue placeholder={language === 'pt' ? 'Selecione...' : 'Select...'} />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-card border-border z-50">
                       {kpiOptions.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
@@ -269,55 +396,85 @@ export function Contact() {
                       ))}
                     </SelectContent>
                   </Select>
-                  {errors.kpi && <p className="text-xs text-destructive">{errors.kpi}</p>}
+                  <ErrorMessage id={kpiErrorId} message={errors.kpi} />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="message" className="text-sm">{t.contact.form.message} *</Label>
+                <Label htmlFor="message" className="text-sm">
+                  {t.contact.form.message} <span aria-hidden="true">*</span>
+                  <span className="sr-only">(obrigatório)</span>
+                </Label>
                 <Textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   rows={3}
-                  placeholder="Descreva seu projeto ou desafio..."
-                  className={errors.message ? 'border-destructive' : ''}
+                  placeholder={language === 'pt' ? 'Descreva seu projeto ou desafio...' : 'Describe your project or challenge...'}
+                  className={cn(errors.message && 'border-destructive focus-visible:ring-destructive')}
                   aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? messageErrorId : undefined}
+                  aria-required="true"
                 />
-                {errors.message && <p className="text-xs text-destructive">{errors.message}</p>}
+                <ErrorMessage id={messageErrorId} message={errors.message} />
               </div>
 
               <Button 
                 type="submit" 
                 className="w-full h-10" 
                 disabled={isSubmitting}
+                aria-busy={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t.contact.form.sending}
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
+                    <span>{t.contact.form.sending}</span>
                   </>
                 ) : isSuccess ? (
                   <>
-                    <CheckCircle2 className="mr-2 h-4 w-4" />
-                    Enviado!
+                    <CheckCircle2 className="mr-2 h-4 w-4" aria-hidden="true" />
+                    <span>{language === 'pt' ? 'Enviado!' : 'Sent!'}</span>
                   </>
                 ) : (
                   <>
-                    {t.contact.form.submit}
-                    <Send className="ml-2 h-4 w-4" />
+                    <span>{t.contact.form.submit}</span>
+                    <Send className="ml-2 h-4 w-4" aria-hidden="true" />
                   </>
                 )}
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
-                Seus dados estão protegidos.
+                {language === 'pt' ? 'Seus dados estão protegidos conforme LGPD.' : 'Your data is protected under LGPD.'}
               </p>
             </form>
           </div>
         </div>
       </div>
+
+      {/* Schema.org ContactPage */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          "name": "Contato - Depirai",
+          "description": t.contact.subtitle,
+          "url": "https://depirai.com/#contact",
+          "mainEntity": {
+            "@type": "Organization",
+            "name": "Depirai",
+            "email": "contato@depirai.com",
+            "telephone": "+55-42-98891-1463",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Piraí do Sul",
+              "addressRegion": "PR",
+              "addressCountry": "BR"
+            }
+          }
+        })
+      }} />
     </section>
   );
 }
