@@ -23,17 +23,19 @@ interface ParticleBackgroundProps {
 
 export function ParticleBackground({
   className,
-  particleCount = 50,
+  particleCount = 30, // Reduced for better performance
   particleColor = 'hsl(357, 66%, 46%)',
   lineColor = 'hsl(357, 66%, 46%)',
-  interactive = true,
-  speed = 0.5,
-  connectionDistance = 120,
+  interactive = false, // Disabled by default for performance
+  speed = 0.3, // Slower for less CPU usage
+  connectionDistance = 80, // Reduced connection distance
 }: ParticleBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: -1000, y: -1000 });
   const animationRef = useRef<number>();
+  const lastFrameTime = useRef(0);
+  const FPS_LIMIT = 30; // Limit to 30 FPS for better performance
 
   const createParticle = useCallback((width: number, height: number): Particle => {
     return {
@@ -41,8 +43,8 @@ export function ParticleBackground({
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * speed,
       vy: (Math.random() - 0.5) * speed,
-      radius: Math.random() * 2 + 1,
-      opacity: Math.random() * 0.5 + 0.2,
+      radius: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.4 + 0.1,
       color: particleColor,
     };
   }, [speed, particleColor]);
@@ -95,7 +97,14 @@ export function ParticleBackground({
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseleave', handleMouseLeave);
 
-    const animate = () => {
+    const animate = (currentTime: number) => {
+      // Throttle to FPS_LIMIT
+      if (currentTime - lastFrameTime.current < 1000 / FPS_LIMIT) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastFrameTime.current = currentTime;
+
       const parent = canvas.parentElement;
       if (!parent) return;
       
@@ -182,7 +191,7 @@ export function ParticleBackground({
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    animate();
+    animate(0);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
