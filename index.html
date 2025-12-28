@@ -147,17 +147,23 @@
       </div>
     </div>
     <script>
-      // Lazy load VLibras after page load
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          var script = document.createElement('script');
-          script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
-          script.onload = function() {
-            new window.VLibras.Widget('https://vlibras.gov.br/app');
-          };
-          document.body.appendChild(script);
-        }, 3000);
+      // Lazy load VLibras after user interaction for better Core Web Vitals
+      var vlibrasLoaded = false;
+      function loadVLibras() {
+        if (vlibrasLoaded) return;
+        vlibrasLoaded = true;
+        var script = document.createElement('script');
+        script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+        script.onload = function() {
+          new window.VLibras.Widget('https://vlibras.gov.br/app');
+        };
+        document.body.appendChild(script);
+      }
+      // Load on first interaction or after 5 seconds
+      ['scroll', 'click', 'touchstart'].forEach(function(event) {
+        window.addEventListener(event, loadVLibras, { once: true, passive: true });
       });
+      setTimeout(loadVLibras, 5000);
     </script>
   </body>
 </html>

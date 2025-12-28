@@ -118,6 +118,7 @@ export default defineConfig(({ mode }) => ({
           // Vendor chunks for better caching
           'vendor-react': ['react', 'react-dom'],
           'vendor-router': ['react-router-dom'],
+          'vendor-ui': ['@radix-ui/react-tooltip', '@radix-ui/react-select', '@radix-ui/react-accordion'],
         },
       },
     },
@@ -125,11 +126,16 @@ export default defineConfig(({ mode }) => ({
     target: 'es2020',
     // Optimize CSS
     cssCodeSplit: true,
+    // Minify with better compression
+    minify: 'esbuild',
     // Chunk size warning limit
     chunkSizeWarningLimit: 500,
+    // Source maps only in dev
+    sourcemap: false,
   },
   // Optimize dependencies
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+    include: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
+    exclude: ['@tanstack/react-query'],
   },
 }));

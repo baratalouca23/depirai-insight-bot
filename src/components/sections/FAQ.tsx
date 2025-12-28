@@ -6,9 +6,7 @@ import {
   Clock, 
   Headphones, 
   Shield, 
-  Calendar,
-  Sparkles,
-  MessageCircleQuestion
+  Calendar
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';

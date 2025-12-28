@@ -21,14 +21,14 @@ const WhatsAppFloat = lazy(() => import('@/components/features/WhatsAppFloat').t
 const MobileCTA = lazy(() => import('@/components/features/MobileCTA').then(m => ({ default: m.MobileCTA })));
 const ParallaxSection = lazy(() => import('@/components/features/AnimatedSection').then(m => ({ default: m.ParallaxSection })));
 
-// Lightweight section placeholder
+// Minimal section placeholder
 const SectionSkeleton = () => (
-  <div className="py-16 md:py-24">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-      <div className="h-8 w-48 bg-muted/50 rounded mx-auto mb-8 animate-pulse" />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div className="py-16 md:py-24" aria-busy="true" aria-label="Carregando seção">
+    <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+      <div className="h-6 w-40 bg-muted/40 rounded mx-auto mb-6" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[1, 2, 3].map(i => (
-          <div key={i} className="h-48 bg-muted/30 rounded-xl animate-pulse" />
+          <div key={i} className="h-40 bg-muted/20 rounded-xl" />
         ))}
       </div>
     </div>
