@@ -50,11 +50,29 @@ export const translations = {
               solution: 'Sistemas customizados que automatizam processos e aumentam produtividade.',
               features: ['Painéis admin', 'Automação', 'Relatórios', 'Integrações API'],
             },
+          ],
+        },
+        marketing: {
+          title: 'Marketing Digital',
+          subtitle: 'Estratégias para crescer online',
+          items: [
             {
-              title: 'Aplicativos',
-              problem: 'Seus clientes precisam de acesso mobile mas você não tem presença no celular?',
-              solution: 'Apps mobile e web apps que levam seu negócio para o bolso do cliente.',
-              features: ['iOS e Android', 'PWA', 'Push notifications', 'Offline first'],
+              title: 'Gestão de Tráfego',
+              problem: 'Seus anúncios não geram resultados ou você gasta muito sem retorno?',
+              solution: 'Campanhas otimizadas no Google e Meta Ads com foco em ROI e conversão.',
+              features: ['Google Ads', 'Meta Ads', 'Remarketing', 'Relatórios mensais'],
+            },
+            {
+              title: 'Redes Sociais',
+              problem: 'Sua marca não tem presença nas redes ou não engaja o público?',
+              solution: 'Gestão profissional de redes sociais com conteúdo estratégico e calendário.',
+              features: ['Instagram/Facebook', 'LinkedIn', 'Calendário editorial', 'Design de posts'],
+            },
+            {
+              title: 'SEO & Conteúdo',
+              problem: 'Seu site não aparece no Google e você depende só de anúncios?',
+              solution: 'Otimização para buscadores e criação de conteúdo que atrai tráfego orgânico.',
+              features: ['SEO técnico', 'Blog corporativo', 'Palavras-chave', 'Link building'],
             },
           ],
         },
@@ -83,20 +101,20 @@ export const translations = {
           ],
         },
         security: {
-          title: 'CSTV & Segurança',
-          subtitle: 'Proteção completa para seu patrimônio',
+          title: 'Segurança & CFTV',
+          subtitle: 'Proteção digital e física completa',
           items: [
+            {
+              title: 'Segurança da Informação',
+              problem: 'Ataques hackers, vazamento de dados e multas LGPD?',
+              solution: 'Políticas de segurança, hardening e proteção de dados para sua empresa.',
+              features: ['Hardening CIS', 'LGPD compliance', 'Backup criptografado', 'Auditoria'],
+            },
             {
               title: 'Câmeras e Monitoramento',
               problem: 'Preocupado com segurança física do seu negócio ou residência?',
               solution: 'Sistemas de CFTV com acesso remoto e integração com alarmes.',
               features: ['Câmeras HD/4K', 'Acesso remoto', 'Gravação cloud', 'Detecção movimento'],
-            },
-            {
-              title: 'Segurança Digital',
-              problem: 'Ataques hackers, vazamento de dados e multas LGPD?',
-              solution: 'Hardening, firewall e políticas de segurança para proteger seus dados.',
-              features: ['Hardening CIS', 'Fail2ban/UFW', 'Backup criptografado', 'Auditoria LGPD'],
             },
             {
               title: 'Consultoria Técnica',
@@ -241,11 +259,29 @@ export const translations = {
               solution: 'Custom systems that automate processes and increase productivity.',
               features: ['Admin panels', 'Automation', 'Reports', 'API integrations'],
             },
+          ],
+        },
+        marketing: {
+          title: 'Digital Marketing',
+          subtitle: 'Strategies to grow online',
+          items: [
             {
-              title: 'Applications',
-              problem: 'Your clients need mobile access but you have no mobile presence?',
-              solution: 'Mobile and web apps that bring your business to your clients pocket.',
-              features: ['iOS and Android', 'PWA', 'Push notifications', 'Offline first'],
+              title: 'Traffic Management',
+              problem: 'Your ads dont generate results or you spend too much without return?',
+              solution: 'Optimized campaigns on Google and Meta Ads focused on ROI and conversion.',
+              features: ['Google Ads', 'Meta Ads', 'Remarketing', 'Monthly reports'],
+            },
+            {
+              title: 'Social Media',
+              problem: 'Your brand has no presence on social media or doesnt engage the audience?',
+              solution: 'Professional social media management with strategic content and calendar.',
+              features: ['Instagram/Facebook', 'LinkedIn', 'Editorial calendar', 'Post design'],
+            },
+            {
+              title: 'SEO & Content',
+              problem: 'Your site doesnt appear on Google and you only depend on ads?',
+              solution: 'Search engine optimization and content creation that attracts organic traffic.',
+              features: ['Technical SEO', 'Corporate blog', 'Keywords', 'Link building'],
             },
           ],
         },
@@ -274,20 +310,20 @@ export const translations = {
           ],
         },
         security: {
-          title: 'CCTV & Security',
-          subtitle: 'Complete protection for your assets',
+          title: 'Security & CCTV',
+          subtitle: 'Complete digital and physical protection',
           items: [
+            {
+              title: 'Information Security',
+              problem: 'Hacker attacks, data leaks and LGPD fines?',
+              solution: 'Security policies, hardening and data protection for your company.',
+              features: ['CIS Hardening', 'LGPD compliance', 'Encrypted backup', 'Audit'],
+            },
             {
               title: 'Cameras and Monitoring',
               problem: 'Worried about physical security of your business or residence?',
               solution: 'CCTV systems with remote access and alarm integration.',
               features: ['HD/4K Cameras', 'Remote access', 'Cloud recording', 'Motion detection'],
-            },
-            {
-              title: 'Digital Security',
-              problem: 'Hacker attacks, data leaks and LGPD fines?',
-              solution: 'Hardening, firewall and security policies to protect your data.',
-              features: ['CIS Hardening', 'Fail2ban/UFW', 'Encrypted backup', 'LGPD Audit'],
             },
             {
               title: 'Technical Consulting',
@@ -432,11 +468,29 @@ export const translations = {
               solution: 'Sistemas personalizados que automatizan procesos y aumentan la productividad.',
               features: ['Paneles admin', 'Automatización', 'Reportes', 'Integraciones API'],
             },
+          ],
+        },
+        marketing: {
+          title: 'Marketing Digital',
+          subtitle: 'Estrategias para crecer online',
+          items: [
             {
-              title: 'Aplicaciones',
-              problem: '¿Tus clientes necesitan acceso móvil pero no tienes presencia en celular?',
-              solution: 'Apps móviles y web apps que llevan tu negocio al bolsillo del cliente.',
-              features: ['iOS y Android', 'PWA', 'Push notifications', 'Offline first'],
+              title: 'Gestión de Tráfico',
+              problem: '¿Tus anuncios no generan resultados o gastas mucho sin retorno?',
+              solution: 'Campañas optimizadas en Google y Meta Ads con enfoque en ROI y conversión.',
+              features: ['Google Ads', 'Meta Ads', 'Remarketing', 'Reportes mensuales'],
+            },
+            {
+              title: 'Redes Sociales',
+              problem: '¿Tu marca no tiene presencia en redes o no conecta con el público?',
+              solution: 'Gestión profesional de redes sociales con contenido estratégico y calendario.',
+              features: ['Instagram/Facebook', 'LinkedIn', 'Calendario editorial', 'Diseño de posts'],
+            },
+            {
+              title: 'SEO & Contenido',
+              problem: '¿Tu sitio no aparece en Google y solo dependes de anuncios?',
+              solution: 'Optimización para buscadores y creación de contenido que atrae tráfico orgánico.',
+              features: ['SEO técnico', 'Blog corporativo', 'Palabras clave', 'Link building'],
             },
           ],
         },
