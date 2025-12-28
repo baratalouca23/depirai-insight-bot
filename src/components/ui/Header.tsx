@@ -50,7 +50,7 @@ export function Header() {
           key={link.href}
           href={link.href}
           onClick={onClick}
-          className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+          className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-150"
         >
           {link.label}
         </a>
@@ -61,10 +61,10 @@ export function Header() {
         key={link.route}
         to={link.route}
         onClick={onClick}
-        className={`text-sm font-medium transition-all duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 ${
+        className={`text-sm font-medium transition-colors duration-150 ${
           location.pathname === link.route 
-            ? 'text-primary after:w-full' 
-            : 'text-muted-foreground hover:text-foreground after:w-0 hover:after:w-full'
+            ? 'text-primary' 
+            : 'text-muted-foreground hover:text-foreground'
         }`}
       >
         {link.label}
@@ -101,9 +101,9 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-background/85 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.05),0_8px_24px_rgba(0,0,0,0.08)] border-b border-border/50'
+          ? 'bg-background/90 backdrop-blur-lg shadow-sm border-b border-border/40'
           : 'bg-transparent'
       } ${
         scrollDirection === 'down' && isScrolled && !isMobileMenuOpen
@@ -111,14 +111,14 @@ export function Header() {
           : 'translate-y-0'
       }`}
     >
-      <nav className="section-container flex items-center justify-between h-16 md:h-20">
+      <nav className="section-container flex items-center justify-between h-16 md:h-18">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <img src={logo} alt="Depirai" className="h-8 md:h-10 w-auto" />
+        <Link to="/" className="flex items-center transition-opacity duration-200 hover:opacity-80">
+          <img src={logo} alt="Depirai" className="h-7 md:h-8 w-auto" />
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => renderNavLink(link))}
         </div>
 
