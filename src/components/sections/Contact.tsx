@@ -163,45 +163,41 @@ export function Contact() {
   return (
     <section id="contact" className="section-padding bg-muted/20">
       <div className="section-container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Info */}
           <div 
             ref={infoRef}
             className={cn(
-              "space-y-8 transition-all duration-700",
-              infoVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              "space-y-6 transition-opacity duration-300",
+              infoVisible ? "opacity-100" : "opacity-0"
             )}
           >
             <div>
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                Fale Conosco
-              </span>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-3">
                 {t.contact.title}
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">{t.contact.subtitle}</p>
+              <p className="text-muted-foreground">{t.contact.subtitle}</p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {contactInfo.map((item, index) => (
-                <div key={index} className="flex items-center gap-4 group">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <item.icon className="h-5 w-5 text-primary" />
+                <div key={index} className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <item.icon className="h-4 w-4 text-primary" />
                   </div>
                   {item.href ? (
-                    <a href={item.href} className="text-foreground hover:text-primary transition-colors font-medium">
+                    <a href={item.href} className="text-foreground hover:text-primary transition-colors text-sm">
                       {item.label}
                     </a>
                   ) : (
-                    <span className="text-foreground font-medium">{item.label}</span>
+                    <span className="text-foreground text-sm">{item.label}</span>
                   )}
                 </div>
               ))}
             </div>
 
             {/* Trust Badges */}
-            <div className="card-minimal">
+            <div className="p-4 rounded-lg border border-border bg-card">
               <TechLogos title="Tecnologias que utilizamos:" />
             </div>
           </div>
@@ -210,27 +206,27 @@ export function Contact() {
           <div 
             ref={formRef}
             className={cn(
-              "card-minimal bg-card transition-all duration-700 delay-200",
-              formVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              "p-6 rounded-lg border border-border bg-card transition-opacity duration-300",
+              formVisible ? "opacity-100" : "opacity-0"
             )}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-sm font-medium">{t.contact.form.name} *</Label>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <Label htmlFor="name" className="text-sm">{t.contact.form.name} *</Label>
                   <Input
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="João Silva"
-                    className={errors.name ? 'border-destructive focus-visible:ring-destructive' : ''}
+                    className={cn("h-9", errors.name && 'border-destructive')}
                     aria-invalid={!!errors.name}
                   />
                   {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium">{t.contact.form.email} *</Label>
+                <div className="space-y-1.5">
+                  <Label htmlFor="email" className="text-sm">{t.contact.form.email} *</Label>
                   <Input
                     id="email"
                     name="email"
@@ -238,31 +234,31 @@ export function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="joao@empresa.com"
-                    className={errors.email ? 'border-destructive focus-visible:ring-destructive' : ''}
+                    className={cn("h-9", errors.email && 'border-destructive')}
                     aria-invalid={!!errors.email}
                   />
                   {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <Label htmlFor="company" className="text-sm font-medium">{t.contact.form.company} *</Label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <Label htmlFor="company" className="text-sm">{t.contact.form.company} *</Label>
                   <Input
                     id="company"
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
                     placeholder="Sua Empresa S.A."
-                    className={errors.company ? 'border-destructive focus-visible:ring-destructive' : ''}
+                    className={cn("h-9", errors.company && 'border-destructive')}
                     aria-invalid={!!errors.company}
                   />
                   {errors.company && <p className="text-xs text-destructive">{errors.company}</p>}
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="kpi" className="text-sm font-medium">{t.contact.form.kpi} *</Label>
+                <div className="space-y-1.5">
+                  <Label htmlFor="kpi" className="text-sm">{t.contact.form.kpi} *</Label>
                   <Select value={formData.kpi} onValueChange={handleKpiChange}>
-                    <SelectTrigger className={errors.kpi ? 'border-destructive focus:ring-destructive' : ''}>
+                    <SelectTrigger className={cn("h-9", errors.kpi && 'border-destructive')}>
                       <SelectValue placeholder="Selecione..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -277,16 +273,16 @@ export function Contact() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="message" className="text-sm font-medium">{t.contact.form.message} *</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="message" className="text-sm">{t.contact.form.message} *</Label>
                 <Textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  rows={4}
+                  rows={3}
                   placeholder="Descreva seu projeto ou desafio..."
-                  className={errors.message ? 'border-destructive focus-visible:ring-destructive' : ''}
+                  className={errors.message ? 'border-destructive' : ''}
                   aria-invalid={!!errors.message}
                 />
                 {errors.message && <p className="text-xs text-destructive">{errors.message}</p>}
@@ -294,29 +290,29 @@ export function Contact() {
 
               <Button 
                 type="submit" 
-                className="w-full btn-glow h-12 text-base font-medium" 
+                className="w-full h-10" 
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     {t.contact.form.sending}
                   </>
                 ) : isSuccess ? (
                   <>
-                    <CheckCircle2 className="mr-2 h-5 w-5" />
+                    <CheckCircle2 className="mr-2 h-4 w-4" />
                     Enviado!
                   </>
                 ) : (
                   <>
                     {t.contact.form.submit}
-                    <Send className="ml-2 h-5 w-5" />
+                    <Send className="ml-2 h-4 w-4" />
                   </>
                 )}
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
-                Seus dados estão protegidos e não serão compartilhados.
+                Seus dados estão protegidos.
               </p>
             </form>
           </div>
