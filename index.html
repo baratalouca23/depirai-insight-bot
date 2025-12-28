@@ -4,39 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="/src/index.css" as="style" />
+    
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
     <!-- SEO Meta Tags -->
-    <title>Depirai | Engenharia de Receita & Infraestrutura TI - Consultoria Linux HA e Power BI</title>
+    <title>Depirai | Desenvolvimento Web Fullstack - Experiências Digitais e Sistemas Inteligentes</title>
     <meta
       name="description"
-      content="Consultoria especializada em infraestrutura Linux de alta disponibilidade e soluções Power BI. Reduza TCO em até 40% e transforme sua infraestrutura em receita previsível."
+      content="Criamos experiências digitais e sistemas inteligentes. Desenvolvimento Web Fullstack focado em performance e usabilidade. Transformamos suas ideias em soluções digitais."
     />
     <meta
       name="keywords"
-      content="Linux HA, Power BI, consultoria TI, redução TCO, alta disponibilidade, DevOps, data engineering, infraestrutura"
+      content="desenvolvimento web, fullstack, react, sistemas inteligentes, performance, usabilidade, UX, design, aplicações web"
     />
     <meta name="author" content="Depirai" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Depirai - Engenharia de Receita & Infraestrutura TI" />
+    <meta property="og:title" content="Depirai - Desenvolvimento Web Fullstack" />
     <meta
       property="og:description"
-      content="Consultoria especializada em Linux HA e Power BI. Reduza TCO em até 40%."
+      content="Criamos experiências digitais e sistemas inteligentes. Desenvolvimento focado em performance."
     />
     <meta property="og:url" content="https://depirai.com" />
     <meta property="og:site_name" content="Depirai" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content="https://depirai.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Depirai - Engenharia de Receita & Infraestrutura TI" />
-    <meta name="twitter:description" content="Consultoria especializada em Linux HA e Power BI." />
+    <meta name="twitter:title" content="Depirai - Desenvolvimento Web Fullstack" />
+    <meta name="twitter:description" content="Criamos experiências digitais e sistemas inteligentes." />
+    <meta name="twitter:image" content="https://depirai.com/og-image.png" />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://depirai.com" />
 
-    <!-- Favicon -->
+    <!-- Favicon & Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#C1272D" />
 
     <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,7 +63,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" media="print" onload="this.media='all'" />
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#C1272D" />
+    <meta name="theme-color" content="#C1272D" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)" />
 
     <!-- Structured Data - Organization -->
     <script type="application/ld+json">
