@@ -6,98 +6,98 @@
 
 @layer base {
   :root {
-    /* Depirai Corporate Theme - Light */
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    /* Clean Modern Theme - Light */
+    --background: 0 0% 99%;
+    --foreground: 220 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 220 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 220 15% 15%;
 
-    /* Brand Red #C1272D */
-    --primary: 357 66% 46%;
+    /* Brand Red - Refined */
+    --primary: 357 72% 48%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 15% 20%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 50%;
 
-    --accent: 357 66% 46%;
+    --accent: 357 72% 48%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 357 66% 46%;
+    --border: 220 14% 92%;
+    --input: 220 14% 92%;
+    --ring: 357 72% 48%;
 
-    --radius: 0.75rem;
+    --radius: 0.625rem;
 
-    /* Custom tokens */
-    --hero-gradient: linear-gradient(135deg, hsl(210 40% 98%) 0%, hsl(220 30% 95%) 100%);
-    --card-shadow: 0 4px 6px -1px hsl(222 47% 11% / 0.05), 0 2px 4px -2px hsl(222 47% 11% / 0.05);
-    --card-shadow-hover: 0 20px 25px -5px hsl(222 47% 11% / 0.1), 0 8px 10px -6px hsl(222 47% 11% / 0.1);
-    --glow-primary: 0 0 40px hsl(357 66% 46% / 0.3);
+    /* Refined tokens - cleaner shadows */
+    --hero-gradient: linear-gradient(180deg, hsl(0 0% 99%) 0%, hsl(220 20% 97%) 100%);
+    --card-shadow: 0 1px 3px hsl(220 15% 15% / 0.04), 0 1px 2px hsl(220 15% 15% / 0.06);
+    --card-shadow-hover: 0 10px 40px -10px hsl(220 15% 15% / 0.12), 0 4px 6px -4px hsl(220 15% 15% / 0.08);
+    --glow-primary: 0 0 24px hsl(357 72% 48% / 0.15);
 
     /* Sidebar */
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-foreground: 220 15% 30%;
+    --sidebar-primary: 220 15% 15%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 357 66% 46%;
+    --sidebar-accent: 220 14% 96%;
+    --sidebar-accent-foreground: 220 15% 15%;
+    --sidebar-border: 220 14% 92%;
+    --sidebar-ring: 357 72% 48%;
   }
 
   .dark {
-    --background: 222 47% 5%;
-    --foreground: 220 20% 95%;
+    --background: 220 20% 6%;
+    --foreground: 220 20% 96%;
 
-    --card: 222 40% 8%;
-    --card-foreground: 220 20% 95%;
+    --card: 220 20% 9%;
+    --card-foreground: 220 20% 96%;
 
-    --popover: 222 40% 8%;
-    --popover-foreground: 220 20% 95%;
+    --popover: 220 20% 9%;
+    --popover-foreground: 220 20% 96%;
 
-    --primary: 357 70% 55%;
+    --primary: 357 75% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 25% 14%;
-    --secondary-foreground: 220 20% 90%;
+    --secondary: 220 20% 13%;
+    --secondary-foreground: 220 20% 92%;
 
-    --muted: 220 20% 12%;
-    --muted-foreground: 220 15% 60%;
+    --muted: 220 20% 13%;
+    --muted-foreground: 220 15% 55%;
 
-    --accent: 357 70% 55%;
+    --accent: 357 75% 58%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 65% 45%;
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 20% 16%;
-    --input: 220 20% 14%;
-    --ring: 357 70% 55%;
+    --border: 220 20% 14%;
+    --input: 220 20% 12%;
+    --ring: 357 75% 58%;
 
-    --hero-gradient: linear-gradient(135deg, hsl(222 47% 5%) 0%, hsl(225 40% 8%) 50%, hsl(222 47% 5%) 100%);
-    --card-shadow: 0 4px 12px -2px hsl(0 0% 0% / 0.4), 0 2px 6px -2px hsl(0 0% 0% / 0.3);
-    --card-shadow-hover: 0 20px 40px -10px hsl(0 0% 0% / 0.5), 0 8px 16px -8px hsl(357 70% 55% / 0.15);
-    --glow-primary: 0 0 60px hsl(357 70% 55% / 0.25);
-    --glow-subtle: 0 0 80px hsl(220 60% 50% / 0.08);
+    --hero-gradient: linear-gradient(180deg, hsl(220 20% 6%) 0%, hsl(220 25% 8%) 100%);
+    --card-shadow: 0 1px 3px hsl(0 0% 0% / 0.2), 0 1px 2px hsl(0 0% 0% / 0.3);
+    --card-shadow-hover: 0 10px 40px -10px hsl(0 0% 0% / 0.4), 0 4px 6px -4px hsl(357 75% 58% / 0.1);
+    --glow-primary: 0 0 32px hsl(357 75% 58% / 0.2);
+    --glow-subtle: 0 0 60px hsl(220 60% 50% / 0.05);
 
-    --sidebar-background: 222 40% 6%;
+    --sidebar-background: 220 20% 7%;
     --sidebar-foreground: 220 20% 90%;
-    --sidebar-primary: 357 70% 55%;
+    --sidebar-primary: 357 75% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 20% 12%;
-    --sidebar-accent-foreground: 220 20% 90%;
+    --sidebar-accent-foreground: 220 20% 92%;
     --sidebar-border: 220 20% 14%;
-    --sidebar-ring: 357 70% 55%;
+    --sidebar-ring: 357 75% 58%;
   }
 }
 
@@ -162,86 +162,69 @@
 
 @layer components {
   .section-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-12;
+    @apply max-w-6xl mx-auto px-5 sm:px-6 lg:px-8;
   }
 
   .section-padding {
-    @apply py-16 md:py-24 lg:py-32;
+    @apply py-20 md:py-28 lg:py-36;
   }
 
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 50%, hsl(var(--primary)) 100%);
-    background-size: 200% auto;
-    animation: gradientShift 3s ease-in-out infinite;
-  }
-  
-  @keyframes gradientShift {
-    0%, 100% {
-      background-position: 0% center;
-    }
-    50% {
-      background-position: 100% center;
-    }
+    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.75) 100%);
   }
 
   .text-glow {
-    text-shadow: 0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.3);
+    text-shadow: 0 0 16px hsl(var(--primary) / 0.3);
   }
 
   .dark .text-glow {
-    text-shadow: 0 0 30px hsl(var(--primary) / 0.6), 0 0 60px hsl(var(--primary) / 0.4);
+    text-shadow: 0 0 24px hsl(var(--primary) / 0.4);
   }
 
   .card-hover {
-    @apply transition-all duration-300 ease-out hover:shadow-[var(--card-shadow-hover)] hover:-translate-y-1;
+    @apply transition-all duration-200 ease-out hover:shadow-[var(--card-shadow-hover)] hover:-translate-y-0.5;
   }
 
   .card-minimal {
-    @apply bg-card rounded-2xl p-5 md:p-8 shadow-[0_2px_8px_-2px_hsl(var(--foreground)/0.08)] border border-border/50 transition-all duration-300;
+    @apply bg-card rounded-xl p-6 md:p-8 shadow-[var(--card-shadow)] border border-border/60 transition-all duration-200;
   }
 
   .dark .card-minimal {
-    @apply bg-gradient-to-br from-card to-card/80 border-border/30 shadow-[0_4px_12px_-2px_hsl(0_0%_0%/0.3)];
+    @apply bg-card border-border/40;
   }
 
   .card-minimal:hover {
-    @apply shadow-[0_8px_24px_-8px_hsl(var(--foreground)/0.12)] -translate-y-0.5;
-  }
-
-  .dark .card-minimal:hover {
-    @apply shadow-[0_12px_32px_-8px_hsl(0_0%_0%/0.4),0_0_20px_hsl(357_70%_55%/0.1)];
+    @apply shadow-[var(--card-shadow-hover)] -translate-y-0.5;
   }
 
   .btn-glow {
-    @apply relative overflow-hidden;
+    @apply relative overflow-hidden transition-all duration-200;
   }
 
-  .btn-glow::before {
-    content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full;
-    animation: shimmer 2s infinite;
+  .btn-glow:hover {
+    @apply shadow-[var(--glow-primary)];
   }
 
-  /* Micro-interactions */
+  /* Subtle micro-interactions */
   .hover-lift {
-    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg;
+    @apply transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[var(--card-shadow-hover)];
   }
 
   .hover-scale {
-    @apply transition-transform duration-200 ease-out hover:scale-[1.02] active:scale-[0.98];
+    @apply transition-transform duration-150 ease-out hover:scale-[1.015] active:scale-[0.985];
   }
 
   .hover-glow {
-    @apply transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--primary)/0.3)];
+    @apply transition-shadow duration-200 hover:shadow-[0_0_16px_hsl(var(--primary)/0.15)];
   }
 
   .hover-glow-strong {
-    @apply transition-all duration-300 hover:shadow-[0_0_40px_hsl(var(--primary)/0.4)];
+    @apply transition-shadow duration-200 hover:shadow-[var(--glow-primary)];
   }
 
   .link-hover {
-    @apply relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full;
+    @apply relative after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-0 after:bg-primary after:transition-all after:duration-200 hover:after:w-full;
   }
 
   /* Icon animations */
