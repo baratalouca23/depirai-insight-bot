@@ -99,7 +99,7 @@ export function Services() {
                     <article
                       key={index}
                       className={cn(
-                        "bg-card rounded-xl p-6 border border-border hover:border-primary/30 transition-all duration-200 hover:shadow-sm",
+                        "group bg-card rounded-xl p-6 border border-border hover:border-primary/30 transition-all duration-200 hover:shadow-sm",
                         contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                       )}
                       style={{ 
@@ -107,8 +107,8 @@ export function Services() {
                       }}
                     >
                       {/* Service specific icon */}
-                      <div className="mb-4 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <ServiceIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+                      <div className="mb-4 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
+                        <ServiceIcon className="h-5 w-5 text-primary transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" aria-hidden="true" />
                       </div>
 
                       {/* Title */}
