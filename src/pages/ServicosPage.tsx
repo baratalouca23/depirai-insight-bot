@@ -84,7 +84,7 @@ const servicesData = [
 ];
 
 export default function ServicosPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <div className="min-h-screen bg-background">
@@ -96,73 +96,101 @@ export default function ServicosPage() {
 
           {/* Header */}
           <AnimatedSection animation="fade-up">
-            <div className="text-center mb-12">
+            <header className="text-center mb-12">
               <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-                Nossos Serviços
+                {language === 'pt' ? 'Nossos Serviços' : language === 'es' ? 'Nuestros Servicios' : 'Our Services'}
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Soluções completas em infraestrutura TI e Business Intelligence para transformar seu negócio
+                {language === 'pt' 
+                  ? 'Soluções completas em infraestrutura TI e Business Intelligence para transformar seu negócio'
+                  : language === 'es' 
+                    ? 'Soluciones completas en infraestructura TI y Business Intelligence para transformar su negocio'
+                    : 'Complete IT infrastructure and Business Intelligence solutions to transform your business'}
               </p>
-            </div>
+            </header>
           </AnimatedSection>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {servicesData.map((service, index) => {
-              const IconComponent = service.icon;
-              
-              return (
-                <AnimatedSection 
-                  key={index} 
-                  animation="fade-up" 
-                  delay={index * 100}
-                >
-                  <div className="bg-card rounded-2xl p-8 shadow-card border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group h-full">
-                    <div className={`w-14 h-14 rounded-xl ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                      <IconComponent className="h-7 w-7" />
-                    </div>
-                    
-                    <h3 className="font-display text-xl font-bold text-foreground mb-2">
-                      {service.title}
-                    </h3>
-                    <p className="text-muted-foreground mb-4 text-sm">{service.description}</p>
-                    
-                    <ul className="space-y-2 mb-6">
-                      {service.features.map((feature, i) => (
-                        <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    
-                    <div className="pt-4 border-t border-border">
-                      <p className="text-xs text-muted-foreground">
-                        Responsável: <span className="text-primary font-medium">{service.responsible}</span>
-                      </p>
-                    </div>
-                  </div>
-                </AnimatedSection>
-              );
-            })}
-          </div>
+          <section aria-label="Lista de serviços">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {servicesData.map((service, index) => {
+                const IconComponent = service.icon;
+                
+                return (
+                  <AnimatedSection 
+                    key={index} 
+                    animation="fade-up" 
+                    delay={index * 100}
+                  >
+                    <article className="bg-card rounded-2xl p-8 shadow-card border border-border hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group h-full">
+                      <div className={`w-14 h-14 rounded-xl ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                        <IconComponent className="h-7 w-7" aria-hidden="true" />
+                      </div>
+                      
+                      <h2 className="font-display text-xl font-bold text-foreground mb-2">
+                        {service.title}
+                      </h2>
+                      <p className="text-muted-foreground mb-4 text-sm">{service.description}</p>
+                      
+                      <ul className="space-y-2 mb-6" aria-label="Recursos do serviço">
+                        {service.features.map((feature, i) => (
+                          <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary" aria-hidden="true" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                      
+                      <footer className="pt-4 border-t border-border">
+                        <p className="text-xs text-muted-foreground">
+                          Responsável: <span className="text-primary font-medium">{service.responsible}</span>
+                        </p>
+                      </footer>
+                    </article>
+                  </AnimatedSection>
+                );
+              })}
+            </div>
+          </section>
 
           {/* CTA */}
-          <div className="text-center mt-16">
-            <h2 className="font-display text-2xl font-bold text-foreground mb-4">
-              Precisa de uma solução personalizada?
+          <section className="text-center mt-16" aria-labelledby="cta-title">
+            <h2 id="cta-title" className="font-display text-2xl font-bold text-foreground mb-4">
+              {language === 'pt' ? 'Precisa de uma solução personalizada?' : 'Need a customized solution?'}
             </h2>
             <p className="text-muted-foreground mb-6">
-              Fale com nossos especialistas e receba uma consultoria gratuita
+              {language === 'pt' ? 'Fale com nossos especialistas e receba uma consultoria gratuita' : 'Talk to our specialists and get a free consultation'}
             </p>
             <Button asChild size="lg">
-              <Link to="/contato">Solicitar Orçamento</Link>
+              <Link to="/contato">{language === 'pt' ? 'Solicitar Orçamento' : 'Request Quote'}</Link>
             </Button>
-          </div>
+          </section>
         </div>
       </main>
 
       <Footer />
+
+      {/* Schema.org Service */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": "Serviços Depirai",
+          "itemListElement": servicesData.map((service, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "item": {
+              "@type": "Service",
+              "name": service.title,
+              "description": service.description,
+              "provider": {
+                "@type": "Organization",
+                "name": "Depirai"
+              }
+            }
+          }))
+        })
+      }} />
     </div>
   );
 }
