@@ -177,6 +177,27 @@
 }
 
 @layer components {
+  /* Enhanced Hero Background */
+  .hero-bg-enhanced {
+    background: 
+      linear-gradient(180deg, 
+        hsl(0 0% 100%) 0%, 
+        hsl(220 20% 98%) 30%,
+        hsl(354 30% 98%) 60%,
+        hsl(220 14% 96%) 100%
+      );
+  }
+
+  .dark .hero-bg-enhanced {
+    background: 
+      linear-gradient(180deg, 
+        hsl(222 47% 6%) 0%, 
+        hsl(222 47% 7%) 30%,
+        hsl(354 20% 8%) 60%,
+        hsl(222 47% 8%) 100%
+      );
+  }
+
   .section-container {
     @apply max-w-6xl mx-auto px-5 sm:px-6 lg:px-8;
   }
