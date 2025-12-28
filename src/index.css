@@ -806,3 +806,64 @@
 .animate-data-stream {
   animation: dataStream 10s linear infinite;
 }
+
+@keyframes binaryFall {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@keyframes floatParticle {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate(10px, -15px) scale(1.1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-5px, -25px) scale(0.9);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translate(-10px, -10px) scale(1.05);
+    opacity: 0.6;
+  }
+}
+
+@keyframes hexFloat {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  20%, 80% {
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-binary-fall {
+  animation: binaryFall 15s linear infinite;
+}
+
+.animate-float-particle {
+  animation: floatParticle 8s ease-in-out infinite;
+}
+
+.animate-hex-float {
+  animation: hexFloat 10s ease-in-out infinite;
+}
