@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { Code, Server, Shield, Megaphone, CheckCircle, ArrowRight } from 'lucide-react';
+import { 
+  Code, Server, Shield, Megaphone, CheckCircle, ArrowRight,
+  Globe, MousePointerClick, Settings, Target, Users, Search,
+  Cloud, Network, Headphones, Lock, Camera, FileSearch
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
@@ -18,6 +22,14 @@ export function Services() {
     marketing: Megaphone,
     infrastructure: Server,
     security: Shield,
+  };
+
+  // Ícones específicos para cada serviço por categoria
+  const serviceIcons = {
+    development: [Globe, MousePointerClick, Settings],
+    marketing: [Target, Users, Search],
+    infrastructure: [Cloud, Network, Headphones],
+    security: [Lock, Camera, FileSearch],
   };
 
   const categories = Object.entries(t.services.categories) as [CategoryKey, typeof t.services.categories.development][];
@@ -82,7 +94,7 @@ export function Services() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {category.items.map((service, index) => {
-                  const Icon = categoryIcons[key];
+                  const ServiceIcon = serviceIcons[key][index] || categoryIcons[key];
                   return (
                     <article
                       key={index}
@@ -94,9 +106,9 @@ export function Services() {
                         transitionDelay: contentVisible ? `${index * 50}ms` : '0ms'
                       }}
                     >
-                      {/* Category icon */}
+                      {/* Service specific icon */}
                       <div className="mb-4 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                        <ServiceIcon className="h-5 w-5 text-primary" aria-hidden="true" />
                       </div>
 
                       {/* Title */}
