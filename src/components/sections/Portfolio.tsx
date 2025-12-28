@@ -185,8 +185,12 @@ export function Portfolio() {
 
                 {/* CTA */}
                 <Button variant="ghost" size="sm" className="w-full group/btn focus-ring text-xs md:text-sm" asChild>
-                  <a href="#contact">
-                    {t.portfolio.viewCase}
+                  <a 
+                    href={item.url || '#contact'} 
+                    target={item.url ? '_blank' : undefined}
+                    rel={item.url ? 'noopener noreferrer' : undefined}
+                  >
+                    {item.url ? 'Ver Projeto' : t.portfolio.viewCase}
                     <ExternalLink className="ml-2 h-3 w-3 md:h-4 md:w-4 group-hover/btn:translate-x-1 transition-transform" aria-hidden="true" />
                   </a>
                 </Button>
