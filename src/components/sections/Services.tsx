@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Code, Server, Shield, CheckCircle, ArrowRight } from 'lucide-react';
+import { Code, Server, Shield, Megaphone, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 
-type CategoryKey = 'development' | 'infrastructure' | 'security';
+type CategoryKey = 'development' | 'marketing' | 'infrastructure' | 'security';
 
 export function Services() {
   const { t } = useLanguage();
@@ -15,6 +15,7 @@ export function Services() {
 
   const categoryIcons = {
     development: Code,
+    marketing: Megaphone,
     infrastructure: Server,
     security: Shield,
   };
