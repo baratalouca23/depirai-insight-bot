@@ -1,16 +1,11 @@
 import { Link } from 'react-router-dom';
-import { Linkedin, Mail, MessageCircle, MapPin, Phone, ArrowUp } from 'lucide-react';
+import { Linkedin, Mail, MessageCircle, MapPin, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Button } from './button';
 import logo from '@/assets/logo.png';
 
 export function Footer() {
   const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <footer className="bg-card border-t border-border">
