@@ -99,7 +99,7 @@ export function Services() {
                     <article
                       key={index}
                       className={cn(
-                        "group bg-card rounded-xl p-6 border border-border hover:border-primary/30 transition-all duration-200 hover:shadow-sm",
+                        "group bg-card rounded-xl p-6 border border-border hover:border-primary/30 transition-all duration-200 hover:shadow-sm flex flex-col h-full",
                         contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                       )}
                       style={{ 
@@ -126,8 +126,8 @@ export function Services() {
                         {service.solution}
                       </p>
 
-                      {/* Features */}
-                      <ul className="space-y-2 mb-5" aria-label="Recursos inclusos">
+                      {/* Features - grows to push button down */}
+                      <ul className="space-y-2 mb-5 flex-grow" aria-label="Recursos inclusos">
                         {service.features.map((feature, i) => (
                           <li 
                             key={i} 
@@ -139,11 +139,11 @@ export function Services() {
                         ))}
                       </ul>
 
-                      {/* CTA */}
+                      {/* CTA - always at bottom */}
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="w-full text-sm" 
+                        className="w-full text-sm mt-auto" 
                         asChild
                       >
                         <a href="#contact">
