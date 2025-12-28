@@ -15,6 +15,7 @@ export interface PortfolioCase {
   technologies: string[];
   premium?: boolean;
   image: string;
+  url?: string;
 }
 
 export const portfolioCases: PortfolioCase[] = [
@@ -54,6 +55,7 @@ export const portfolioCases: PortfolioCase[] = [
     ],
     technologies: ['Power BI', 'Azure', 'SQL Server', 'Python'],
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
+    url: 'https://obrafacil.depirai.com.br/',
   },
   {
     id: 'sistema-salao',
@@ -72,6 +74,7 @@ export const portfolioCases: PortfolioCase[] = [
     ],
     technologies: ['React', 'Node.js', 'MongoDB', 'PWA'],
     image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80',
+    url: 'https://cobaia.latinux.com.br/projetos/salao/',
   },
   {
     id: 'sistema-imobiliario',
@@ -90,6 +93,7 @@ export const portfolioCases: PortfolioCase[] = [
     ],
     technologies: ['Python', 'PostgreSQL', 'Power BI', 'API REST'],
     image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
+    url: 'https://cobaia.latinux.com.br/projetos/imobiliaria/',
   },
   {
     id: 'marketplace',
@@ -108,6 +112,7 @@ export const portfolioCases: PortfolioCase[] = [
     ],
     technologies: ['AWS', 'Docker', 'Redis', 'ElasticSearch'],
     image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
+    url: 'https://cobaia.latinux.com.br/projetos/marketplace/',
   },
   {
     id: 'c2-rh',
@@ -126,6 +131,7 @@ export const portfolioCases: PortfolioCase[] = [
     ],
     technologies: ['HubSpot', 'Power BI', 'Zapier', 'Google Ads'],
     image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80',
+    url: 'https://c2rh.com.br/',
   },
   {
     id: 'oseias-bomfim',
@@ -144,6 +150,7 @@ export const portfolioCases: PortfolioCase[] = [
     ],
     technologies: ['ElasticSearch', 'Python', 'OCR', 'NLP'],
     image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
+    url: 'https://oseiasbomfimcorretor.com.br/',
   },
   {
     id: 'g7-eletrica',
@@ -162,6 +169,7 @@ export const portfolioCases: PortfolioCase[] = [
     ],
     technologies: ['Magento', 'Power BI', 'SAP', 'API B2B'],
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+    url: 'https://g7manutencaoeletrica.com.br/',
   },
   {
     id: 'sulmed',
@@ -180,5 +188,6 @@ export const portfolioCases: PortfolioCase[] = [
     ],
     technologies: ['AWS', 'Docker', 'PostgreSQL', 'Encryption'],
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&q=80',
+    url: 'https://sulmedocupacional.com.br/',
   },
 ];
