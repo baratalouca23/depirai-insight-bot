@@ -40,9 +40,13 @@ export function AccessibilityMenu() {
 
   return (
     <>
-      {/* Skip Link */}
-      <a href="#main-content" className="skip-link">
-        Skip to main content
+      {/* Skip Link - WCAG 2.1 2.4.1 */}
+      <a 
+        href="#main-content" 
+        className="skip-link"
+        tabIndex={0}
+      >
+        Pular para o conteúdo principal
       </a>
 
       {/* Toggle Button */}

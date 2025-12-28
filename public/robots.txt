@@ -1,14 +1,36 @@
+# Depirai - robots.txt
+# https://depirai.com
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_*
+Disallow: /admin/
+
+# Crawl-delay for respectful crawling
+User-agent: *
+Crawl-delay: 1
+
+# Google
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
 
+# Bing
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
+# Social Media Bots
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: LinkedInBot
 Allow: /
+
+# Sitemap location
+Sitemap: https://depirai.com/sitemap.xml
