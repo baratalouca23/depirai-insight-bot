@@ -18,7 +18,7 @@ const SobrePage = lazy(() => import("./pages/SobrePage"));
 const ContatoPage = lazy(() => import("./pages/ContatoPage"));
 const PrivacidadePage = lazy(() => import("./pages/PrivacidadePage"));
 const TermosPage = lazy(() => import("./pages/TermosPage"));
-
+const InstallPage = lazy(() => import("./pages/InstallPage"));
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -39,6 +39,7 @@ const App = () => (
                   <Route path="/contato" element={<ContatoPage />} />
                   <Route path="/privacidade" element={<PrivacidadePage />} />
                   <Route path="/termos" element={<TermosPage />} />
+                  <Route path="/instalar" element={<InstallPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
