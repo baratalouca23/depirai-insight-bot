@@ -15,15 +15,55 @@ export function Hero() {
 
   return (
     <section 
-      className="relative min-h-[90vh] flex items-center pt-20 pb-16"
+      className="relative min-h-[90vh] flex items-center pt-20 pb-16 overflow-hidden"
       aria-labelledby="hero-title"
     >
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-hero-gradient" aria-hidden="true" />
+      {/* Enhanced gradient background */}
+      <div className="absolute inset-0 hero-bg-enhanced" aria-hidden="true" />
       
-      {/* Minimal decorative element */}
+      {/* Subtle grid pattern */}
       <div 
-        className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-primary/[0.03] dark:bg-primary/[0.06] rounded-full blur-3xl -translate-y-1/2"
+        className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03]"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--foreground)) 1px, transparent 0)`,
+          backgroundSize: '32px 32px'
+        }}
+        aria-hidden="true" 
+      />
+      
+      {/* Primary glow - top right */}
+      <div 
+        className="absolute -top-20 -right-20 w-[600px] h-[600px] bg-primary/[0.06] dark:bg-primary/[0.08] rounded-full blur-[100px]"
+        aria-hidden="true" 
+      />
+      
+      {/* Secondary glow - bottom left */}
+      <div 
+        className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-primary/[0.04] dark:bg-primary/[0.06] rounded-full blur-[80px]"
+        aria-hidden="true" 
+      />
+      
+      {/* Accent glow - center */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-transparent via-primary/[0.02] dark:via-primary/[0.04] to-transparent blur-[60px]"
+        aria-hidden="true" 
+      />
+      
+      {/* Decorative geometric shapes */}
+      <div 
+        className="absolute top-20 left-[15%] w-16 h-16 border border-primary/10 dark:border-primary/20 rounded-full"
+        aria-hidden="true" 
+      />
+      <div 
+        className="absolute bottom-32 right-[20%] w-8 h-8 border border-primary/10 dark:border-primary/15 rotate-45"
+        aria-hidden="true" 
+      />
+      <div 
+        className="absolute top-1/3 right-[10%] w-2 h-2 bg-primary/20 dark:bg-primary/30 rounded-full"
+        aria-hidden="true" 
+      />
+      <div 
+        className="absolute bottom-1/4 left-[10%] w-3 h-3 bg-primary/15 dark:bg-primary/25 rounded-full"
         aria-hidden="true" 
       />
 
