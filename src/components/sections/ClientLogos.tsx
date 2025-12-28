@@ -14,26 +14,22 @@ export function ClientLogos() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-12 md:py-16 bg-muted/30 border-y border-border/50">
+    <section className="py-10 md:py-12 bg-muted/20 border-y border-border">
       <div className="section-container">
-        <p className="text-center text-sm text-muted-foreground mb-8 uppercase tracking-wider font-medium">
+        <p className="text-center text-xs text-muted-foreground mb-6 uppercase tracking-wide">
           {t.clients?.title || 'Empresas que confiam em nós'}
         </p>
         
         {/* Logo Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8 items-center">
-          {clients.map((client, index) => (
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-4 items-center">
+          {clients.map((client) => (
             <div
               key={client.name}
-              className="flex items-center justify-center p-4 rounded-lg bg-background/50 border border-border/30 hover:border-primary/30 hover:bg-background transition-all duration-300 group"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="flex items-center justify-center p-3 rounded-lg bg-background border border-border hover:border-primary/30 transition-colors duration-200"
             >
               <div className="text-center">
-                <span className="font-display text-lg font-bold text-foreground/70 group-hover:text-primary transition-colors">
+                <span className="font-medium text-sm text-foreground/80">
                   {client.name}
-                </span>
-                <span className="block text-xs text-muted-foreground mt-1">
-                  {client.industry}
                 </span>
               </div>
             </div>
