@@ -1,3 +1,14 @@
+// Portfolio images - local optimized assets
+import infraBancaria from '@/assets/portfolio/infra-bancaria.jpg';
+import saasFinanceiro from '@/assets/portfolio/saas-financeiro.jpg';
+import pwaSalao from '@/assets/portfolio/pwa-salao.jpg';
+import crmImobiliario from '@/assets/portfolio/crm-imobiliario.jpg';
+import marketplace from '@/assets/portfolio/marketplace.jpg';
+import leadRh from '@/assets/portfolio/lead-rh.jpg';
+import buscaLegal from '@/assets/portfolio/busca-legal.jpg';
+import b2bEletrica from '@/assets/portfolio/b2b-eletrica.jpg';
+import healthtech from '@/assets/portfolio/healthtech.jpg';
+
 export interface PortfolioCase {
   id: string;
   title: string;
@@ -36,7 +47,7 @@ export const portfolioCases: PortfolioCase[] = [
     ],
     technologies: ['Linux HA', 'Kubernetes', 'PostgreSQL', 'Terraform'],
     premium: true,
-    image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&q=80',
+    image: infraBancaria,
   },
   {
     id: 'obra-facil',
@@ -54,7 +65,7 @@ export const portfolioCases: PortfolioCase[] = [
       { label: 'ROI', value: '8 meses' },
     ],
     technologies: ['Power BI', 'Azure', 'SQL Server', 'Python'],
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
+    image: saasFinanceiro,
     url: 'https://obrafacil.depirai.com.br/',
   },
   {
@@ -73,7 +84,7 @@ export const portfolioCases: PortfolioCase[] = [
       { label: 'NPS', value: '92' },
     ],
     technologies: ['React', 'Node.js', 'MongoDB', 'PWA'],
-    image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80',
+    image: pwaSalao,
     url: 'https://cobaia.latinux.com.br/projetos/salao/',
   },
   {
@@ -92,7 +103,7 @@ export const portfolioCases: PortfolioCase[] = [
       { label: 'Conversão', value: '+45%' },
     ],
     technologies: ['Python', 'PostgreSQL', 'Power BI', 'API REST'],
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
+    image: crmImobiliario,
     url: 'https://cobaia.latinux.com.br/projetos/imobiliaria/',
   },
   {
@@ -111,7 +122,7 @@ export const portfolioCases: PortfolioCase[] = [
       { label: 'Custo', value: '-50%' },
     ],
     technologies: ['AWS', 'Docker', 'Redis', 'ElasticSearch'],
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
+    image: marketplace,
     url: 'https://cobaia.latinux.com.br/projetos/marketplace/',
   },
   {
@@ -130,7 +141,7 @@ export const portfolioCases: PortfolioCase[] = [
       { label: 'Pipeline', value: '3x' },
     ],
     technologies: ['HubSpot', 'Power BI', 'Zapier', 'Google Ads'],
-    image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80',
+    image: leadRh,
     url: 'https://c2rh.com.br/',
   },
   {
@@ -149,7 +160,7 @@ export const portfolioCases: PortfolioCase[] = [
       { label: 'Produtividade', value: '+40%' },
     ],
     technologies: ['ElasticSearch', 'Python', 'OCR', 'NLP'],
-    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
+    image: buscaLegal,
     url: 'https://oseiasbomfimcorretor.com.br/',
   },
   {
@@ -168,7 +179,7 @@ export const portfolioCases: PortfolioCase[] = [
       { label: 'Recompra', value: '+60%' },
     ],
     technologies: ['Magento', 'Power BI', 'SAP', 'API B2B'],
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+    image: b2bEletrica,
     url: 'https://g7manutencaoeletrica.com.br/',
   },
   {
@@ -187,7 +198,7 @@ export const portfolioCases: PortfolioCase[] = [
       { label: 'LGPD', value: 'Compliant' },
     ],
     technologies: ['AWS', 'Docker', 'PostgreSQL', 'Encryption'],
-    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&q=80',
+    image: healthtech,
     url: 'https://sulmedocupacional.com.br/',
   },
 ];
