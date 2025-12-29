@@ -1,8 +1,131 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
 interface TechGridProps {
   className?: string;
+}
+
+// Code snippets that will be "typed"
+const codeSnippets = [
+  'const app = createApp();',
+  'async function fetchData() {',
+  '  return await api.get();',
+  '}',
+  'export default App;',
+  'import { useState } from "react";',
+  'const [data, setData] = useState([]);',
+  '<Component prop={value} />',
+  'npm run build',
+  'git push origin main',
+  'docker-compose up -d',
+  'SELECT * FROM users;',
+];
+
+function CodeTypingEffect() {
+  const [lines, setLines] = useState<{ text: string; id: number; opacity: number }[]>([]);
+  const [lineId, setLineId] = useState(0);
+
+  useEffect(() => {
+    const addLine = () => {
+      const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+      const newId = lineId;
+      setLineId(prev => prev + 1);
+      
+      setLines(prev => [...prev.slice(-5), { text: '', id: newId, opacity: 1 }]);
+      
+      // Type out the line
+      let charIndex = 0;
+      const typeInterval = setInterval(() => {
+        if (charIndex < snippet.length) {
+          setLines(prev => prev.map(line => 
+            line.id === newId 
+              ? { ...line, text: snippet.slice(0, charIndex + 1) }
+              : line
+          ));
+          charIndex++;
+        } else {
+          clearInterval(typeInterval);
+          // Fade out after a delay
+          setTimeout(() => {
+            setLines(prev => prev.map(line => 
+              line.id === newId ? { ...line, opacity: 0 } : line
+            ));
+          }, 3000);
+        }
+      }, 50 + Math.random() * 30);
+    };
+
+    addLine();
+    const interval = setInterval(addLine, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="absolute left-4 md:left-8 top-1/4 font-mono text-[10px] md:text-xs space-y-1 max-w-[200px] md:max-w-xs">
+      {lines.map(line => (
+        <div
+          key={line.id}
+          className="text-primary/20 transition-opacity duration-1000 whitespace-nowrap overflow-hidden"
+          style={{ opacity: line.opacity * 0.2 }}
+        >
+          <span className="text-muted-foreground/30">{'>'}</span> {line.text}
+          <span className="animate-pulse">|</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CodeTypingEffectRight() {
+  const [lines, setLines] = useState<{ text: string; id: number; opacity: number }[]>([]);
+  const [lineId, setLineId] = useState(1000);
+
+  useEffect(() => {
+    const addLine = () => {
+      const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+      const newId = lineId;
+      setLineId(prev => prev + 1);
+      
+      setLines(prev => [...prev.slice(-4), { text: '', id: newId, opacity: 1 }]);
+      
+      let charIndex = 0;
+      const typeInterval = setInterval(() => {
+        if (charIndex < snippet.length) {
+          setLines(prev => prev.map(line => 
+            line.id === newId 
+              ? { ...line, text: snippet.slice(0, charIndex + 1) }
+              : line
+          ));
+          charIndex++;
+        } else {
+          clearInterval(typeInterval);
+          setTimeout(() => {
+            setLines(prev => prev.map(line => 
+              line.id === newId ? { ...line, opacity: 0 } : line
+            ));
+          }, 2500);
+        }
+      }, 40 + Math.random() * 40);
+    };
+
+    setTimeout(addLine, 2000);
+    const interval = setInterval(addLine, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="absolute right-4 md:right-8 bottom-1/4 font-mono text-[10px] md:text-xs space-y-1 max-w-[180px] md:max-w-xs text-right">
+      {lines.map(line => (
+        <div
+          key={line.id}
+          className="text-primary/20 transition-opacity duration-1000 whitespace-nowrap overflow-hidden"
+          style={{ opacity: line.opacity * 0.15 }}
+        >
+          {line.text}<span className="animate-pulse">_</span>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export function TechGrid({ className }: TechGridProps) {
@@ -42,6 +165,10 @@ export function TechGrid({ className }: TechGridProps) {
     <div className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
       {/* Animated grid lines */}
       <div className="absolute inset-0 tech-grid opacity-[0.03] dark:opacity-[0.05]" />
+      
+      {/* Code typing effects */}
+      <CodeTypingEffect />
+      <CodeTypingEffectRight />
       
       {/* Binary rain effect */}
       <div className="absolute inset-0 overflow-hidden">
