@@ -23,13 +23,12 @@ const codeSnippets = [
 
 function CodeTypingEffect() {
   const [lines, setLines] = useState<{ text: string; id: number; opacity: number }[]>([]);
-  const [lineId, setLineId] = useState(0);
+  const lineIdRef = React.useRef(0);
 
   useEffect(() => {
     const addLine = () => {
       const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-      const newId = lineId;
-      setLineId(prev => prev + 1);
+      const newId = lineIdRef.current++;
       
       setLines(prev => [...prev.slice(-5), { text: '', id: newId, opacity: 1 }]);
       
@@ -78,13 +77,12 @@ function CodeTypingEffect() {
 
 function CodeTypingEffectRight() {
   const [lines, setLines] = useState<{ text: string; id: number; opacity: number }[]>([]);
-  const [lineId, setLineId] = useState(1000);
+  const lineIdRef = React.useRef(1000);
 
   useEffect(() => {
     const addLine = () => {
       const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-      const newId = lineId;
-      setLineId(prev => prev + 1);
+      const newId = lineIdRef.current++;
       
       setLines(prev => [...prev.slice(-4), { text: '', id: newId, opacity: 1 }]);
       
