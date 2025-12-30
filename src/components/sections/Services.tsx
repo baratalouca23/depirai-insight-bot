@@ -92,63 +92,70 @@ export function Services() {
             >
               <p className="text-center text-muted-foreground mb-8">{category.subtitle}</p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {category.items.map((service, index) => {
                   const ServiceIcon = serviceIcons[key][index] || categoryIcons[key];
                   return (
                     <article
                       key={index}
                       className={cn(
-                        "group bg-card rounded-xl p-6 border border-border hover:border-primary/30 transition-all duration-200 hover:shadow-sm flex flex-col h-full",
-                        contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                        "group bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-2xl p-7 border border-border/60 hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-2 flex flex-col h-full neon-box relative overflow-hidden",
+                        contentVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                       )}
                       style={{ 
-                        transitionDelay: contentVisible ? `${index * 50}ms` : '0ms'
+                        transitionDelay: contentVisible ? `${index * 80}ms` : '0ms'
                       }}
                     >
-                      {/* Service specific icon */}
-                      <div className="mb-4 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
-                        <ServiceIcon className="h-5 w-5 text-primary transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" aria-hidden="true" />
+                      {/* Subtle gradient overlay on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" aria-hidden="true" />
+                      
+                      {/* Service icon with enhanced effects */}
+                      <div className="relative mb-5 w-14 h-14 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center group-hover:from-primary/25 group-hover:to-primary/10 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/20">
+                        <ServiceIcon className="h-7 w-7 text-primary transition-all duration-300 group-hover:scale-110 group-hover:rotate-6" aria-hidden="true" />
+                        <div className="absolute inset-0 rounded-xl bg-primary/20 blur-xl opacity-0 group-hover:opacity-60 transition-opacity duration-500" aria-hidden="true" />
                       </div>
 
-                      {/* Title */}
-                      <h3 className="font-display text-lg font-semibold text-foreground mb-2">
+                      {/* Title with gradient on hover */}
+                      <h3 className="relative font-display text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
                         {service.title}
                       </h3>
 
                       {/* Problem */}
-                      <p className="text-sm text-muted-foreground italic mb-3">
-                        {service.problem}
+                      <p className="relative text-sm text-muted-foreground italic mb-3 opacity-80">
+                        "{service.problem}"
                       </p>
 
                       {/* Solution */}
-                      <p className="text-foreground text-sm mb-4">
+                      <p className="relative text-foreground/90 text-sm mb-5 leading-relaxed">
                         {service.solution}
                       </p>
 
-                      {/* Features - grows to push button down */}
-                      <ul className="space-y-2 mb-5 flex-grow" aria-label="Recursos inclusos">
+                      {/* Features with stagger animation */}
+                      <ul className="relative space-y-2.5 mb-6 flex-grow" aria-label="Recursos inclusos">
                         {service.features.map((feature, i) => (
                           <li 
                             key={i} 
-                            className="flex items-center gap-2 text-sm text-muted-foreground"
+                            className="flex items-center gap-3 text-sm text-muted-foreground group-hover:text-foreground/80 transition-colors duration-300"
+                            style={{ transitionDelay: `${i * 50}ms` }}
                           >
-                            <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" aria-hidden="true" />
+                            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
+                              <CheckCircle className="h-3 w-3 text-primary" aria-hidden="true" />
+                            </span>
                             <span>{feature}</span>
                           </li>
                         ))}
                       </ul>
 
-                      {/* CTA - always at bottom */}
+                      {/* CTA with enhanced styling */}
                       <Button 
                         variant="outline" 
-                        size="sm" 
-                        className="w-full text-sm mt-auto" 
+                        size="default" 
+                        className="relative w-full mt-auto group-hover:border-primary/50 group-hover:bg-primary/5 transition-all duration-300" 
                         asChild
                       >
-                        <a href="#contact">
+                        <a href="#contact" className="group/btn">
                           Solicitar Orçamento
-                          <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                          <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" aria-hidden="true" />
                         </a>
                       </Button>
                     </article>

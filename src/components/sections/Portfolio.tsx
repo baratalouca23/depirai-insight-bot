@@ -90,30 +90,30 @@ export function Portfolio() {
         </nav>
 
         {/* Portfolio Grid */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sortedCases.map((item: PortfolioCase, index) => (
             <article
               key={item.id}
               className={cn(
-                "group bg-card rounded-xl overflow-hidden border border-border hover:border-primary/30 transition-all duration-200 hover:shadow-sm",
-                item.premium && 'ring-1 ring-primary/30',
-                gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                "group bg-card/80 dark:bg-card/60 backdrop-blur-sm rounded-2xl overflow-hidden border border-border/60 hover:border-primary/50 transition-all duration-400 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 relative",
+                item.premium && 'ring-2 ring-primary/40 shadow-lg shadow-primary/10',
+                gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
-              style={{ transitionDelay: gridVisible ? `${index * 50}ms` : '0ms' }}
+              style={{ transitionDelay: gridVisible ? `${index * 80}ms` : '0ms' }}
             >
-              {/* Premium Badge */}
+              {/* Premium Badge with glow */}
               {item.premium && (
-                <div className="absolute top-3 right-3 z-10">
-                  <Badge className="bg-primary text-primary-foreground gap-1 text-xs">
+                <div className="absolute top-4 right-4 z-10">
+                  <Badge className="bg-primary text-primary-foreground gap-1.5 text-xs px-3 py-1 shadow-lg shadow-primary/30 animate-pulse-glow">
                     <Star className="h-3 w-3 fill-current" aria-hidden="true" />
                     Premium
                   </Badge>
                 </div>
               )}
 
-              {/* Image */}
+              {/* Image with enhanced hover */}
               <button 
-                className="relative h-44 overflow-hidden w-full cursor-zoom-in"
+                className="relative h-48 overflow-hidden w-full cursor-zoom-in group/img"
                 onClick={() => openLightbox(index)}
                 aria-label={`Ver imagem do projeto ${item.title}`}
               >
@@ -121,68 +121,72 @@ export function Portfolio() {
                   src={item.image}
                   alt={`Projeto ${item.title} - ${item.company}`}
                   containerClassName="w-full h-full"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-500 ease-out"
                 />
-                <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-200 flex items-center justify-center">
-                  <ZoomIn className="h-6 w-6 text-background opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-primary/0 group-hover/img:bg-primary/20 transition-colors duration-300 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-all duration-300 transform scale-50 group-hover/img:scale-100 shadow-lg">
+                    <ZoomIn className="h-5 w-5 text-primary" />
+                  </div>
                 </div>
               </button>
 
               {/* Content */}
-              <div className="p-5">
-                <div className="flex items-center gap-2 mb-2">
-                  <Badge variant="secondary" className="text-xs">
+              <div className="p-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <Badge variant="secondary" className="text-xs px-2.5 py-0.5 bg-primary/10 text-primary border-0">
                     {item.category === 'infra' ? t.portfolio.filters.infra : t.portfolio.filters.data}
                   </Badge>
                 </div>
 
-                <h3 className="font-display text-lg font-semibold text-foreground mb-1">
+                <h3 className="font-display text-xl font-bold text-foreground mb-1.5 group-hover:text-primary transition-colors duration-300">
                   {item.title}
                 </h3>
-                <p className="text-sm text-primary font-medium mb-2">{item.company}</p>
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                <p className="text-sm text-primary/80 font-medium mb-3">{item.company}</p>
+                <p className="text-sm text-muted-foreground mb-5 line-clamp-2 leading-relaxed">
                   {item.description[language]}
                 </p>
 
-                {/* KPIs */}
-                <ul className="flex flex-wrap gap-1.5 mb-4" aria-label="Indicadores">
+                {/* KPIs with enhanced styling */}
+                <ul className="flex flex-wrap gap-2 mb-5" aria-label="Indicadores">
                   {item.kpis.map((kpi, i) => (
                     <li
                       key={i}
-                      className="px-2 py-1 rounded bg-muted text-xs"
+                      className="px-3 py-1.5 rounded-lg bg-muted/50 text-xs border border-border/50 group-hover:border-primary/20 transition-colors duration-300"
                     >
                       <span className="text-muted-foreground">{kpi.label}:</span>{' '}
-                      <span className="text-primary font-medium">{kpi.value}</span>
+                      <span className="text-primary font-semibold">{kpi.value}</span>
                     </li>
                   ))}
                 </ul>
 
-                {/* Technologies */}
-                <ul className="flex flex-wrap gap-1 mb-4" aria-label="Tecnologias">
+                {/* Technologies with neon effect */}
+                <ul className="flex flex-wrap gap-1.5 mb-5" aria-label="Tecnologias">
                   {item.technologies.slice(0, 3).map((tech, i) => (
                     <li
                       key={i}
-                      className="text-xs text-muted-foreground px-2 py-0.5 rounded-full border border-border"
+                      className="text-xs text-muted-foreground px-2.5 py-1 rounded-full border border-border/50 bg-background/50 group-hover:border-primary/30 group-hover:text-foreground/80 transition-all duration-300"
                     >
                       {tech}
                     </li>
                   ))}
                   {item.technologies.length > 3 && (
-                    <li className="text-xs text-muted-foreground px-2 py-0.5">
+                    <li className="text-xs text-primary/70 px-2.5 py-1 font-medium">
                       +{item.technologies.length - 3}
                     </li>
                   )}
                 </ul>
 
-                {/* CTA */}
-                <Button variant="ghost" size="sm" className="w-full text-sm" asChild>
+                {/* CTA with enhanced styling */}
+                <Button variant="outline" size="sm" className="w-full group-hover:border-primary/50 group-hover:bg-primary/5 transition-all duration-300" asChild>
                   <a 
                     href={item.url || '#contact'} 
                     target={item.url ? '_blank' : undefined}
                     rel={item.url ? 'noopener noreferrer' : undefined}
+                    className="group/btn"
                   >
                     {item.url ? 'Ver Projeto' : t.portfolio.viewCase}
-                    <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
+                    <ExternalLink className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" aria-hidden="true" />
                   </a>
                 </Button>
               </div>
