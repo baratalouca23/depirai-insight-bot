@@ -132,21 +132,37 @@ export function Portfolio() {
                 </div>
               )}
 
-              {/* Image */}
+              {/* Image with Standardized Visual Treatment */}
               <button 
                 className="relative aspect-[16/10] overflow-hidden w-full cursor-zoom-in group/img flex-shrink-0"
                 onClick={() => openLightbox(index)}
                 aria-label={`Ver imagem do projeto ${item.title}`}
               >
-                <LazyImage
-                  src={item.image}
-                  alt={`Projeto ${item.title} - ${item.company}`}
-                  containerClassName="w-full h-full"
-                  className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/20 to-transparent" />
-                <div className="absolute inset-0 bg-primary/0 group-hover/img:bg-primary/10 transition-colors duration-500 flex items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-background/95 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-all duration-300 transform scale-75 group-hover/img:scale-100 shadow-xl">
+                {/* Base Image with Uniform Filter */}
+                <div className="absolute inset-0 w-full h-full">
+                  <LazyImage
+                    src={item.image}
+                    alt={`Projeto ${item.title} - ${item.company}`}
+                    containerClassName="w-full h-full"
+                    className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out filter saturate-[0.85] contrast-[1.05] brightness-[0.95]"
+                  />
+                </div>
+                
+                {/* Color Overlay - Creates uniform tint */}
+                <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
+                
+                {/* Dark Gradient Overlay - Bottom to top for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent opacity-80" />
+                
+                {/* Top Gradient - Subtle darkening at top */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent" />
+                
+                {/* Vignette Effect */}
+                <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.3)]" />
+                
+                {/* Hover Overlay */}
+                <div className="absolute inset-0 bg-primary/0 group-hover/img:bg-primary/15 transition-colors duration-500 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-background/95 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-all duration-300 transform scale-75 group-hover/img:scale-100 shadow-xl border border-primary/20">
                     <ZoomIn className="h-5 w-5 text-primary" />
                   </div>
                 </div>
