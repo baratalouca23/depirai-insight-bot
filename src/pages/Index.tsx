@@ -20,13 +20,12 @@ const AccessibilityMenu = lazy(() => import('@/components/features/Accessibility
 const CookieBanner = lazy(() => import('@/components/features/CookieBanner').then(m => ({ default: m.CookieBanner })));
 const WhatsAppFloat = lazy(() => import('@/components/features/WhatsAppFloat').then(m => ({ default: m.WhatsAppFloat })));
 const MobileCTA = lazy(() => import('@/components/features/MobileCTA').then(m => ({ default: m.MobileCTA })));
-const ParallaxSection = lazy(() => import('@/components/features/AnimatedSection').then(m => ({ default: m.ParallaxSection })));
 
-// Minimal section placeholder
+// Minimal skeleton
 const SectionSkeleton = () => (
-  <div className="py-16 md:py-24" aria-busy="true" aria-label="Carregando seção">
-    <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-      <div className="h-6 w-40 bg-muted/40 rounded mx-auto mb-6" />
+  <div className="py-16 md:py-24">
+    <div className="max-w-6xl mx-auto px-5">
+      <div className="h-6 w-40 bg-muted/30 rounded mx-auto mb-6" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[1, 2, 3].map(i => (
           <div key={i} className="h-40 bg-muted/20 rounded-xl" />
@@ -39,55 +38,42 @@ const SectionSkeleton = () => (
 const Index = () => {
   return (
     <div className="min-h-screen bg-background relative">
-      {/* Tech background animation */}
       <TechGrid className="fixed inset-0 z-0" />
-      
       <ScrollProgress />
       <Header />
+      
       <main id="main-content" className="relative z-10">
         <Hero />
+        
         <Suspense fallback={<SectionSkeleton />}>
-          <ParallaxSection speed={0.08} fadeIn>
-            <ClientLogos />
-          </ParallaxSection>
+          <ClientLogos />
         </Suspense>
         
         <Suspense fallback={<SectionSkeleton />}>
-          <ParallaxSection speed={0.12} fadeIn>
-            <Services />
-          </ParallaxSection>
+          <Services />
         </Suspense>
         
         <Suspense fallback={<SectionSkeleton />}>
-          <ParallaxSection speed={0.1} fadeIn>
-            <Portfolio />
-          </ParallaxSection>
+          <Portfolio />
         </Suspense>
         
         <Suspense fallback={<SectionSkeleton />}>
-          <ParallaxSection speed={0.08} fadeIn>
-            <Testimonials />
-          </ParallaxSection>
+          <Testimonials />
         </Suspense>
         
         <Suspense fallback={<SectionSkeleton />}>
-          <ParallaxSection speed={0.1} fadeIn>
-            <About />
-          </ParallaxSection>
+          <About />
         </Suspense>
         
         <Suspense fallback={<SectionSkeleton />}>
-          <ParallaxSection speed={0.06} fadeIn>
-            <FAQ />
-          </ParallaxSection>
+          <FAQ />
         </Suspense>
         
         <Suspense fallback={<SectionSkeleton />}>
-          <ParallaxSection speed={0.08} fadeIn>
-            <Contact />
-          </ParallaxSection>
+          <Contact />
         </Suspense>
       </main>
+      
       <Footer />
       <BackToTop />
       
