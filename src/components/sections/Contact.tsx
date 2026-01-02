@@ -1,5 +1,5 @@
-import React, { useState, useId } from 'react';
-import { Send, MapPin, Mail, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import React, { useState, useId, useMemo } from 'react';
+import { Send, MapPin, Mail, Loader2, CheckCircle2, AlertCircle, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -17,6 +17,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { cn } from '@/lib/utils';
 import { TechLogos } from '@/components/ui/TechLogos';
 import { z } from 'zod';
+import { brazilianStates, getCitiesByState } from '@/data/brazilianCities';
 
 // Validation schema with i18n messages
 const createContactSchema = (lang: string) => z.object({
@@ -29,6 +30,8 @@ const createContactSchema = (lang: string) => z.object({
   company: z.string().trim()
     .min(1, lang === 'pt' ? 'Empresa é obrigatória' : 'Company is required')
     .max(100),
+  state: z.string().min(1, lang === 'pt' ? 'Selecione um estado' : 'Select a state'),
+  city: z.string().min(1, lang === 'pt' ? 'Selecione uma cidade' : 'Select a city'),
   kpi: z.string().min(1, lang === 'pt' ? 'Selecione um objetivo' : 'Select an objective'),
   message: z.string().trim()
     .min(10, lang === 'pt' ? 'Mensagem deve ter pelo menos 10 caracteres' : 'Message must have at least 10 characters')
@@ -39,6 +42,8 @@ interface FormData {
   name: string;
   email: string;
   company: string;
+  state: string;
+  city: string;
   kpi: string;
   message: string;
   honeypot: string; // Anti-spam field
@@ -48,6 +53,8 @@ interface FormErrors {
   name?: string;
   email?: string;
   company?: string;
+  state?: string;
+  city?: string;
   kpi?: string;
   message?: string;
 }
@@ -56,6 +63,8 @@ const initialFormData: FormData = {
   name: '',
   email: '',
   company: '',
+  state: '',
+  city: '',
   kpi: '',
   message: '',
   honeypot: '',
@@ -77,10 +86,17 @@ export function Contact() {
   const nameErrorId = `${formId}-name-error`;
   const emailErrorId = `${formId}-email-error`;
   const companyErrorId = `${formId}-company-error`;
+  const stateErrorId = `${formId}-state-error`;
+  const cityErrorId = `${formId}-city-error`;
   const kpiErrorId = `${formId}-kpi-error`;
   const messageErrorId = `${formId}-message-error`;
 
   const contactSchema = createContactSchema(language);
+
+  // Get cities for selected state
+  const availableCities = useMemo(() => {
+    return formData.state ? getCitiesByState(formData.state) : [];
+  }, [formData.state]);
 
   const validateField = (name: keyof FormErrors, value: string): string | undefined => {
     const partialData = { ...formData, [name]: value };
@@ -119,6 +135,20 @@ export function Contact() {
     setErrors((prev) => ({ ...prev, kpi: error }));
   };
 
+  const handleStateChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, state: value, city: '' })); // Reset city when state changes
+    setTouched((prev) => ({ ...prev, state: true }));
+    const error = validateField('state', value);
+    setErrors((prev) => ({ ...prev, state: error, city: undefined }));
+  };
+
+  const handleCityChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, city: value }));
+    setTouched((prev) => ({ ...prev, city: true }));
+    const error = validateField('city', value);
+    setErrors((prev) => ({ ...prev, city: error }));
+  };
+
   const validateForm = (): boolean => {
     const result = contactSchema.safeParse(formData);
     if (!result.success) {
@@ -128,7 +158,7 @@ export function Contact() {
         fieldErrors[field] = err.message;
       });
       setErrors(fieldErrors);
-      setTouched({ name: true, email: true, company: true, kpi: true, message: true });
+      setTouched({ name: true, email: true, company: true, state: true, city: true, kpi: true, message: true });
       return false;
     }
     setErrors({});
@@ -171,6 +201,8 @@ export function Contact() {
           name: formData.name,
           email: formData.email,
           company: formData.company,
+          state: formData.state,
+          city: formData.city,
           kpi: formData.kpi,
           message: formData.message,
           _subject: `Nova mensagem de ${formData.name} - ${formData.company}`,
@@ -397,6 +429,68 @@ export function Contact() {
                     </SelectContent>
                   </Select>
                   <ErrorMessage id={kpiErrorId} message={errors.kpi} />
+                </div>
+              </div>
+
+              {/* State and City Selection */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <Label htmlFor="state" className="text-sm">
+                    {language === 'pt' ? 'Estado' : 'State'} <span aria-hidden="true">*</span>
+                    <span className="sr-only">(obrigatório)</span>
+                  </Label>
+                  <Select value={formData.state} onValueChange={handleStateChange}>
+                    <SelectTrigger 
+                      id="state"
+                      className={cn("h-9", errors.state && 'border-destructive focus-visible:ring-destructive')}
+                      aria-invalid={!!errors.state}
+                      aria-describedby={errors.state ? stateErrorId : undefined}
+                      aria-required="true"
+                    >
+                      <SelectValue placeholder={language === 'pt' ? 'Selecione o estado...' : 'Select state...'} />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card border-border z-50 max-h-60">
+                      {brazilianStates.map((state) => (
+                        <SelectItem key={state.value} value={state.value}>
+                          {state.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <ErrorMessage id={stateErrorId} message={errors.state} />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="city" className="text-sm">
+                    {language === 'pt' ? 'Cidade' : 'City'} <span aria-hidden="true">*</span>
+                    <span className="sr-only">(obrigatório)</span>
+                  </Label>
+                  <Select 
+                    value={formData.city} 
+                    onValueChange={handleCityChange}
+                    disabled={!formData.state}
+                  >
+                    <SelectTrigger 
+                      id="city"
+                      className={cn("h-9", errors.city && 'border-destructive focus-visible:ring-destructive')}
+                      aria-invalid={!!errors.city}
+                      aria-describedby={errors.city ? cityErrorId : undefined}
+                      aria-required="true"
+                    >
+                      <SelectValue placeholder={
+                        !formData.state 
+                          ? (language === 'pt' ? 'Selecione o estado primeiro' : 'Select state first')
+                          : (language === 'pt' ? 'Selecione a cidade...' : 'Select city...')
+                      } />
+                    </SelectTrigger>
+                    <SelectContent className="bg-card border-border z-50 max-h-60">
+                      {availableCities.map((city) => (
+                        <SelectItem key={city.value} value={city.value}>
+                          {city.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <ErrorMessage id={cityErrorId} message={errors.city} />
                 </div>
               </div>
 
