@@ -24,6 +24,16 @@ interface FormData {
   message: string;
 }
 
+interface FormErrors {
+  name?: string;
+  email?: string;
+  company?: string;
+  state?: string;
+  city?: string;
+  service?: string;
+  message?: string;
+}
+
 const initialFormData: FormData = {
   name: '',
   email: '',
@@ -33,6 +43,11 @@ const initialFormData: FormData = {
   city: '',
   service: '',
   message: '',
+};
+
+const validateEmail = (email: string): boolean => {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
 };
 
 const services = [
@@ -56,6 +71,8 @@ export default function ContatoPage() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [citySearch, setCitySearch] = useState('');
 
@@ -69,26 +86,112 @@ export default function ContatoPage() {
     );
   }, [formData.state, citySearch]);
 
+  // Validate form
+  const validateForm = (): FormErrors => {
+    const newErrors: FormErrors = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = 'Nome é obrigatório';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Nome deve ter pelo menos 2 caracteres';
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email é obrigatório';
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = 'Email inválido';
+    }
+    
+    if (!formData.company.trim()) {
+      newErrors.company = 'Empresa é obrigatória';
+    }
+    
+    if (!formData.state) {
+      newErrors.state = 'Estado é obrigatório';
+    }
+    
+    if (formData.state && !formData.city) {
+      newErrors.city = 'Cidade é obrigatória';
+    }
+    
+    if (!formData.service) {
+      newErrors.service = 'Serviço é obrigatório';
+    }
+    
+    if (!formData.message.trim()) {
+      newErrors.message = 'Mensagem é obrigatória';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Mensagem deve ter pelo menos 10 caracteres';
+    }
+    
+    return newErrors;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const validationErrors = validateForm();
+    if (validationErrors[field as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: validationErrors[field as keyof FormErrors] }));
+    }
   };
 
   const handleServiceChange = (value: string) => {
     setFormData((prev) => ({ ...prev, service: value }));
+    setTouched((prev) => ({ ...prev, service: true }));
+    if (errors.service) {
+      setErrors((prev) => ({ ...prev, service: undefined }));
+    }
   };
 
   const handleStateChange = (value: string) => {
     setFormData((prev) => ({ ...prev, state: value, city: '' }));
     setCitySearch('');
+    setTouched((prev) => ({ ...prev, state: true }));
+    if (errors.state) {
+      setErrors((prev) => ({ ...prev, state: undefined }));
+    }
   };
 
   const handleCityChange = (value: string) => {
     setFormData((prev) => ({ ...prev, city: value }));
+    setTouched((prev) => ({ ...prev, city: true }));
+    if (errors.city) {
+      setErrors((prev) => ({ ...prev, city: undefined }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Mark all fields as touched
+    const allTouched = Object.keys(initialFormData).reduce((acc, key) => {
+      acc[key] = true;
+      return acc;
+    }, {} as Record<string, boolean>);
+    setTouched(allTouched);
+    
+    // Validate all fields
+    const validationErrors = validateForm();
+    setErrors(validationErrors);
+    
+    if (Object.keys(validationErrors).length > 0) {
+      toast({
+        title: '❌ Formulário incompleto',
+        description: 'Por favor, preencha todos os campos obrigatórios.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
 
     // Simulate API call
@@ -100,7 +203,13 @@ export default function ContatoPage() {
     });
 
     setFormData(initialFormData);
+    setErrors({});
+    setTouched({});
     setIsSubmitting(false);
+  };
+
+  const getFieldError = (field: keyof FormErrors) => {
+    return touched[field] && errors[field] ? errors[field] : undefined;
   };
 
   return (
@@ -213,7 +322,7 @@ export default function ContatoPage() {
                 <form onSubmit={handleSubmit} className="space-y-5" noValidate aria-label="Formulário de orçamento">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">
+                      <Label htmlFor="name" className={getFieldError('name') ? 'text-destructive' : ''}>
                         Nome <span aria-hidden="true">*</span>
                         <span className="sr-only">(obrigatório)</span>
                       </Label>
@@ -222,14 +331,23 @@ export default function ContatoPage() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
+                        onBlur={() => handleBlur('name')}
                         required
                         placeholder="João Silva"
                         autoComplete="name"
                         aria-required="true"
+                        aria-invalid={!!getFieldError('name')}
+                        aria-describedby={getFieldError('name') ? 'name-error' : undefined}
+                        className={getFieldError('name') ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
+                      {getFieldError('name') && (
+                        <p id="name-error" className="text-sm text-destructive" role="alert">
+                          {getFieldError('name')}
+                        </p>
+                      )}
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">
+                      <Label htmlFor="email" className={getFieldError('email') ? 'text-destructive' : ''}>
                         Email <span aria-hidden="true">*</span>
                         <span className="sr-only">(obrigatório)</span>
                       </Label>
@@ -239,11 +357,20 @@ export default function ContatoPage() {
                         type="email"
                         value={formData.email}
                         onChange={handleChange}
+                        onBlur={() => handleBlur('email')}
                         required
                         placeholder="joao@empresa.com"
                         autoComplete="email"
                         aria-required="true"
+                        aria-invalid={!!getFieldError('email')}
+                        aria-describedby={getFieldError('email') ? 'email-error' : undefined}
+                        className={getFieldError('email') ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
+                      {getFieldError('email') && (
+                        <p id="email-error" className="text-sm text-destructive" role="alert">
+                          {getFieldError('email')}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -261,7 +388,7 @@ export default function ContatoPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="company">
+                      <Label htmlFor="company" className={getFieldError('company') ? 'text-destructive' : ''}>
                         Empresa <span aria-hidden="true">*</span>
                         <span className="sr-only">(obrigatório)</span>
                       </Label>
@@ -270,20 +397,37 @@ export default function ContatoPage() {
                         name="company"
                         value={formData.company}
                         onChange={handleChange}
+                        onBlur={() => handleBlur('company')}
                         required
                         placeholder="Sua Empresa S.A."
                         autoComplete="organization"
                         aria-required="true"
+                        aria-invalid={!!getFieldError('company')}
+                        aria-describedby={getFieldError('company') ? 'company-error' : undefined}
+                        className={getFieldError('company') ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
+                      {getFieldError('company') && (
+                        <p id="company-error" className="text-sm text-destructive" role="alert">
+                          {getFieldError('company')}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   {/* State and City Selection */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="state">Estado</Label>
+                      <Label htmlFor="state" className={getFieldError('state') ? 'text-destructive' : ''}>
+                        Estado <span aria-hidden="true">*</span>
+                        <span className="sr-only">(obrigatório)</span>
+                      </Label>
                       <Select value={formData.state} onValueChange={handleStateChange}>
-                        <SelectTrigger id="state">
+                        <SelectTrigger 
+                          id="state"
+                          aria-required="true"
+                          aria-invalid={!!getFieldError('state')}
+                          className={getFieldError('state') ? 'border-destructive focus:ring-destructive' : ''}
+                        >
                           <SelectValue placeholder="Selecione o estado..." />
                         </SelectTrigger>
                         <SelectContent className="bg-card border-border z-50 max-h-[300px]">
@@ -294,15 +438,28 @@ export default function ContatoPage() {
                           ))}
                         </SelectContent>
                       </Select>
+                      {getFieldError('state') && (
+                        <p id="state-error" className="text-sm text-destructive" role="alert">
+                          {getFieldError('state')}
+                        </p>
+                      )}
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="city">Cidade</Label>
+                      <Label htmlFor="city" className={getFieldError('city') ? 'text-destructive' : ''}>
+                        Cidade <span aria-hidden="true">*</span>
+                        <span className="sr-only">(obrigatório)</span>
+                      </Label>
                       <Select 
                         value={formData.city} 
                         onValueChange={handleCityChange}
                         disabled={!formData.state}
                       >
-                        <SelectTrigger id="city">
+                        <SelectTrigger 
+                          id="city"
+                          aria-required="true"
+                          aria-invalid={!!getFieldError('city')}
+                          className={getFieldError('city') ? 'border-destructive focus:ring-destructive' : ''}
+                        >
                           <SelectValue placeholder={formData.state ? "Selecione a cidade..." : "Selecione o estado primeiro"} />
                         </SelectTrigger>
                         <SelectContent className="bg-card border-border z-50 max-h-[300px]">
@@ -331,16 +488,26 @@ export default function ContatoPage() {
                           )}
                         </SelectContent>
                       </Select>
+                      {getFieldError('city') && (
+                        <p id="city-error" className="text-sm text-destructive" role="alert">
+                          {getFieldError('city')}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="service">
+                    <Label htmlFor="service" className={getFieldError('service') ? 'text-destructive' : ''}>
                       Serviço de Interesse <span aria-hidden="true">*</span>
                       <span className="sr-only">(obrigatório)</span>
                     </Label>
                     <Select value={formData.service} onValueChange={handleServiceChange}>
-                      <SelectTrigger id="service" aria-required="true">
+                      <SelectTrigger 
+                        id="service" 
+                        aria-required="true"
+                        aria-invalid={!!getFieldError('service')}
+                        className={getFieldError('service') ? 'border-destructive focus:ring-destructive' : ''}
+                      >
                         <SelectValue placeholder="Selecione um serviço..." />
                       </SelectTrigger>
                       <SelectContent className="bg-card border-border z-50">
@@ -351,10 +518,15 @@ export default function ContatoPage() {
                         ))}
                       </SelectContent>
                     </Select>
+                    {getFieldError('service') && (
+                      <p id="service-error" className="text-sm text-destructive" role="alert">
+                        {getFieldError('service')}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">
+                    <Label htmlFor="message" className={getFieldError('message') ? 'text-destructive' : ''}>
                       Mensagem <span aria-hidden="true">*</span>
                       <span className="sr-only">(obrigatório)</span>
                     </Label>
@@ -363,11 +535,20 @@ export default function ContatoPage() {
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
+                      onBlur={() => handleBlur('message')}
                       required
                       rows={4}
                       placeholder="Descreva seu projeto ou desafio..."
                       aria-required="true"
+                      aria-invalid={!!getFieldError('message')}
+                      aria-describedby={getFieldError('message') ? 'message-error' : undefined}
+                      className={getFieldError('message') ? 'border-destructive focus-visible:ring-destructive' : ''}
                     />
+                    {getFieldError('message') && (
+                      <p id="message-error" className="text-sm text-destructive" role="alert">
+                        {getFieldError('message')}
+                      </p>
+                    )}
                   </div>
 
                   <Button 
