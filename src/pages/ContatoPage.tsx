@@ -127,6 +127,21 @@ export default function ContatoPage() {
     return newErrors;
   };
 
+  // Phone mask function
+  const formatPhone = (value: string): string => {
+    const numbers = value.replace(/\D/g, '');
+    if (numbers.length <= 2) {
+      return numbers.length ? `(${numbers}` : '';
+    }
+    if (numbers.length <= 7) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    }
+    if (numbers.length <= 11) {
+      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7)}`;
+    }
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -134,6 +149,11 @@ export default function ContatoPage() {
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedPhone = formatPhone(e.target.value);
+    setFormData((prev) => ({ ...prev, phone: formattedPhone }));
   };
 
   const handleBlur = (field: string) => {
@@ -382,9 +402,10 @@ export default function ContatoPage() {
                         name="phone"
                         type="tel"
                         value={formData.phone}
-                        onChange={handleChange}
+                        onChange={handlePhoneChange}
                         placeholder="(42) 99999-9999"
                         autoComplete="tel"
+                        maxLength={16}
                       />
                     </div>
                     <div className="space-y-2">
