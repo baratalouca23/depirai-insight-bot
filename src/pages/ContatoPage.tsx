@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Send, MapPin, Mail, MessageCircle, Clock } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Send, MapPin, Mail, MessageCircle, Clock, Search } from 'lucide-react';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
 import { Button } from '@/components/ui/button';
@@ -12,12 +11,15 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { AnimatedSection } from '@/components/features/AnimatedSection';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { brazilianStates, getCitiesByState } from '@/data/brazilianCities';
 
 interface FormData {
   name: string;
   email: string;
   phone: string;
   company: string;
+  state: string;
+  city: string;
   service: string;
   message: string;
 }
@@ -27,6 +29,8 @@ const initialFormData: FormData = {
   email: '',
   phone: '',
   company: '',
+  state: '',
+  city: '',
   service: '',
   message: '',
 };
@@ -53,6 +57,17 @@ export default function ContatoPage() {
   const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [citySearch, setCitySearch] = useState('');
+
+  // Filter cities by selected state and search term
+  const filteredCities = useMemo(() => {
+    if (!formData.state) return [];
+    const cities = getCitiesByState(formData.state);
+    if (!citySearch.trim()) return cities;
+    return cities.filter(city => 
+      city.label.toLowerCase().includes(citySearch.toLowerCase())
+    );
+  }, [formData.state, citySearch]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -61,6 +76,15 @@ export default function ContatoPage() {
 
   const handleServiceChange = (value: string) => {
     setFormData((prev) => ({ ...prev, service: value }));
+  };
+
+  const handleStateChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, state: value, city: '' }));
+    setCitySearch('');
+  };
+
+  const handleCityChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, city: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -251,6 +275,62 @@ export default function ContatoPage() {
                         autoComplete="organization"
                         aria-required="true"
                       />
+                    </div>
+                  </div>
+
+                  {/* State and City Selection */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="state">Estado</Label>
+                      <Select value={formData.state} onValueChange={handleStateChange}>
+                        <SelectTrigger id="state">
+                          <SelectValue placeholder="Selecione o estado..." />
+                        </SelectTrigger>
+                        <SelectContent className="bg-card border-border z-50 max-h-[300px]">
+                          {brazilianStates.map((state) => (
+                            <SelectItem key={state.value} value={state.value}>
+                              {state.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="city">Cidade</Label>
+                      <Select 
+                        value={formData.city} 
+                        onValueChange={handleCityChange}
+                        disabled={!formData.state}
+                      >
+                        <SelectTrigger id="city">
+                          <SelectValue placeholder={formData.state ? "Selecione a cidade..." : "Selecione o estado primeiro"} />
+                        </SelectTrigger>
+                        <SelectContent className="bg-card border-border z-50 max-h-[300px]">
+                          <div className="px-2 py-2 sticky top-0 bg-card">
+                            <div className="relative">
+                              <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                              <Input
+                                placeholder="Buscar cidade..."
+                                value={citySearch}
+                                onChange={(e) => setCitySearch(e.target.value)}
+                                className="pl-8 h-8"
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                            </div>
+                          </div>
+                          {filteredCities.length > 0 ? (
+                            filteredCities.map((city) => (
+                              <SelectItem key={city.value} value={city.value}>
+                                {city.label}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <div className="px-2 py-4 text-center text-muted-foreground text-sm">
+                              {citySearch ? 'Nenhuma cidade encontrada' : 'Nenhuma cidade disponível'}
+                            </div>
+                          )}
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
 
