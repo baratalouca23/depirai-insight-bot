@@ -17,6 +17,7 @@ interface FormData {
   name: string;
   email: string;
   phone: string;
+  cpfCnpj: string;
   company: string;
   state: string;
   city: string;
@@ -27,6 +28,7 @@ interface FormData {
 interface FormErrors {
   name?: string;
   email?: string;
+  cpfCnpj?: string;
   company?: string;
   state?: string;
   city?: string;
@@ -38,6 +40,7 @@ const initialFormData: FormData = {
   name: '',
   email: '',
   phone: '',
+  cpfCnpj: '',
   company: '',
   state: '',
   city: '',
@@ -48,6 +51,75 @@ const initialFormData: FormData = {
 const validateEmail = (email: string): boolean => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
+};
+
+// CPF validation (optional field)
+const validateCPF = (cpf: string): boolean => {
+  const numbers = cpf.replace(/\D/g, '');
+  if (numbers.length !== 11) return false;
+  if (/^(\d)\1+$/.test(numbers)) return false;
+  
+  let sum = 0;
+  for (let i = 0; i < 9; i++) {
+    sum += parseInt(numbers[i]) * (10 - i);
+  }
+  let remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(numbers[9])) return false;
+  
+  sum = 0;
+  for (let i = 0; i < 10; i++) {
+    sum += parseInt(numbers[i]) * (11 - i);
+  }
+  remainder = (sum * 10) % 11;
+  if (remainder === 10 || remainder === 11) remainder = 0;
+  if (remainder !== parseInt(numbers[10])) return false;
+  
+  return true;
+};
+
+// CNPJ validation (optional field)
+const validateCNPJ = (cnpj: string): boolean => {
+  const numbers = cnpj.replace(/\D/g, '');
+  if (numbers.length !== 14) return false;
+  if (/^(\d)\1+$/.test(numbers)) return false;
+  
+  const weights1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+  const weights2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+  
+  let sum = 0;
+  for (let i = 0; i < 12; i++) {
+    sum += parseInt(numbers[i]) * weights1[i];
+  }
+  let remainder = sum % 11;
+  const digit1 = remainder < 2 ? 0 : 11 - remainder;
+  if (digit1 !== parseInt(numbers[12])) return false;
+  
+  sum = 0;
+  for (let i = 0; i < 13; i++) {
+    sum += parseInt(numbers[i]) * weights2[i];
+  }
+  remainder = sum % 11;
+  const digit2 = remainder < 2 ? 0 : 11 - remainder;
+  if (digit2 !== parseInt(numbers[13])) return false;
+  
+  return true;
+};
+
+// Validate CPF or CNPJ based on length
+const validateCpfCnpj = (value: string): { valid: boolean; message?: string } => {
+  const numbers = value.replace(/\D/g, '');
+  if (!numbers) return { valid: true }; // Optional field
+  
+  if (numbers.length <= 11) {
+    if (numbers.length < 11) return { valid: false, message: 'CPF incompleto' };
+    if (!validateCPF(value)) return { valid: false, message: 'CPF inválido' };
+  } else {
+    if (numbers.length < 14) return { valid: false, message: 'CNPJ incompleto' };
+    if (!validateCNPJ(value)) return { valid: false, message: 'CNPJ inválido' };
+  }
+  
+  return { valid: true };
 };
 
 const services = [
@@ -102,6 +174,12 @@ export default function ContatoPage() {
       newErrors.email = 'Email inválido';
     }
     
+    // CPF/CNPJ validation (optional but must be valid if provided)
+    const cpfCnpjValidation = validateCpfCnpj(formData.cpfCnpj);
+    if (!cpfCnpjValidation.valid) {
+      newErrors.cpfCnpj = cpfCnpjValidation.message;
+    }
+    
     if (!formData.company.trim()) {
       newErrors.company = 'Empresa é obrigatória';
     }
@@ -142,6 +220,26 @@ export default function ContatoPage() {
     return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
   };
 
+  // CPF/CNPJ mask function
+  const formatCpfCnpj = (value: string): string => {
+    const numbers = value.replace(/\D/g, '');
+    
+    if (numbers.length <= 11) {
+      // CPF format: 000.000.000-00
+      if (numbers.length <= 3) return numbers;
+      if (numbers.length <= 6) return `${numbers.slice(0, 3)}.${numbers.slice(3)}`;
+      if (numbers.length <= 9) return `${numbers.slice(0, 3)}.${numbers.slice(3, 6)}.${numbers.slice(6)}`;
+      return `${numbers.slice(0, 3)}.${numbers.slice(3, 6)}.${numbers.slice(6, 9)}-${numbers.slice(9, 11)}`;
+    } else {
+      // CNPJ format: 00.000.000/0000-00
+      if (numbers.length <= 2) return numbers;
+      if (numbers.length <= 5) return `${numbers.slice(0, 2)}.${numbers.slice(2)}`;
+      if (numbers.length <= 8) return `${numbers.slice(0, 2)}.${numbers.slice(2, 5)}.${numbers.slice(5)}`;
+      if (numbers.length <= 12) return `${numbers.slice(0, 2)}.${numbers.slice(2, 5)}.${numbers.slice(5, 8)}/${numbers.slice(8)}`;
+      return `${numbers.slice(0, 2)}.${numbers.slice(2, 5)}.${numbers.slice(5, 8)}/${numbers.slice(8, 12)}-${numbers.slice(12, 14)}`;
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -154,6 +252,15 @@ export default function ContatoPage() {
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formattedPhone = formatPhone(e.target.value);
     setFormData((prev) => ({ ...prev, phone: formattedPhone }));
+  };
+
+  const handleCpfCnpjChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedValue = formatCpfCnpj(e.target.value);
+    setFormData((prev) => ({ ...prev, cpfCnpj: formattedValue }));
+    // Clear error when user starts typing
+    if (errors.cpfCnpj) {
+      setErrors((prev) => ({ ...prev, cpfCnpj: undefined }));
+    }
   };
 
   const handleBlur = (field: string) => {
@@ -409,30 +516,53 @@ export default function ContatoPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="company" className={getFieldError('company') ? 'text-destructive' : ''}>
-                        Empresa <span aria-hidden="true">*</span>
-                        <span className="sr-only">(obrigatório)</span>
+                      <Label htmlFor="cpfCnpj" className={getFieldError('cpfCnpj') ? 'text-destructive' : ''}>
+                        CPF/CNPJ <span className="text-muted-foreground text-xs">(opcional)</span>
                       </Label>
                       <Input
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleChange}
-                        onBlur={() => handleBlur('company')}
-                        required
-                        placeholder="Sua Empresa S.A."
-                        autoComplete="organization"
-                        aria-required="true"
-                        aria-invalid={!!getFieldError('company')}
-                        aria-describedby={getFieldError('company') ? 'company-error' : undefined}
-                        className={getFieldError('company') ? 'border-destructive focus-visible:ring-destructive' : ''}
+                        id="cpfCnpj"
+                        name="cpfCnpj"
+                        value={formData.cpfCnpj}
+                        onChange={handleCpfCnpjChange}
+                        onBlur={() => handleBlur('cpfCnpj')}
+                        placeholder="000.000.000-00 ou 00.000.000/0000-00"
+                        maxLength={18}
+                        aria-invalid={!!getFieldError('cpfCnpj')}
+                        aria-describedby={getFieldError('cpfCnpj') ? 'cpfcnpj-error' : undefined}
+                        className={getFieldError('cpfCnpj') ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
-                      {getFieldError('company') && (
-                        <p id="company-error" className="text-sm text-destructive" role="alert">
-                          {getFieldError('company')}
+                      {getFieldError('cpfCnpj') && (
+                        <p id="cpfcnpj-error" className="text-sm text-destructive" role="alert">
+                          {getFieldError('cpfCnpj')}
                         </p>
                       )}
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="company" className={getFieldError('company') ? 'text-destructive' : ''}>
+                      Empresa <span aria-hidden="true">*</span>
+                      <span className="sr-only">(obrigatório)</span>
+                    </Label>
+                    <Input
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      onBlur={() => handleBlur('company')}
+                      required
+                      placeholder="Sua Empresa S.A."
+                      autoComplete="organization"
+                      aria-required="true"
+                      aria-invalid={!!getFieldError('company')}
+                      aria-describedby={getFieldError('company') ? 'company-error' : undefined}
+                      className={getFieldError('company') ? 'border-destructive focus-visible:ring-destructive' : ''}
+                    />
+                    {getFieldError('company') && (
+                      <p id="company-error" className="text-sm text-destructive" role="alert">
+                        {getFieldError('company')}
+                      </p>
+                    )}
                   </div>
 
                   {/* State and City Selection */}
