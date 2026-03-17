@@ -541,7 +541,9 @@ export function Contact() {
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
-                {language === 'pt' ? 'Seus dados estão protegidos conforme LGPD.' : 'Your data is protected under LGPD.'}
+                {language === 'pt' 
+                  ? 'Seus dados estão protegidos conforme LGPD. O retorno será feito pelo nosso comercial via e-mail contato@depirai.com ou comercial@depirai.com.br.' 
+                  : 'Your data is protected under LGPD. Our team will contact you via contato@depirai.com or comercial@depirai.com.br.'}
               </p>
             </form>
           </div>
