@@ -34,7 +34,7 @@ const createContactSchema = (lang: string) => z.object({
   city: z.string().min(1, lang === 'pt' ? 'Selecione uma cidade' : 'Select a city'),
   kpi: z.string().min(1, lang === 'pt' ? 'Selecione um objetivo' : 'Select an objective'),
   message: z.string().trim()
-    .min(10, lang === 'pt' ? 'Mensagem deve ter pelo menos 10 caracteres' : 'Message must have at least 10 characters')
+    .min(5, lang === 'pt' ? 'Mensagem deve ter pelo menos 5 caracteres' : 'Message must have at least 5 characters')
     .max(1000),
 });
 
