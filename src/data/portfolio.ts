@@ -8,6 +8,7 @@ import leadRh from '@/assets/portfolio/lead-rh.jpg';
 import buscaLegal from '@/assets/portfolio/busca-legal.jpg';
 import b2bEletrica from '@/assets/portfolio/b2b-eletrica.jpg';
 import healthtech from '@/assets/portfolio/healthtech.jpg';
+import devotoConectado from '@/assets/portfolio/devoto-conectado.jpg';
 
 export interface PortfolioCase {
   id: string;
