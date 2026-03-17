@@ -235,6 +235,7 @@ export function Contact() {
   const contactInfo = [
     { icon: MapPin, label: 'Piraí do Sul - PR', ariaLabel: 'Localização: Piraí do Sul, Paraná' },
     { icon: Mail, label: 'contato@depirai.com', href: 'mailto:contato@depirai.com', ariaLabel: 'Email: contato@depirai.com' },
+    { icon: Mail, label: 'comercial@depirai.com.br', href: 'mailto:comercial@depirai.com.br', ariaLabel: 'Email comercial: comercial@depirai.com.br' },
   ];
 
   const kpiOptions = [

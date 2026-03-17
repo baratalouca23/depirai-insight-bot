@@ -77,8 +77,21 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Cases & Legal */}
           <div>
+            <h4 className="font-medium text-foreground mb-3 text-sm">Cases & Legal</h4>
+            <ul className="space-y-2 mb-4">
+              <li>
+                <a 
+                  href="https://www.devotoconectado.com.br/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                >
+                  Devoto Conectado
+                </a>
+              </li>
+            </ul>
             <h4 className="font-medium text-foreground mb-3 text-sm">Legal</h4>
             <ul className="space-y-2">
               <li>
