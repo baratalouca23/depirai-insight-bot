@@ -77,8 +77,21 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Cases & Legal */}
           <div>
+            <h4 className="font-medium text-foreground mb-3 text-sm">Cases & Legal</h4>
+            <ul className="space-y-2 mb-4">
+              <li>
+                <a 
+                  href="https://www.devotoconectado.com.br/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-muted-foreground hover:text-primary transition-colors text-sm"
+                >
+                  Devoto Conectado
+                </a>
+              </li>
+            </ul>
             <h4 className="font-medium text-foreground mb-3 text-sm">Legal</h4>
             <ul className="space-y-2">
               <li>
@@ -113,6 +126,15 @@ export function Footer() {
               </li>
               <li>
                 <a 
+                  href="mailto:comercial@depirai.com.br" 
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Mail className="h-4 w-4 text-primary" />
+                  comercial@depirai.com.br
+                </a>
+              </li>
+              <li>
+                <a 
                   href="https://wa.me/5542988911463" 
                   target="_blank"
                   rel="noopener noreferrer"
@@ -120,6 +142,17 @@ export function Footer() {
                 >
                   <Phone className="h-4 w-4 text-primary" />
                   +55 42 98891-1463
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://wa.me/5542999814284" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Phone className="h-4 w-4 text-primary" />
+                  +55 42 99981-4284
                 </a>
               </li>
             </ul>

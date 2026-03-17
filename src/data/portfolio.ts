@@ -8,6 +8,7 @@ import leadRh from '@/assets/portfolio/lead-rh.jpg';
 import buscaLegal from '@/assets/portfolio/busca-legal.jpg';
 import b2bEletrica from '@/assets/portfolio/b2b-eletrica.jpg';
 import healthtech from '@/assets/portfolio/healthtech.jpg';
+import devotoConectado from '@/assets/portfolio/devoto-conectado.jpg';
 
 export interface PortfolioCase {
   id: string;
@@ -200,5 +201,25 @@ export const portfolioCases: PortfolioCase[] = [
     technologies: ['AWS', 'Docker', 'PostgreSQL', 'Encryption'],
     image: healthtech,
     url: 'https://sulmedocupacional.com.br/',
+  },
+  {
+    id: 'devoto-conectado',
+    title: 'App Devoto Conectado',
+    company: 'Paróquia Senhor Menino Deus',
+    category: 'data',
+    description: {
+      pt: 'Aplicativo web para comunidade católica com autenticação, gestão de devotos e integração com Google e Apple Sign-In.',
+      en: 'Web application for Catholic community with authentication, devotee management and Google/Apple Sign-In integration.',
+      es: 'Aplicación web para comunidad católica con autenticación, gestión de devotos e integración con Google y Apple Sign-In.',
+    },
+    kpis: [
+      { label: 'Devotos', value: '1000+' },
+      { label: 'Engajamento', value: '+70%' },
+      { label: 'Retenção', value: '85%' },
+    ],
+    technologies: ['React', 'Supabase', 'PWA', 'Tailwind'],
+    premium: true,
+    image: devotoConectado,
+    url: 'https://www.devotoconectado.com.br/',
   },
 ];
